@@ -13,7 +13,10 @@ const client = new Phelia(process.env.SLACK_TOKEN);
 
 client.registerComponents([RandomImage]);
 // Register the interaction webhook
-app.post("/", client.messageHandler(process.env.SLACK_SIGNING_SECRET));
+app.post(
+  "/interactions",
+  client.messageHandler(process.env.SLACK_SIGNING_SECRET)
+);
 
 // This is how you post a message....
 client.postMessage(RandomImage, "U01CMED2XF1");
