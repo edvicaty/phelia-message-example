@@ -44,14 +44,12 @@ export function RandomImage({ useState }: PheliaMessageProps) {
             <Confirm
               title={"Are you sure?"}
               confirm={"Yes, gimmey that doggy!"}
-              deny={"No, I hate doggies"}
-            >
+              deny={"No, I hate doggies"}>
               <Text type="mrkdwn">
-                Are you certain you want to see the _cutest_ doggy ever?
+                Are you certain you want to see the _cutest_ doggy evah?
               </Text>
             </Confirm>
-          }
-        >
+          }>
           New doggy
         </Button>
       </Actions>
