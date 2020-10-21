@@ -24,9 +24,16 @@
     "react-dom": "^16.13.1"
   },
   "scripts": {
+    "postinstall": "tsc",
+    "watch-ts": "tsc -w",
+    "watch-node": "nodemon dist/server.js",
     "build": "tsc",
     "clean": "yarn rimraf dist",
     "prestart": "yarn build",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "deploy": "git add . && git commit -m Heroku && git push heroku master"
+  },
+  "engines": {
+    "node": "12.18.3"
   }
 }

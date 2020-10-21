@@ -12,7 +12,6 @@ const port = 2000;
 const client = new Phelia(process.env.SLACK_TOKEN);
 
 client.registerComponents([RandomImage]);
-
 // Register the interaction webhook
 app.post("/", client.messageHandler(process.env.SLACK_SIGNING_SECRET));
 
