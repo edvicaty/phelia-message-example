@@ -2,12 +2,12 @@ import { Actions, Button, Home, PheliaHomeProps, Section, Text } from "phelia";
 import React from "react";
 import { MyModal } from "./modal-example";
 
-export function HomeApp({ useState, useModal, user }: PheliaHomeProps) {
+export function HomeApp({ useState, useModal }: PheliaHomeProps) {
   const [counter, setCounter] = useState("counter", 0);
   const [loaded, setLoaded] = useState("loaded", 0);
   const [form, setForm] = useState("form");
   const [updated, setUpdated] = useState("updated", false);
-
+  const [user, setUser] = useState("user");
   const openModal = useModal("modal", MyModal, (event) =>
     setForm(JSON.stringify(event.form, null, 2))
   );
@@ -18,7 +18,7 @@ export function HomeApp({ useState, useModal, user }: PheliaHomeProps) {
       // onUpdate={() => setUpdated(true)}
     >
       <Section>
-        <Text emoji>Hey there {`user.username`} :wave:</Text>
+        <Text emoji>Hey there {user.username} :wave:</Text>
         <Text type="mrkdwn">*Updated:* {String(updated)}</Text>
         <Text type="mrkdwn">*Counter:* {counter}</Text>
         <Text type="mrkdwn">*Loaded:* {loaded}</Text>
