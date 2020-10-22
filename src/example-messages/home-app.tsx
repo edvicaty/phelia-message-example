@@ -18,7 +18,7 @@ export function HomeApp({ useState, useModal, user }: PheliaHomeProps) {
       // onUpdate={() => setUpdated(true)}
     >
       <Section>
-        <Text emoji>Hey there {user.username} :wave:</Text>
+        <Text emoji>Hey there {`user.username`} :wave:</Text>
         <Text type="mrkdwn">*Updated:* {String(updated)}</Text>
         <Text type="mrkdwn">*Counter:* {counter}</Text>
         <Text type="mrkdwn">*Loaded:* {loaded}</Text>
