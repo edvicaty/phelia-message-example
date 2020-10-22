@@ -39,7 +39,11 @@ export function RandomImage({ useState }: PheliaMessageProps) {
         <Button
           style="primary"
           action="randomImage"
-          onClick={() => setImageUrl(randomImage())}
+          onClick={(e) => {
+            console.log(`event from Random Image -------------`, e);
+
+            setImageUrl(randomImage());
+          }}
           confirm={
             <Confirm
               title={"Are you sure?"}

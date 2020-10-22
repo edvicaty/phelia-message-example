@@ -5,7 +5,6 @@ export function HomeApp({ useState, useModal, user }: PheliaHomeProps) {
   const [counter, setCounter] = useState("counter", 0);
   const [notifications, setNotifications] = useState("notifications", []);
   const [form, setForm] = useState("form");
-  console.log(user);
   const openModal = useModal("modal", MyModal, (event) =>
     setForm(JSON.stringify(event.form, null, 2))
   );
@@ -15,7 +14,6 @@ export function HomeApp({ useState, useModal, user }: PheliaHomeProps) {
       onLoad={async (event) => {
         // const notifications = await fetchNotifications(event.user);
         // setNotifications(notifications);
-        console.log(`event from onLoad ------------------`, event);
       }}>
       <Section>
         <Text emoji>Hey there {`user.username`} :wave:</Text>
@@ -27,7 +25,7 @@ export function HomeApp({ useState, useModal, user }: PheliaHomeProps) {
         <Button
           action="counter"
           onClick={(e) => {
-            console.log(`event -------------`, e);
+            console.log(`event from home counter -------------`, e);
             setCounter(counter + 1);
           }}>
           Click me

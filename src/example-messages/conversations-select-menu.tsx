@@ -65,7 +65,16 @@ export function ConversationsSelectMenuExample({
       <Section
         text="You can also have a conversations select menu in a modal"
         accessory={
-          <Button action="open-modal" onClick={() => openModal()}>
+          <Button
+            action="open-modal"
+            onClick={(e) => {
+              console.log(
+                `event from conversations-select before opening a modal -------------`,
+                e
+              );
+
+              openModal();
+            }}>
             Open modal
           </Button>
         }
