@@ -84,7 +84,7 @@ app.post(
 // Register your Home App
 const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
 
-// slackEvents.on("app_home_opened", client.appHomeHandler(HomeApp));
+slackEvents.on("app_home_opened", client.appHomeHandler(HomeApp));
 
 app.use("/events", slackEvents.requestListener());
 
@@ -123,7 +123,7 @@ client.postMessage(RandomImage, "U01CMED2XF1");
 // client.postMessage(StaticSelectMenuModal, "U01CMED2XF1");
 // client.postMessage(UsersSelectMenuExample, "U01CMED2XF1");
 // client.postMessage(UsersSelectMenuModal, "U01CMED2XF1");
-client.postMessage(HomeApp, "U01CMED2XF1");
+// client.postMessage(HomeApp, "U01CMED2XF1");
 
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)
