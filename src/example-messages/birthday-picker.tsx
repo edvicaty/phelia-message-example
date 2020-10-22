@@ -10,7 +10,7 @@ export function BirthdayPicker({ useState }: PheliaMessageProps) {
 
   const today = new Date().toISOString().split("T")[0];
   const birthdayIsToday = birth === today;
-
+  console.log(`user from BD ------------------`, user);
   return (
     <Message text="Gimme yo birthday">
       <Section

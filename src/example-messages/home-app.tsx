@@ -11,6 +11,7 @@ export function HomeApp({ useState, useModal }: PheliaHomeProps) {
   const openModal = useModal("modal", MyModal, (event) =>
     setForm(JSON.stringify(event.form, null, 2))
   );
+  console.log(`user from home ------------------`, user);
 
   return (
     <Home
@@ -18,7 +19,7 @@ export function HomeApp({ useState, useModal }: PheliaHomeProps) {
       // onUpdate={() => setUpdated(true)}
     >
       <Section>
-        <Text emoji>Hey there {user.username} :wave:</Text>
+        <Text emoji>Hey there {user} :wave:</Text>
         <Text type="mrkdwn">*Updated:* {String(updated)}</Text>
         <Text type="mrkdwn">*Counter:* {counter}</Text>
         <Text type="mrkdwn">*Loaded:* {loaded}</Text>
