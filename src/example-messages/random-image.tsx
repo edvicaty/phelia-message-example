@@ -6,9 +6,9 @@ import {
   Confirm,
   Divider,
   ImageBlock,
-  Message,
   PheliaMessageProps,
   Text,
+  Message,
 } from "phelia";
 
 const imageUrls = [
@@ -46,7 +46,7 @@ export function RandomImage({ useState }: PheliaMessageProps) {
               confirm={"Yes, gimmey that doggy!"}
               deny={"No, I hate doggies"}>
               <Text type="mrkdwn">
-                Are you certain you want to see the _cutest_ doggy evah?
+                Are you certain you want to see the _cutest_ doggy ever?
               </Text>
             </Confirm>
           }>
