@@ -13,7 +13,7 @@ const port = 2000;
 const client = new phelia_1.default(process.env.SLACK_TOKEN);
 client.registerComponents([random_image_1.RandomImage]);
 // Register the interaction webhook
-app.post("/", client.messageHandler(process.env.SLACK_SIGNING_SECRET));
+app.post("/interactions", client.messageHandler(process.env.SLACK_SIGNING_SECRET));
 // This is how you post a message....
 client.postMessage(random_image_1.RandomImage, "U01CMED2XF1");
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
