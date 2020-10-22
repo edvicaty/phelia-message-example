@@ -39,7 +39,7 @@ import {
 dotenv.config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 80;
 
 const client = new Phelia(process.env.SLACK_TOKEN);
 
@@ -82,11 +82,11 @@ app.post(
 );
 
 // Register your Home App
-// const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
+const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
 
 // slackEvents.on("app_home_opened", client.appHomeHandler(HomeApp));
 
-// app.use("/events", slackEvents.requestListener());
+app.use("/events", slackEvents.requestListener());
 
 // (async () => {
 //   const key = await client.postMessage(ModalExample, "@max", { name: "Max" });
