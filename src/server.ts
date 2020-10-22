@@ -123,7 +123,7 @@ client.postMessage(RandomImage, "U01CMED2XF1");
 // client.postMessage(StaticSelectMenuModal, "U01CMED2XF1");
 // client.postMessage(UsersSelectMenuExample, "U01CMED2XF1");
 // client.postMessage(UsersSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(HomeApp, "U01CMED2XF1");
+client.postMessage(HomeApp, "U01CMED2XF1");
 
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)
