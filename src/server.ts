@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import { createEventAdapter } from "@slack/events-api";
-import bodyParser from "body-parser";
+// import bodyParser from "body-parser";
 
 import Phelia from "phelia";
 import {
@@ -86,10 +86,11 @@ app.post(
 
 app.post("/test", function (req, res) {
   client.postMessage(RandomImage, "U01CMED2XF1");
-  console.log(`slash command body----------`, req.body);
-  console.log(`slash command params----------`, req.params);
-  console.log(`slash command headers----------`, req.headers);
-  console.log(`slash command rawheaders----------`, req.rawHeaders);
+  res.sendStatus(200);
+  // console.log(`slash command body----------`, req.body);
+  // console.log(`slash command params----------`, req.params);
+  // console.log(`slash command headers----------`, req.headers);
+  // console.log(`slash command rawheaders----------`, req.rawHeaders);
   // /randomImg
 });
 
