@@ -16,20 +16,18 @@ import {
   PheliaModalProps,
 } from "phelia";
 
-export function MyModal({ useState, props }: PheliaModalProps) {
+export function MyModal({ useState }: PheliaModalProps) {
   const [showForm, setShowForm] = useState("showForm", false);
-  console.log(`props from outside return -------`, props);
+  // console.log(`props from outside return -------`, props);
   return (
-    <Modal
-      title={`A fancy pants modal ${props?.name}`}
-      submit="submit the form">
+    <Modal title={`A fancy pants modal`} submit="submit the form">
       {!showForm && (
         <Actions>
           <Button
             action="showForm"
-            onClick={(e) => {
-              console.log(`event ------`, e);
-              console.log(`props from click event ------`, props);
+            onClick={() => {
+              // console.log(`event ------`, e);
+              // console.log(`props from click event ------`, props);
               setShowForm(true);
             }}>
             Show form
