@@ -144,7 +144,7 @@ app.post("/test", async function (req, res) {
     trigger_id,
   } = await req.body;
 
-  await client.openModal(MyModal, trigger_id, { name: user_name });
+  await client.openModal(MyModal, trigger_id, {});
   // /randomImg
 });
 
