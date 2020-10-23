@@ -15,10 +15,10 @@ export function HomeApp({ useState, useModal }: PheliaHomeProps) {
       onLoad={async (event) => {
         // const notifications = await fetchNotifications(event.user);
         // setNotifications(notifications);
-        setUser(event.user);
+        await setUser(event.user);
       }}>
       <Section>
-        <Text emoji>Hey there {user.username} :wave:</Text>
+        <Text emoji>Hey there {user?.username} :wave:</Text>
         <Text type="mrkdwn">*Counter:* {counter}</Text>
         <Text type="mrkdwn">*Notifications:* {notifications.length}</Text>
       </Section>
@@ -27,7 +27,7 @@ export function HomeApp({ useState, useModal }: PheliaHomeProps) {
         <Button
           action="counter"
           onClick={(e) => {
-            console.log(`event from home counter -------------`, e);
+            console.log(`event from -------------`, e);
             setCounter(counter + 1);
           }}>
           Click me
