@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import { createEventAdapter } from "@slack/events-api";
-// import bodyParser from "body-parser";
+import bodyParser from "body-parser";
 
 import Phelia from "phelia";
 import {
@@ -40,8 +40,7 @@ import {
 dotenv.config();
 
 const app = express();
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
+
 const port = process.env.PORT || 80;
 
 const client = new Phelia(process.env.SLACK_TOKEN);
@@ -83,16 +82,6 @@ app.post(
   "/interactions",
   client.messageHandler(process.env.SLACK_SIGNING_SECRET)
 );
-
-app.post("/test", function (req, res) {
-  client.postMessage(HomeApp, "U01CMED2XF1");
-  res.sendStatus(200);
-  // console.log(`slash command body----------`, req.body);
-  // console.log(`slash command params----------`, req.params);
-  // console.log(`slash command headers----------`, req.headers);
-  // console.log(`slash command rawheaders----------`, req.rawHeaders);
-  // /randomImg
-});
 
 // Register your Home App
 const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
@@ -137,6 +126,19 @@ client.postMessage(StaticSelectMenuModal, "U01CMED2XF1");
 client.postMessage(UsersSelectMenuExample, "U01CMED2XF1");
 client.postMessage(UsersSelectMenuModal, "U01CMED2XF1");
 client.postMessage(HomeApp, "U01CMED2XF1");
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.post("/test", function (req, res) {
+  client.postMessage(HomeApp, "U01CMED2XF1");
+  res.sendStatus(200);
+  console.log(`slash command body----------`, req.body);
+  console.log(`slash command params----------`, req.params);
+  console.log(`slash command headers----------`, req.headers);
+  console.log(`slash command rawheaders----------`, req.rawHeaders);
+  // /randomImg
+});
 
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)
