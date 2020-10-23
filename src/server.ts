@@ -40,9 +40,9 @@ import {
 dotenv.config();
 
 const app = express();
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
 const port = process.env.PORT || 80;
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 const client = new Phelia(process.env.SLACK_TOKEN);
 
