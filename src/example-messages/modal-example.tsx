@@ -20,7 +20,7 @@ export function MyModal({ useState, props }: PheliaModalProps) {
   const [showForm, setShowForm] = useState("showForm", false);
   console.log(`props from outside return -------`, props);
   return (
-    <Modal title={`A fancy pants modal`} submit="submit the form">
+    <Modal title={`A fancy pants modal${props?.name}`} submit="submit the form">
       {!showForm && (
         <Actions>
           <Button
