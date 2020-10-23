@@ -131,8 +131,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post("/test", async function (req, res) {
-  client.postMessage(HomeApp, "U01CMED2XF1");
-  res.sendStatus(200);
+  // client.postMessage(HomeApp, "U01CMED2XF1");
+  await res.sendStatus(200);
   // console.log(`slash command body----------`, req.body);
   const {
     token,
@@ -142,7 +142,8 @@ app.post("/test", async function (req, res) {
     user_name,
     api_app_id,
     trigger_id,
-  } = req.body;
+  } = await req.body;
+
   await client.openModal(MyModal, trigger_id, { name: user_name });
   // /randomImg
 });
