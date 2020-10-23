@@ -6,10 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const events_api_1 = require("@slack/events-api");
+// import bodyParser from "body-parser";
 const phelia_1 = __importDefault(require("phelia"));
 const example_messages_1 = require("./example-messages");
 dotenv_1.default.config();
 const app = express_1.default();
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
 const port = process.env.PORT || 80;
 const client = new phelia_1.default(process.env.SLACK_TOKEN);
 client.registerComponents([
@@ -46,11 +49,12 @@ client.registerComponents([
 // Register the interaction webhook
 app.post("/interactions", client.messageHandler(process.env.SLACK_SIGNING_SECRET));
 app.post("/test", function (req, res) {
-    client.postMessage(example_messages_1.RandomImage, "U01CMED2XF1");
-    console.log(`slash command body----------`, req.body);
-    console.log(`slash command params----------`, req.params);
-    console.log(`slash command headers----------`, req.headers);
-    console.log(`slash command rawheaders----------`, req.rawHeaders);
+    client.postMessage(example_messages_1.ModalExample, "U01CMED2XF1");
+    res.sendStatus(200);
+    // console.log(`slash command body----------`, req.body);
+    // console.log(`slash command params----------`, req.params);
+    // console.log(`slash command headers----------`, req.headers);
+    // console.log(`slash command rawheaders----------`, req.rawHeaders);
     // /randomImg
 });
 // Register your Home App

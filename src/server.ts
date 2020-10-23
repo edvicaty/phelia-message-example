@@ -85,7 +85,7 @@ app.post(
 );
 
 app.post("/test", function (req, res) {
-  client.postMessage(RandomImage, "U01CMED2XF1");
+  client.postMessage(ModalExample, "U01CMED2XF1");
   res.sendStatus(200);
   // console.log(`slash command body----------`, req.body);
   // console.log(`slash command params----------`, req.params);
