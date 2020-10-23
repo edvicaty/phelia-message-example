@@ -16,11 +16,11 @@ import {
   PheliaModalProps,
 } from "phelia";
 
-export function MyModal({ useState }: PheliaModalProps) {
+export function MyModal({ useState, props }: PheliaModalProps) {
   const [showForm, setShowForm] = useState("showForm", false);
 
   return (
-    <Modal title="A fancy pants modal" submit="submit the form">
+    <Modal title={`A fancy pants modal ${props.name}`} submit="submit the form">
       {!showForm && (
         <Actions>
           <Button action="showForm" onClick={() => setShowForm(true)}>
