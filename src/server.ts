@@ -86,7 +86,7 @@ app.post(
 // Register your Home App
 const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
 
-slackEvents.on("app_home_opened", client.appHomeHandler(HomeApp));
+// slackEvents.on("app_home_opened", client.appHomeHandler(HomeApp));
 
 app.use("/events", slackEvents.requestListener());
 
@@ -130,16 +130,24 @@ client.postMessage(HomeApp, "U01CMED2XF1");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post("/test", function (req, res) {
+app.post("/test", async function (req, res) {
   client.postMessage(HomeApp, "U01CMED2XF1");
   res.sendStatus(200);
-  console.log(`slash command body----------`, req.body);
-  console.log(`slash command params----------`, req.params);
-  console.log(`slash command headers----------`, req.headers);
-  console.log(`slash command rawheaders----------`, req.rawHeaders);
+  // console.log(`slash command body----------`, req.body);
+  const {
+    token,
+    team_id,
+    team_domain,
+    user_id,
+    user_name,
+    api_app_id,
+    trigger_id,
+  } = req.body;
+  await client.openModal(MyModal, trigger_id, {});
   // /randomImg
 });
 
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)
 );
+//TODO: check modals. Try to use a modal using the ID from the slash's response
