@@ -131,7 +131,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post("/test", async function (req, res) {
-  // client.postMessage(HomeApp, "U01CMED2XF1");
+  client.postMessage(HomeApp, "U01CMED2XF1");
   res.sendStatus(200);
   // console.log(`slash command body----------`, req.body);
   const {
