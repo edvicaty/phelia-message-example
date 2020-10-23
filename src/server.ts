@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import { createEventAdapter } from "@slack/events-api";
+import bodyParser from "body-parser";
 
 import Phelia from "phelia";
 import {
@@ -40,6 +41,8 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 80;
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 const client = new Phelia(process.env.SLACK_TOKEN);
 

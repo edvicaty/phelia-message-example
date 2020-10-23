@@ -45,6 +45,14 @@ client.registerComponents([
 ]);
 // Register the interaction webhook
 app.post("/interactions", client.messageHandler(process.env.SLACK_SIGNING_SECRET));
+app.post("/test", function (req, res) {
+    client.postMessage(example_messages_1.RandomImage, "U01CMED2XF1");
+    console.log(`slash command body----------`, req.body);
+    console.log(`slash command params----------`, req.params);
+    console.log(`slash command headers----------`, req.headers);
+    console.log(`slash command rawheaders----------`, req.rawHeaders);
+    // /randomImg
+});
 // Register your Home App
 const slackEvents = events_api_1.createEventAdapter(process.env.SLACK_SIGNING_SECRET);
 slackEvents.on("app_home_opened", client.appHomeHandler(example_messages_1.HomeApp));
