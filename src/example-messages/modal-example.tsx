@@ -16,9 +16,9 @@ import {
   PheliaModalProps,
 } from "phelia";
 
-export function MyModal({ useState }: PheliaModalProps) {
+export function MyModal({ useState, props }: PheliaModalProps) {
   const [showForm, setShowForm] = useState("showForm", false);
-  // console.log(`props from outside return -------`, props);
+  console.log(`props from outside return -------`, props);
   return (
     <Modal title={`A fancy pants modal`} submit="submit the form">
       {!showForm && (
