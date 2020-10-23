@@ -85,7 +85,7 @@ app.post(
 );
 
 app.post("/test", function (req, res) {
-  client.postMessage(ModalExample, "U01CMED2XF1");
+  client.postMessage(HomeApp, "U01CMED2XF1");
   res.sendStatus(200);
   // console.log(`slash command body----------`, req.body);
   // console.log(`slash command params----------`, req.params);
