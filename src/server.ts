@@ -81,6 +81,12 @@ app.post(
   client.messageHandler(process.env.SLACK_SIGNING_SECRET)
 );
 
+app.post("/test", function (req, res) {
+  client.postMessage(RandomImage, "U01CMED2XF1");
+  console.log(`slash command body----------`, req.body);
+  console.log(`slash command params----------`, req.params);
+});
+
 // Register your Home App
 const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
 
