@@ -26,8 +26,9 @@ export function HomeApp({ useState, useModal }: PheliaHomeProps) {
       <Actions>
         <Button
           action="counter"
-          onClick={(e) => {
+          onClick={async (e) => {
             console.log(`event from -------------`, e);
+            await setUser(e.user);
             setCounter(counter + 1);
           }}>
           Click me
