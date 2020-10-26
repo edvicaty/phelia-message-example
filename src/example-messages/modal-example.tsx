@@ -19,7 +19,7 @@ import {
 export function MyModal({ useState, props }: PheliaModalProps) {
   const [showForm, setShowForm] = useState("showForm", false);
   return (
-    <Modal title={`A fancy pants modal`} submit="submit the form">
+    <Modal title={`A fancy pants modal`} submit="cancel">
       {!showForm && (
         <Actions>
           <Button
@@ -35,7 +35,7 @@ export function MyModal({ useState, props }: PheliaModalProps) {
         </Actions>
       )}
 
-      {showForm && (
+      {/* {showForm && (
         <>
           <Input label="Expiration date">
             <DatePicker action="date" />
@@ -62,7 +62,7 @@ export function MyModal({ useState, props }: PheliaModalProps) {
             />
           </Input>
         </>
-      )}
+      )} */}
     </Modal>
   );
 }

@@ -39,6 +39,7 @@ import {
   UsersSelectMenuModal,
   HomeApp,
 } from "./example-messages";
+import { RegistrationModal } from "./registration-modal";
 
 dotenv.config();
 
@@ -49,6 +50,7 @@ const port = process.env.PORT || 80;
 const client = new Phelia(process.env.SLACK_TOKEN);
 
 client.registerComponents([
+  RegistrationModal,
   BirthdayPicker,
   Counter,
   Greeter,
@@ -174,6 +176,7 @@ app.post("/test", async function (req, res) {
   //You can also set a modal to be oppened. It's recommended to pass as props the data needed to that modal to load (e.g. here we are passing the user_name as the prop 'name')
   await client.openModal(MyModal, trigger_id, { name: user_name });
 });
+//TODO: make routes to interact with clickUP
 //--------------------------------------------------------- routes END ----------------------------------------------------------------------------------
 
 //--------------------------------------------------------- AUTH START ----------------------------------------------------------------------------------
@@ -219,15 +222,14 @@ app.post("/redirect", async function (req, res) {
       clickUpToken: "",
     });
   }
-  await client.openModal(MyModal, trigger_id, { name: user_name });
+  await client.openModal(RegistrationModal, trigger_id, { name: user_name });
 
-  // const client_id = "RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V"; //from the slack web app
+  // const client_id = "RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V"; //from slack web app
   // const redirect_uri = "https://phelia-test-slack.herokuapp.com/auth";
 });
 
 //auth to bind ClickUp's API token to DB. The DB will relate slack's user ID to clickUP access token for future post request to ClickUp API
 app.get("/auth", async function (req, res) {
-  //TODO make DB and bind clickUp's access token to slack's user ID
   const authCode = await req.query.code;
   console.log(`auth code`, authCode);
 
@@ -237,17 +239,14 @@ app.get("/auth", async function (req, res) {
     authCode
   );
 
-  console.log(`access token-----------------`, accessToken.data.access_token);
-
   await User.findOneAndUpdate(
     { slackID: slackUserIDToRegister },
     { clickUpToken: accessToken.data.access_token }
   );
 
-  res.redirect("/registration");
+  slackUserIDToRegister = null;
 
-  //#eunbwm taskID
-  //8509000 teamID (workspace)
+  res.redirect("/registration");
 });
 
 //feedback route
