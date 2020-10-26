@@ -96,7 +96,7 @@ app.use("/events", slackEvents.requestListener());
 //   await client.updateMessage(key, { name: "me but laters" });
 // })();
 
-// client.postMessage(BirthdayPicker, "U01CMED2XF1");
+client.postMessage(BirthdayPicker, "U01DQHB8YUR"); //side account user ID edgar || villa4live
 // client.postMessage(ChannelsSelectMenuExample, "U01CMED2XF1");
 // client.postMessage(ChannelsSelectMenuModal, "U01CMED2XF1");
 // client.postMessage(ConversationsSelectMenuExample, "U01CMED2XF1");
@@ -121,7 +121,7 @@ app.use("/events", slackEvents.requestListener());
 // client.postMessage(RadioButtonExample, "U01CMED2XF1");
 // client.postMessage(RadioButtonModal, "U01CMED2XF1");
 client.postMessage(RandomImage, "U01CMED2XF1"); //main account user ID edvicaty
-client.postMessage(RandomImage, "U01DQHB8YUR"); //side account user ID edgar || villa4live
+// client.postMessage(RandomImage, "U01CMED2XF1");
 // client.postMessage(StaticSelectMenuExample, "U01CMED2XF1");
 // client.postMessage(StaticSelectMenuModal, "U01CMED2XF1");
 // client.postMessage(UsersSelectMenuExample, "U01CMED2XF1");
