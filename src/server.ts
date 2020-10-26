@@ -213,7 +213,7 @@ app.get("/auth", async function (req, res) {
     authCode
   );
   console.log(`access token-----------------`, accessToken.data.access_token);
-  res.redirect("https://api.clickup.com");
+  res.redirect("/registration");
 
   //#eunbwm taskID
   //8509000 teamID (workspace)
