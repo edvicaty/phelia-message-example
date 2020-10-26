@@ -61,6 +61,9 @@ export function MyModal({ useState, props }: PheliaModalProps) {
               multiline
             />
           </Input>
+          <Button url="https://app.clickup.com/api?client_id=RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V&redirect_uri=https://phelia-test-slack.herokuapp.com/auth">
+            Bind CLICKUP account
+          </Button>
         </>
       )}
     </Modal>

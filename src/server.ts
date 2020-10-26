@@ -178,12 +178,26 @@ async function auth(clientID: any, clientSecret: any, authCode: any) {
 //AUTH functions END --------------------------------------
 
 //slash command POST route => set from slack web app /register command
-app.post("/redirect", function (req, res) {
-  const client_id = "RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V"; //from the slack web app
-  const redirect_uri = "https://phelia-test-slack.herokuapp.com/auth";
-  res.redirect(
-    `https://app.clickup.com/api?client_id=${client_id}&redirect_uri=${redirect_uri}`
-  );
+app.post("/redirect", async function (req, res) {
+  await res.sendStatus(200);
+
+  const {
+    token,
+    team_id,
+    team_domain,
+    user_id,
+    user_name,
+    api_app_id,
+    trigger_id,
+  } = await req.body;
+
+  await client.openModal(MyModal, trigger_id, { name: user_name });
+
+  // const client_id = "RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V"; //from the slack web app
+  // const redirect_uri = "https://phelia-test-slack.herokuapp.com/auth";
+  // res.redirect(
+  //   `https://app.clickup.com/api?client_id=${client_id}&redirect_uri=${redirect_uri}`
+  // );
 });
 
 //auth to bind ClickUp's API token to DB. The DB will relate slack's user ID to clickUP access token for future post request to ClickUp API
