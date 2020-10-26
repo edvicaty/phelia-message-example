@@ -3,6 +3,7 @@ import express from "express";
 import { createEventAdapter } from "@slack/events-api";
 import bodyParser from "body-parser";
 import Phelia from "phelia";
+import axios from "axios";
 import {
   BirthdayPicker,
   ChannelsSelectMenuExample,
@@ -91,6 +92,7 @@ app.use("/events", slackEvents.requestListener());
 // slackEvents.on("app_home_opened", client.appHomeHandler(HomeApp));
 
 //Here are the documentation's base components to be implemented. For some of them to work, user data will be required (pass user data as props)
+
 // client.postMessage(RandomImage, "U01CMED2XF1"); //main account user ID for edvicaty. User ID or @edvicaty will work. ID recommended
 // client.postMessage(RandomImage, "C01D8BH4L2G"); //using channel's ID get from slack API https://api.slack.com/methods/conversations.list/test token is bot oauth token.
 // client.postMessage(BirthdayPicker, "#general"); //using channel's name with # prefix will work too
@@ -156,13 +158,57 @@ app.post("/test", async function (req, res) {
   //You can also set a modal to be oppened. It's recommended to pass as props the data needed to that modal to load (e.g. here we are passing the user_name as the prop 'name')
   await client.openModal(MyModal, trigger_id, { name: user_name });
 });
+//--------------------------------------------------------- routes END ----------------------------------------------------------------------------------
 
-//auth to bind ClickUp's API token to DB. The DB will relate slack's user ID to clickUP access token for future post request to ClickUp API
-app.post("/auth", async function (req, res) {
-  //TODO make DB and bind clickUp's access token to slack's user ID
+//--------------------------------------------------------- AUTH START ----------------------------------------------------------------------------------
+
+//AUTH functions START ------------------------------------
+const baseURL = "https://phelia-test-slack.herokuapp.com/";
+const userService = axios.create({
+  baseURL,
+  withCredentials: false,
 });
 
-//--------------------------------------------------------- routes END ----------------------------------------------------------------------------------
+async function auth(clientID: any, clientSecret: any, authCode: any) {
+  const accessToken = await userService.post(
+    `https://api.clickup.com/api/v2/oauth/token?client_id=${clientID}&client_secret=${clientSecret}&code=${authCode}`
+  );
+  return accessToken;
+}
+//AUTH functions END --------------------------------------
+
+//slash command POST route => set from slack web app /register command
+app.post("/redirect", function (req, res) {
+  const client_id = "RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V"; //from the slack web app
+  const redirect_uri = "https://phelia-test-slack.herokuapp.com/auth";
+  res.redirect(
+    `https://app.clickup.com/api?client_id=${client_id}&redirect_uri=${redirect_uri}`
+  );
+});
+
+//auth to bind ClickUp's API token to DB. The DB will relate slack's user ID to clickUP access token for future post request to ClickUp API
+app.get("/auth", async function (req, res) {
+  //TODO make DB and bind clickUp's access token to slack's user ID
+  const authCode = await req.query.code;
+  console.log(`auth code`, authCode);
+
+  const accessToken = await auth(
+    process.env.CLICKUP_ID,
+    process.env.CLICKUP_SECRET,
+    authCode
+  );
+  console.log(`access token-----------------`, accessToken.data.access_token);
+  res.redirect("https://api.clickup.com/api/v2/team");
+
+  //#eunbwm taskID
+  //8509000 teamID (workspace)
+});
+
+//feedback route
+app.get("/registration", function (req, res) {
+  res.send("Registration completed");
+});
+//--------------------------------------------------------- AUTH END ----------------------------------------------------------------------------------
 
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)
