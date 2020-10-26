@@ -206,13 +206,14 @@ app.get("/auth", async function (req, res) {
   const authCode = await req.query.code;
   console.log(`auth code`, authCode);
 
+  //TODO: check heroku logs, did get auth code, auth() function needs checking
   const accessToken = await auth(
     process.env.CLICKUP_ID,
     process.env.CLICKUP_SECRET,
     authCode
   );
   console.log(`access token-----------------`, accessToken.data.access_token);
-  res.redirect("https://api.clickup.com/api/v2/team");
+  res.redirect("https://api.clickup.com");
 
   //#eunbwm taskID
   //8509000 teamID (workspace)
