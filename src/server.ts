@@ -4,6 +4,9 @@ import { createEventAdapter } from "@slack/events-api";
 import bodyParser from "body-parser";
 import Phelia from "phelia";
 import axios from "axios";
+import mongoose from "mongoose";
+import User from "./models/User";
+
 import {
   BirthdayPicker,
   ChannelsSelectMenuExample,
@@ -133,6 +136,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //--------------------------------------------------------- config & imports END ----------------------------------------------------------------------------------
 
+//----------------------------------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ----------- mongoDB START ----------------------------------------------------------------------------------
+mongoose
+  .connect("mongodb://localhost/phelia-test", { useNewUrlParser: true })
+  .then((x) => {
+    console.log(
+      `Connected to Mongo! Database name: "${x.connections[0].name}"`
+    );
+  })
+  .catch((err) => {
+    console.error("Error connecting to mongo", err);
+  });
+//--------------------------------------------------------- mongoDB END ------------------------------------------------------------------------------------
+
 //--------------------------------------------------------- routes START ----------------------------------------------------------------------------------
 
 //On slack app you will define post routes for slash commands, here is te POST route corresponding to /randomImg
@@ -177,6 +193,8 @@ async function auth(clientID: any, clientSecret: any, authCode: any) {
 }
 //AUTH functions END --------------------------------------
 
+let slackUserIDToRegister: string = null;
+
 //slash command POST route => set from slack web app /register command
 app.post("/redirect", async function (req, res) {
   await res.sendStatus(200);
@@ -191,13 +209,20 @@ app.post("/redirect", async function (req, res) {
     trigger_id,
   } = await req.body;
 
+  slackUserIDToRegister = user_id;
+
+  const user = await User.findOne({ slackID: user_id });
+  if (!user) {
+    User.create({
+      username: user_name,
+      slackID: user_id,
+      clickUpToken: "",
+    });
+  }
   await client.openModal(MyModal, trigger_id, { name: user_name });
 
   // const client_id = "RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V"; //from the slack web app
   // const redirect_uri = "https://phelia-test-slack.herokuapp.com/auth";
-  // res.redirect(
-  //   `https://app.clickup.com/api?client_id=${client_id}&redirect_uri=${redirect_uri}`
-  // );
 });
 
 //auth to bind ClickUp's API token to DB. The DB will relate slack's user ID to clickUP access token for future post request to ClickUp API
@@ -206,13 +231,19 @@ app.get("/auth", async function (req, res) {
   const authCode = await req.query.code;
   console.log(`auth code`, authCode);
 
-  //TODO: check heroku logs, did get auth code, auth() function needs checking
   const accessToken = await auth(
     process.env.CLICKUP_ID,
     process.env.CLICKUP_SECRET,
     authCode
   );
+
   console.log(`access token-----------------`, accessToken.data.access_token);
+
+  await User.findOneAndUpdate(
+    { slackID: slackUserIDToRegister },
+    { clickUpToken: accessToken.data.access_token }
+  );
+
   res.redirect("/registration");
 
   //#eunbwm taskID

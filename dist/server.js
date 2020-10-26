@@ -17,6 +17,7 @@ const express_1 = __importDefault(require("express"));
 const events_api_1 = require("@slack/events-api");
 const body_parser_1 = __importDefault(require("body-parser"));
 const phelia_1 = __importDefault(require("phelia"));
+const axios_1 = __importDefault(require("axios"));
 const example_messages_1 = require("./example-messages");
 dotenv_1.default.config();
 const app = express_1.default();
@@ -99,6 +100,8 @@ app.use("/events", slackEvents.requestListener());
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 //--------------------------------------------------------- config & imports END ----------------------------------------------------------------------------------
+//--------------------------------------------------------- mongoDB START ----------------------------------------------------------------------------------
+//--------------------------------------------------------- mongoDB END ------------------------------------------------------------------------------------
 //--------------------------------------------------------- routes START ----------------------------------------------------------------------------------
 //On slack app you will define post routes for slash commands, here is te POST route corresponding to /randomImg
 app.post("/test", function (req, res) {
@@ -116,16 +119,44 @@ app.post("/test", function (req, res) {
 });
 //--------------------------------------------------------- routes END ----------------------------------------------------------------------------------
 //--------------------------------------------------------- AUTH START ----------------------------------------------------------------------------------
+//AUTH functions START ------------------------------------
+const baseURL = "https://phelia-test-slack.herokuapp.com/";
+const userService = axios_1.default.create({
+    baseURL,
+    withCredentials: false,
+});
+function auth(clientID, clientSecret, authCode) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const accessToken = yield userService.post(`https://api.clickup.com/api/v2/oauth/token?client_id=${clientID}&client_secret=${clientSecret}&code=${authCode}`);
+        return accessToken;
+    });
+}
+//AUTH functions END --------------------------------------
 //slash command POST route => set from slack web app /register command
 app.post("/redirect", function (req, res) {
-    const client_id = "RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V"; //from the slack web app
-    const redirect_uri = "https://phelia-test-slack.herokuapp.com/auth";
-    res.redirect(`https://app.clickup.com/api?client_id=${client_id}&redirect_uri=${redirect_uri}`);
+    return __awaiter(this, void 0, void 0, function* () {
+        yield res.sendStatus(200);
+        const { token, team_id, team_domain, user_id, user_name, api_app_id, trigger_id, } = yield req.body;
+        yield client.openModal(example_messages_1.MyModal, trigger_id, { name: user_name });
+        // const client_id = "RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V"; //from the slack web app
+        // const redirect_uri = "https://phelia-test-slack.herokuapp.com/auth";
+        // res.redirect(
+        //   `https://app.clickup.com/api?client_id=${client_id}&redirect_uri=${redirect_uri}`
+        // );
+    });
 });
 //auth to bind ClickUp's API token to DB. The DB will relate slack's user ID to clickUP access token for future post request to ClickUp API
 app.get("/auth", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         //TODO make DB and bind clickUp's access token to slack's user ID
+        const authCode = yield req.query.code;
+        console.log(`auth code`, authCode);
+        //TODO: check heroku logs, did get auth code, auth() function needs checking
+        const accessToken = yield auth(process.env.CLICKUP_ID, process.env.CLICKUP_SECRET, authCode);
+        console.log(`access token-----------------`, accessToken.data.access_token);
+        res.redirect("/registration");
+        //#eunbwm taskID
+        //8509000 teamID (workspace)
     });
 });
 //feedback route
