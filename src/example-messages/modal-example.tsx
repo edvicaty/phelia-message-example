@@ -23,19 +23,19 @@ export function MyModal({ useState, props }: PheliaModalProps) {
       {!showForm && (
         <Actions>
           <Button
-            url="https://app.clickup.com/api?client_id=RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V&redirect_uri=https://phelia-test-slack.herokuapp.com/auth"
+            // url="https://app.clickup.com/api?client_id=RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V&redirect_uri=https://phelia-test-slack.herokuapp.com/auth"
             action="showForm"
             onClick={() => {
               // console.log(`event ------`, e);
               // console.log(`props from click event ------`, props);
-              // setShowForm(true);
+              setShowForm(true);
             }}>
             {`Bind ClickUp account  ${props.name}`}
           </Button>
         </Actions>
       )}
 
-      {/* {showForm && (
+      {showForm && (
         <>
           <Input label="Expiration date">
             <DatePicker action="date" />
@@ -62,7 +62,7 @@ export function MyModal({ useState, props }: PheliaModalProps) {
             />
           </Input>
         </>
-      )} */}
+      )}
     </Modal>
   );
 }
@@ -85,6 +85,7 @@ export function ModalExample({
     "modal",
     MyModal,
     (form) => {
+      console.log(`form ------------------`, form);
       setState("submitted");
       setForm(JSON.stringify(form, null, 2));
     },
