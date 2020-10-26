@@ -120,7 +120,8 @@ app.use("/events", slackEvents.requestListener());
 // client.postMessage(OverflowMenuExample, "U01CMED2XF1");
 // client.postMessage(RadioButtonExample, "U01CMED2XF1");
 // client.postMessage(RadioButtonModal, "U01CMED2XF1");
-// client.postMessage(RandomImage, "U01CMED2XF1");
+client.postMessage(RandomImage, "U01CMED2XF1"); //main account user ID edvicaty
+client.postMessage(RandomImage, "U01DQHB8YUR"); //side account user ID edgar || villa4live
 // client.postMessage(StaticSelectMenuExample, "U01CMED2XF1");
 // client.postMessage(StaticSelectMenuModal, "U01CMED2XF1");
 // client.postMessage(UsersSelectMenuExample, "U01CMED2XF1");
@@ -143,6 +144,8 @@ app.post("/test", async function (req, res) {
     api_app_id,
     trigger_id,
   } = await req.body;
+
+  //TODO: look where you can get clickup's timer_id
 
   await client.openModal(MyModal, trigger_id, { name: user_name });
   // /randomImg
