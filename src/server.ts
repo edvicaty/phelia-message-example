@@ -121,8 +121,9 @@ app.use("/events", slackEvents.requestListener());
 // client.postMessage(RadioButtonExample, "U01CMED2XF1");
 // client.postMessage(RadioButtonModal, "U01CMED2XF1");
 client.postMessage(RandomImage, "U01CMED2XF1"); //main account user ID edvicaty
-client.postMessage(RandomImage, "C01D8BH4L2G"); //using channel's ID get from slack API https://api.slack.com/methods/conversations.list/test token is bot oauth token
-client.postMessage(BirthdayPicker, "@general"); //using channel's name
+// client.postMessage(RandomImage, "C01D8BH4L2G"); //using channel's ID get from slack API https://api.slack.com/methods/conversations.list/test token is bot oauth token.
+client.postMessage(BirthdayPicker, "#general"); //using channel's name
+client.postMessage(RandomImage, "general"); //using channel's name
 
 // client.postMessage(RandomImage, "U01CMED2XF1");
 // client.postMessage(StaticSelectMenuExample, "U01CMED2XF1");
