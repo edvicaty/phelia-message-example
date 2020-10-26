@@ -16,19 +16,21 @@ import {
   PheliaModalProps,
 } from "phelia";
 
-export function CreateFileModal({ useState, props }: PheliaModalProps) {
+export function CreateTaskFormModal({ useState, props }: PheliaModalProps) {
   const [showForm, setShowForm] = useState("showForm", false);
   return (
-    <Modal title={`Register a new Component`} submit="submit">
+    <Modal title={`test modal for creating tasks`} submit="submit">
       {!showForm && (
         <Actions>
           <Button
+            // url="https://app.clickup.com/api?client_id=RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V&redirect_uri=https://phelia-test-slack.herokuapp.com/auth"
             action="showForm"
-            onClick={(e) => {
-              console.log(`event from click ------`, e);
+            onClick={() => {
+              // console.log(`event ------`, e);
+              // console.log(`props from click event ------`, props);
               setShowForm(true);
             }}>
-            {`Bind ClickUp account  ${props.name}`}
+            {`show form ${props?.name}`}
           </Button>
         </Actions>
       )}
@@ -60,6 +62,74 @@ export function CreateFileModal({ useState, props }: PheliaModalProps) {
             />
           </Input>
         </>
+      )}
+    </Modal>
+  );
+}
+
+type State = "submitted" | "canceled" | "init";
+
+type Props = {
+  name: string;
+};
+
+export function CreateFileModal({
+  useModal,
+  useState,
+  props,
+}: PheliaMessageProps<Props>) {
+  const [state, setState] = useState<State>("state", "init");
+  const [form, setForm] = useState("form", "");
+
+  const openModal = useModal(
+    "modal",
+    CreateTaskFormModal,
+    (form) => {
+      console.log(`form ------------------`, form);
+      setState("submitted");
+      setForm(JSON.stringify(form, null, 2));
+    },
+    () => setState("canceled")
+  );
+
+  return (
+    <Modal title={`A fancy pants modal`} submit="cancel">
+      <Section>
+        <Text type="mrkdwn">hey {props?.name}!</Text>
+      </Section>
+
+      {state === "canceled" && (
+        <Section>
+          <Text emoji>:no_good: why'd you have to do that</Text>
+        </Section>
+      )}
+
+      {state === "submitted" && (
+        <Section>
+          <Text type="mrkdwn">{"```\n" + form + "\n```"}</Text>
+        </Section>
+      )}
+
+      {state !== "init" && (
+        <Actions>
+          <Button
+            style="danger"
+            action="reset"
+            onClick={() => setState("init")}>
+            reset
+          </Button>
+        </Actions>
+      )}
+
+      {state === "init" && (
+        <Actions>
+          <Button
+            style="primary"
+            action="openModal"
+            onClick={() => openModal()}>
+            Open the modal
+          </Button>
+        </Actions>
       )}
     </Modal>
   );
