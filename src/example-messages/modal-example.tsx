@@ -29,9 +29,9 @@ export function MyModal({ useState, props }: PheliaModalProps) {
             onClick={() => {
               // console.log(`event ------`, e);
               // console.log(`props from click event ------`, props);
-              setShowForm(true);
+              // setShowForm(true);
             }}>
-            {`Show form ${props.name}`}
+            {`Bind ClickUp account  ${props.name}`}
           </Button>
         </Actions>
       )}
