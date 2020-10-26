@@ -22,17 +22,20 @@ export function MyModal({ useState, props }: PheliaModalProps) {
   return (
     <Modal title={`A fancy pants modal`} submit="submit the form">
       {!showForm && (
-        <Actions>
-          <Button
-            action="showForm"
-            onClick={() => {
-              // console.log(`event ------`, e);
-              // console.log(`props from click event ------`, props);
-              setShowForm(true);
-            }}>
-            {`Show form ${props.name}`}
-          </Button>
-        </Actions>
+        <Button url="https://app.clickup.com/api?client_id=RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V&redirect_uri=https://phelia-test-slack.herokuapp.com/auth">
+          Bind CLICKUP account
+        </Button>
+        // <Actions>
+        //   <Button
+        //     action="showForm"
+        //     onClick={() => {
+        //       // console.log(`event ------`, e);
+        //       // console.log(`props from click event ------`, props);
+        //       setShowForm(true);
+        //     }}>
+        //     {`Show form ${props.name}`}
+        //   </Button>
+        // </Actions>
       )}
 
       {showForm && (
@@ -61,9 +64,6 @@ export function MyModal({ useState, props }: PheliaModalProps) {
               multiline
             />
           </Input>
-          <Button url="https://app.clickup.com/api?client_id=RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V&redirect_uri=https://phelia-test-slack.herokuapp.com/auth">
-            Bind CLICKUP account
-          </Button>
         </>
       )}
     </Modal>
