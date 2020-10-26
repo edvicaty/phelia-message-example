@@ -138,7 +138,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //----------------------------------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ----------- mongoDB START ----------------------------------------------------------------------------------
 mongoose
-  .connect("mongodb://localhost/phelia-test", { useNewUrlParser: true })
+  .connect(process.env.DB, { useNewUrlParser: true })
   .then((x) => {
     console.log(
       `Connected to Mongo! Database name: "${x.connections[0].name}"`
