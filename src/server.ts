@@ -121,6 +121,10 @@ client.postMessage(BirthdayPicker, "U01DQHB8YUR"); //side account user ID edgar 
 // client.postMessage(RadioButtonExample, "U01CMED2XF1");
 // client.postMessage(RadioButtonModal, "U01CMED2XF1");
 client.postMessage(RandomImage, "U01CMED2XF1"); //main account user ID edvicaty
+client.postMessage(RandomImage, "@general"); //main account user ID edvicaty
+client.postMessage(RandomImage, "@bot-octahedroid"); //main account user ID edvicaty
+client.postMessage(BirthdayPicker, "#general"); //main account user ID edvicaty
+client.postMessage(BirthdayPicker, "#bot-octahedroid"); //main account user ID edvicaty
 // client.postMessage(RandomImage, "U01CMED2XF1");
 // client.postMessage(StaticSelectMenuExample, "U01CMED2XF1");
 // client.postMessage(StaticSelectMenuModal, "U01CMED2XF1");
