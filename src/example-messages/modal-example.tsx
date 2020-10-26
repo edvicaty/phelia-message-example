@@ -95,7 +95,7 @@ export function ModalExample({
   return (
     <Message text="A modal example">
       <Section>
-        <Text type="mrkdwn">hey {props.name}!</Text>
+        <Text type="mrkdwn">hey {props?.name}!</Text>
       </Section>
 
       {state === "canceled" && (
