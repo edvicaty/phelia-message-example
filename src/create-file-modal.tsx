@@ -94,43 +94,18 @@ export function CreateFileModal({
 
   return (
     <Modal title={`A fancy pants modal`} submit="cancel">
-      <Section>
-        <Text type="mrkdwn">hey {props?.name}!</Text>
-      </Section>
-
-      {state === "canceled" && (
-        <Section>
-          <Text emoji>:no_good: why'd you have to do that</Text>
-        </Section>
-      )}
-
-      {state === "submitted" && (
-        <Section>
-          <Text type="mrkdwn">{"```\n" + form + "\n```"}</Text>
-        </Section>
-      )}
-
-      {state !== "init" && (
-        <Actions>
-          <Button
-            style="danger"
-            action="reset"
-            onClick={() => setState("init")}>
-            reset
-          </Button>
-        </Actions>
-      )}
-
-      {state === "init" && (
-        <Actions>
-          <Button
-            style="primary"
-            action="openModal"
-            onClick={() => openModal()}>
-            Open the modal
-          </Button>
-        </Actions>
-      )}
+      <Actions>
+        <Button
+          // url="https://app.clickup.com/api?client_id=RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V&redirect_uri=https://phelia-test-slack.herokuapp.com/auth"
+          action="showForm"
+          onClick={() => {
+            // console.log(`event ------`, e);
+            // console.log(`props from click event ------`, props);
+            openModal();
+          }}>
+          {`show form ${props?.name}`}
+        </Button>
+      </Actions>
     </Modal>
   );
 }
