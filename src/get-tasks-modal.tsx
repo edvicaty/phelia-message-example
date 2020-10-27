@@ -24,7 +24,7 @@ const createTaskService = axios.create({
 });
 //-----------------------------------MODAL COMPONENT------------------------------
 
-export function CreateTaskModal({ useState, props }: PheliaModalProps) {
+export function GetTasksByTimeModal({ useState, props }: PheliaModalProps) {
   const [showForm, setShowForm] = useState("showForm", false);
   return (
     <Modal title={`Create new task`} submit="submit">
@@ -65,7 +65,7 @@ type Props = {
 
 //-----------------------------------TEXT COMPONENT------------------------------
 
-export function CreateTask({
+export function GetTasks({
   useModal,
   useState,
   props,
@@ -79,7 +79,7 @@ export function CreateTask({
   //modal and form main function
   const openModal = useModal(
     "modal",
-    CreateTaskModal,
+    GetTasksByTimeModal,
     async (event) => {
       await setClickUpToken(event.user.id);
       setState("submitted");

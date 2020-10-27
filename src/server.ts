@@ -41,6 +41,7 @@ import {
 } from "./example-messages";
 import { RegistrationModal } from "./registration-modal";
 import { CreateTask, CreateTaskModal } from "./create-task-modal";
+import { GetTasks, GetTasksByTimeModal } from "./get-tasks-modal";
 
 dotenv.config();
 
@@ -51,6 +52,8 @@ const port = process.env.PORT || 80;
 const client = new Phelia(process.env.SLACK_TOKEN);
 
 client.registerComponents([
+  GetTasksByTimeModal,
+  GetTasks,
   CreateTaskModal,
   CreateTask,
   RegistrationModal,
@@ -177,9 +180,13 @@ app.post("/test", async function (req, res) {
   // client.postMessage(HomeApp, "U01CMED2XF1");
 
   //You can also set a modal to be oppened. It's recommended to pass as props the data needed to that modal to load (e.g. here we are passing the user_name as the prop 'name')
+
   // await client.openModal(CreateFileModal, trigger_id, { name: user_name });
   // await client.openModal(CreateFileModal, trigger_id, { name: user_name });
-  client.postMessage(CreateTask, "U01CMED2XF1");
+
+  // client.postMessage(CreateTask, `${user_id}`);
+  // client.postMessage(GetTasks, `${user_id}`);
+  client.postMessage(BirthdayPicker, `${user_id}`);
 });
 //--------------------------------------------------------- routes END ----------------------------------------------------------------------------------
 
