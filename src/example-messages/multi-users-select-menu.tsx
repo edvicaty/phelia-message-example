@@ -68,7 +68,7 @@ export function MultiUsersSelectMenuExample({
       });
 
       const usersArr = await User.find({ $or: query });
-      console.log(`users ----------------------`, usersArr);
+      // console.log(`users ----------------------`, usersArr);
       const usersString = usersArr.toString();
       await getFilteredTasks(usersString);
     }
@@ -81,8 +81,8 @@ export function MultiUsersSelectMenuExample({
     const page = 0;
     const oneDay = 1588671070;
     const dateLt = updatedDate + oneDay;
-
-    console.log(`tasks --------------`, updatedDate, oneDay, dateLt, users);
+    console.log(`users and token ------------------`, users, userToken);
+    // console.log(`tasks --------------`, updatedDate, oneDay, dateLt, users);
     const tasks = await axios.get(
       `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${updatedDate}&date_updated_lt=${dateLt}&assignees[]=${users}`,
       {
