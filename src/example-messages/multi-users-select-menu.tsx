@@ -83,8 +83,7 @@ export function MultiUsersSelectMenuExample({
     //TODO: date pending check for date Updated
     const teamID = 8509000;
     const page = 0;
-    const oneDay =
-      new Date("2012.08.11").getTime() - new Date("2012.08.10").getTime();
+    const oneDay = 86400000;
     const dateLt = updatedDate + oneDay;
 
     const url = `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${updatedDate}&date_updated_lt=${dateLt}&assignees[]=${users}`;
