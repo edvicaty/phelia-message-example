@@ -259,11 +259,14 @@ app.get("/auth", async function (req, res) {
   );
 
   const user = await getUser(accessToken.data.access_token);
-  console.log(`user ---------------`, user.data.user.id);
+
   //This request will only return access token data. To check User ID another request is needed.
   await User.findOneAndUpdate(
     { slackID: slackUserIDToRegister },
-    { clickUpToken: accessToken.data.access_token }
+    {
+      clickUpToken: accessToken.data.access_token,
+      clickUpID: user.data.user.id,
+    }
   );
 
   slackUserIDToRegister = null;
