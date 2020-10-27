@@ -34,7 +34,7 @@ export function CreateTaskModal({ useState, props }: PheliaModalProps) {
             onClick={() => {
               setShowForm(true);
             }}>
-            {`show form ${props?.name}`}
+            {`show form`}
           </Button>
         </Actions>
       )}
@@ -139,7 +139,7 @@ export function CreateTask({
             onClick={async () => {
               openModal();
             }}>
-            Open the modal
+            Create New Task
           </Button>
         </Actions>
       )}
