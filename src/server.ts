@@ -40,7 +40,7 @@ import {
   HomeApp,
 } from "./example-messages";
 import { RegistrationModal } from "./registration-modal";
-import { CreateTask } from "./create-task-modal";
+import { CreateTask, CreateTaskModal } from "./create-task-modal";
 
 dotenv.config();
 
@@ -51,6 +51,7 @@ const port = process.env.PORT || 80;
 const client = new Phelia(process.env.SLACK_TOKEN);
 
 client.registerComponents([
+  CreateTaskModal,
   CreateTask,
   RegistrationModal,
   BirthdayPicker,
