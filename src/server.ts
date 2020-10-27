@@ -40,7 +40,7 @@ import {
   HomeApp,
 } from "./example-messages";
 import { RegistrationModal } from "./registration-modal";
-import { CreateFileModal } from "./create-file-modal";
+import { CreateTask } from "./create-task-modal";
 
 dotenv.config();
 
@@ -51,7 +51,7 @@ const port = process.env.PORT || 80;
 const client = new Phelia(process.env.SLACK_TOKEN);
 
 client.registerComponents([
-  CreateFileModal,
+  CreateTask,
   RegistrationModal,
   BirthdayPicker,
   Counter,
@@ -178,9 +178,8 @@ app.post("/test", async function (req, res) {
   //You can also set a modal to be oppened. It's recommended to pass as props the data needed to that modal to load (e.g. here we are passing the user_name as the prop 'name')
   // await client.openModal(CreateFileModal, trigger_id, { name: user_name });
   // await client.openModal(CreateFileModal, trigger_id, { name: user_name });
-  client.postMessage(CreateFileModal, "U01CMED2XF1");
+  client.postMessage(CreateTask, "U01CMED2XF1");
 });
-//TODO: make routes to interact with clickUP
 //--------------------------------------------------------- routes END ----------------------------------------------------------------------------------
 
 //--------------------------------------------------------- AUTH START ----------------------------------------------------------------------------------
