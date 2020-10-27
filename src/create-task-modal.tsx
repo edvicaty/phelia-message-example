@@ -16,6 +16,7 @@ import {
   PheliaModalProps,
 } from "phelia";
 import axios from "axios";
+import User from "./models/User";
 
 const baseURL = "https://phelia-test-slack.herokuapp.com/";
 const createTaskService = axios.create({
@@ -68,6 +69,7 @@ export function CreateTask({
 }: PheliaMessageProps<Props>) {
   const [state, setState] = useState<State>("state", "init");
   const [form, setForm] = useState("form", "");
+  const [slackID, setSlackID] = useState("slackID");
   const [token, setToken] = useState("token");
 
   const openModal = useModal(
@@ -80,9 +82,13 @@ export function CreateTask({
     },
     () => setState("canceled")
   );
+  //fetch clickUP token from DB
+  async function setClickUpToken() {
+    const user = await User.findOne({ slackID });
+    console.log(`user --------------------`, user);
+  }
 
   //clickUP API function
-
   // async function createTask(form: any) {
   //   const listID = `46365851`;
   //   await createTaskService.post(
@@ -131,8 +137,8 @@ export function CreateTask({
           <Button
             style="primary"
             action="openModal"
-            onClick={(e) => {
-              console.log(`event to open modal ----------------`, e);
+            onClick={async (e) => {
+              await setSlackID(e.user.id);
               openModal();
             }}>
             Open the modal
