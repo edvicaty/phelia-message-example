@@ -68,32 +68,32 @@ export function CreateTask({
   props,
 }: PheliaMessageProps<Props>) {
   const [state, setState] = useState<State>("state", "init");
-  // const [form, setForm] = useState("form", "");
-  // const [token, setToken] = useState("token");
+
   let token: string = null;
   let form = null;
   let user = null;
 
+  //modal and form main function
   const openModal = useModal(
     "modal",
     CreateTaskModal,
     async (event) => {
       await setClickUpToken(event.user.id);
       setState("submitted");
-      // await setForm(JSON.stringify(event, null, 2));
       form = event.form;
       user = event.user;
       await createTask(form);
     },
     () => setState("canceled")
   );
+
   //fetch clickUP token from DB
   async function setClickUpToken(slackID: any) {
     const user = await User.findOne({ slackID });
     token = user.clickUpToken;
   }
 
-  //clickUP API function
+  //clickUP API POST function
   async function createTask(form: any) {
     const listID = `46365851`;
     await createTaskService.post(
@@ -119,12 +119,6 @@ export function CreateTask({
           <Text>Create new task cancelled</Text>
         </Section>
       )}
-
-      {/* {state === "submitted" && (
-        <Section>
-          <Text type="mrkdwn">{"```\n" + form + "\n```"}</Text>
-        </Section>
-      )} */}
 
       {state !== "init" && (
         <Actions>
