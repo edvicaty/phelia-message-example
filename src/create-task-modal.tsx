@@ -72,43 +72,41 @@ export function CreateTask({
   // const [token, setToken] = useState("token");
   let token: string = null;
   let form = null;
+  let user = null;
 
   const openModal = useModal(
     "modal",
     CreateTaskModal,
     async (event) => {
-      // console.log(`form ------------------`, event);
       await setClickUpToken(event.user.id);
       setState("submitted");
       // await setForm(JSON.stringify(event, null, 2));
-      form = event;
-      console.log(`token -----------`, token);
-      console.log(`form ----------`, form);
+      form = event.form;
+      user = event.user;
+      await createTask(form);
     },
     () => setState("canceled")
   );
   //fetch clickUP token from DB
   async function setClickUpToken(slackID: any) {
     const user = await User.findOne({ slackID });
-    console.log(`user ----------------`, user.clickUpToken);
     token = user.clickUpToken;
   }
-  //TODO me quede aqui
 
   //clickUP API function
-  // async function createTask(form: any) {
-  //   const listID = `46365851`;
-  //   await createTaskService.post(
-  //     `https://api.clickup.com/api/v2/list/${listID}/task/`,
-  //     form,
-  //     {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `${props.clickUpToken}`,
-  //       },
-  //     }
-  //   );
-  // }
+  async function createTask(form: any) {
+    const listID = `46365851`;
+    await createTaskService.post(
+      `https://api.clickup.com/api/v2/list/${listID}/task/`,
+      form,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token}`,
+        },
+      }
+    );
+  }
 
   return (
     <Message text="Create task example">
