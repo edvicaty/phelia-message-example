@@ -251,7 +251,6 @@ app.post("/redirect", async function (req, res) {
 //auth to bind ClickUp's API token to DB. The DB will relate slack's user ID to clickUP access token for future post request to ClickUp API
 app.get("/auth", async function (req, res) {
   const authCode = await req.query.code;
-  console.log(`auth code`, authCode);
 
   const accessToken = await auth(
     process.env.CLICKUP_ID,
@@ -260,7 +259,7 @@ app.get("/auth", async function (req, res) {
   );
 
   const user = await getUser(accessToken.data.access_token);
-  console.log(`user ---------------`, user);
+  console.log(`user ---------------`, user.data.user.id);
   //This request will only return access token data. To check User ID another request is needed.
   await User.findOneAndUpdate(
     { slackID: slackUserIDToRegister },
