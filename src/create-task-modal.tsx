@@ -68,8 +68,10 @@ export function CreateTask({
   props,
 }: PheliaMessageProps<Props>) {
   const [state, setState] = useState<State>("state", "init");
-  const [form, setForm] = useState("form", "");
-  const [token, setToken] = useState("token");
+  // const [form, setForm] = useState("form", "");
+  // const [token, setToken] = useState("token");
+  let token: string = null;
+  let form = null;
 
   const openModal = useModal(
     "modal",
@@ -78,7 +80,8 @@ export function CreateTask({
       // console.log(`form ------------------`, event);
       await setClickUpToken(event.user.id);
       setState("submitted");
-      await setForm(JSON.stringify(event, null, 2));
+      // await setForm(JSON.stringify(event, null, 2));
+      form = event;
       console.log(`token -----------`, token);
       console.log(`form ----------`, form);
     },
@@ -88,7 +91,7 @@ export function CreateTask({
   async function setClickUpToken(slackID: any) {
     const user = await User.findOne({ slackID });
     console.log(`user ----------------`, user.clickUpToken);
-    setToken(user.clickUpToken);
+    token = user.clickUpToken;
   }
   //TODO me quede aqui
 
