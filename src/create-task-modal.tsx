@@ -69,21 +69,21 @@ export function CreateTask({
 }: PheliaMessageProps<Props>) {
   const [state, setState] = useState<State>("state", "init");
   const [form, setForm] = useState("form", "");
-  const [slackID, setSlackID] = useState("slackID");
   const [token, setToken] = useState("token");
 
   const openModal = useModal(
     "modal",
     CreateTaskModal,
-    (form) => {
-      console.log(`form ------------------`, form);
+    async (event) => {
+      console.log(`form ------------------`, event);
+      await setClickUpToken(event.user.id);
       setState("submitted");
-      setForm(JSON.stringify(form, null, 2));
+      setForm(JSON.stringify(event, null, 2));
     },
     () => setState("canceled")
   );
   //fetch clickUP token from DB
-  async function setClickUpToken() {
+  async function setClickUpToken(slackID: any) {
     const user = await User.findOne({ slackID });
     console.log(`user --------------------`, user);
   }
@@ -137,8 +137,7 @@ export function CreateTask({
           <Button
             style="primary"
             action="openModal"
-            onClick={async (e) => {
-              await setSlackID(e.user.id);
+            onClick={async () => {
               openModal();
             }}>
             Open the modal
