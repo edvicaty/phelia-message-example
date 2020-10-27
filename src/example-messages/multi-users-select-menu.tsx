@@ -12,7 +12,7 @@ import {
   Text,
 } from "phelia";
 
-//returns the ID's of the selected users
+//returns the slack ID's of the selected users
 //TODO: 2 fetch users clickUP IDs from slack ID's
 export function MultiUsersSelectMenuModal() {
   return (
@@ -32,16 +32,22 @@ export function MultiUsersSelectMenuExample({
   useModal,
   useState,
 }: PheliaMessageProps) {
-  const [form, setForm] = useState("form");
-  const [selected, setSelected] = useState("selected");
+  // const [form, setForm] = useState("form");
+  // const [selected, setSelected] = useState("selected");
 
-  const openModal = useModal("modal", MultiUsersSelectMenuModal, (form) => {
-    setForm(JSON.stringify(form, null, 2));
+  let form = null;
+  let user = null;
+
+  const openModal = useModal("modal", MultiUsersSelectMenuModal, (event) => {
+    user = event.user;
+    form = event.form;
+
+    console.log(`form ------------------`, user, form);
   });
 
   return (
-    <Message text="A multi users select menu example">
-      {selected && (
+    <Message text="Get tasks">
+      {/* {selected && (
         <Section>
           <Text type="mrkdwn">*Selected:* {selected}</Text>
         </Section>
@@ -59,12 +65,12 @@ export function MultiUsersSelectMenuExample({
             />
           }
         />
-      )}
+      )} */}
 
-      <Divider />
+      {/* <Divider /> */}
 
       <Section
-        text="You can also have a multi static select menu in a modal"
+        text="Open get tasks modal"
         accessory={
           <Button action="open-modal" onClick={() => openModal()}>
             Open modal
@@ -72,11 +78,11 @@ export function MultiUsersSelectMenuExample({
         }
       />
 
-      {form && (
+      {/* {form && (
         <Section text="Modal submission:">
           <Text type="mrkdwn">{"```\n" + form + "\n```"}</Text>
         </Section>
-      )}
+      )} */}
     </Message>
   );
 }
