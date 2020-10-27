@@ -12,6 +12,7 @@ import {
   Text,
 } from "phelia";
 
+//return the ID's of the selected users
 export function MultiUsersSelectMenuModal() {
   return (
     <Modal title="Users multi select menu" submit="Submit">

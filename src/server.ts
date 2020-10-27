@@ -250,7 +250,7 @@ app.get("/auth", async function (req, res) {
     process.env.CLICKUP_SECRET,
     authCode
   );
-
+  console.log(`access token -------------`, accessToken);
   await User.findOneAndUpdate(
     { slackID: slackUserIDToRegister },
     { clickUpToken: accessToken.data.access_token }
