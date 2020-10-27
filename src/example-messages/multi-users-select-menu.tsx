@@ -85,22 +85,15 @@ export function MultiUsersSelectMenuExample({
     const page = 0;
     const oneDay = 1588671070;
     const dateLt = updatedDate + oneDay;
-    console.log(`users and token ------------------`, users, userToken);
-    // console.log(`tasks --------------`, updatedDate, oneDay, dateLt, users);
-    const tasks = await axios.get(
-      `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${updatedDate}&date_updated_lt=${dateLt}&assignees[]=${users}`,
-      {
-        headers: { Authorization: `${userToken}` },
-      }
-    );
-    console.log(
-      `tasks --------------`,
-      updatedDate,
-      oneDay,
-      dateLt,
-      users,
-      tasks
-    );
+
+    const url = `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${updatedDate}&date_updated_lt=${dateLt}&assignees[]=${users}`;
+
+    console.log(`url --------------`, url);
+    const tasks = await axios.get(`${url}`, {
+      headers: { Authorization: `${userToken}` },
+    });
+
+    console.log(`tasks -------------`, tasks);
   }
 
   return (
