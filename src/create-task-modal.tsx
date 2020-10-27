@@ -78,7 +78,7 @@ export function CreateTask({
       // console.log(`form ------------------`, event);
       await setClickUpToken(event.user.id);
       setState("submitted");
-      setForm(JSON.stringify(event, null, 2));
+      await setForm(JSON.stringify(event, null, 2));
       console.log(`token -----------`, token);
       console.log(`form ----------`, form);
     },
@@ -87,6 +87,7 @@ export function CreateTask({
   //fetch clickUP token from DB
   async function setClickUpToken(slackID: any) {
     const user = await User.findOne({ slackID });
+    console.log(`user ----------------`, user.clickUpToken);
     setToken(user.clickUpToken);
   }
   //TODO me quede aqui
