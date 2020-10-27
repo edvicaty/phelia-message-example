@@ -126,7 +126,7 @@ export function CreateTask({
             style="danger"
             action="reset"
             onClick={() => setState("init")}>
-            reset
+            Task Created!
           </Button>
         </Actions>
       )}
