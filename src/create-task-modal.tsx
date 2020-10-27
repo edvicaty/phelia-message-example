@@ -85,8 +85,10 @@ export function CreateTask({
   //fetch clickUP token from DB
   async function setClickUpToken(slackID: any) {
     const user = await User.findOne({ slackID });
-    console.log(`user --------------------`, user);
+    setToken(user.clickUpToken);
+    console.log(token);
   }
+  //TODO me quede aqui
 
   //clickUP API function
   // async function createTask(form: any) {
