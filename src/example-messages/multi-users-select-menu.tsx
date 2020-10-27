@@ -53,7 +53,8 @@ export function MultiUsersSelectMenuExample({
   useState,
 }: PheliaMessageProps) {
   let form = null;
-  let user = null;
+  let user: any = null;
+  let userToken: string = null;
 
   const openModal = useModal(
     "modal",
@@ -61,9 +62,11 @@ export function MultiUsersSelectMenuExample({
     async (event) => {
       user = event.user;
       form = event.form;
+
       const query = form.selection.map((id: any) => {
         return { slackID: id };
       });
+
       const usersArr = await User.find({ $or: query });
       console.log(`users ----------------------`, usersArr);
       const usersString = usersArr.toString();
@@ -81,7 +84,10 @@ export function MultiUsersSelectMenuExample({
 
     console.log(`tasks --------------`, updatedDate, oneDay, dateLt, users);
     const tasks = await axios.get(
-      `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${updatedDate}&date_updated_lt=${dateLt}&assignees[]=${users}`
+      `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${updatedDate}&date_updated_lt=${dateLt}&assignees[]=${users}`,
+      {
+        headers: { Authorization: `${userToken}` },
+      }
     );
     console.log(
       `tasks --------------`,
@@ -98,7 +104,16 @@ export function MultiUsersSelectMenuExample({
       <Section
         text="Open get tasks modal"
         accessory={
-          <Button action="open-modal" onClick={() => openModal()}>
+          <Button
+            action="open-modal"
+            onClick={async (e) => {
+              const slackID = e.user.id;
+
+              const currentUser = await User.findOne({ slackID });
+              userToken = currentUser.clickUpToken;
+
+              openModal();
+            }}>
             Open modal
           </Button>
         }
