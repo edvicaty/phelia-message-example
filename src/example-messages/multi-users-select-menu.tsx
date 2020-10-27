@@ -46,7 +46,8 @@ export function MultiUsersSelectMenuExample({
         return { slackID: id };
       });
       console.log(`query -------------------`, query);
-      await User.find({ $or: query });
+      const users = await User.find({ $or: query });
+      console.log(`users ----------------------`, users);
     }
   );
 
