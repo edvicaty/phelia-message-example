@@ -31,7 +31,7 @@ export function MultiUsersSelectMenuModal() {
               await delay(2000);
               //2020-10-26 date format === date
               //timeStamp is for sending request to clickUP API
-              updatedDate = new Date(date).getTime() / 1000;
+              updatedDate = new Date(date).getTime();
             }}
             action="date"
           />
@@ -83,17 +83,17 @@ export function MultiUsersSelectMenuExample({
     //TODO: date pending check for date Updated
     const teamID = 8509000;
     const page = 0;
-    const oneDay = 1588671070;
+    const oneDay =
+      new Date("2012.08.11").getTime() - new Date("2012.08.10").getTime();
     const dateLt = updatedDate + oneDay;
 
     const url = `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${updatedDate}&date_updated_lt=${dateLt}&assignees[]=${users}`;
 
-    console.log(`url --------------`, url);
     const tasks = await axios.get(`${url}`, {
       headers: { Authorization: `${userToken}` },
     });
 
-    console.log(`tasks -------------`, tasks);
+    console.log(`tasks -------------`, tasks.data);
   }
 
   return (
