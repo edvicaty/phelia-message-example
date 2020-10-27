@@ -206,6 +206,13 @@ async function auth(clientID: any, clientSecret: any, authCode: any) {
   );
   return accessToken;
 }
+
+async function getUser(token: any) {
+  const user = await userService.get(`https://api.clickup.com/api/v2/user`, {
+    headers: { Authorization: `${token}` },
+  });
+  return user;
+}
 //AUTH functions END --------------------------------------
 
 let slackUserIDToRegister: string = null;
@@ -232,6 +239,7 @@ app.post("/redirect", async function (req, res) {
       username: user_name,
       slackID: user_id,
       clickUpToken: "",
+      clickUpID: "",
     });
   }
   await client.openModal(RegistrationModal, trigger_id, { name: user_name });
@@ -250,7 +258,10 @@ app.get("/auth", async function (req, res) {
     process.env.CLICKUP_SECRET,
     authCode
   );
-  console.log(`access token -------------`, accessToken);
+
+  const user = await getUser(accessToken.data.access_token);
+  console.log(`user ---------------`, user);
+  //This request will only return access token data. To check User ID another request is needed.
   await User.findOneAndUpdate(
     { slackID: slackUserIDToRegister },
     { clickUpToken: accessToken.data.access_token }

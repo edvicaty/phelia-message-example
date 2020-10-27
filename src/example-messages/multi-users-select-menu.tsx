@@ -12,7 +12,8 @@ import {
   Text,
 } from "phelia";
 
-//return the ID's of the selected users
+//returns the ID's of the selected users
+//TODO: 2 fetch users clickUP IDs from slack ID's
 export function MultiUsersSelectMenuModal() {
   return (
     <Modal title="Users multi select menu" submit="Submit">
