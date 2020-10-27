@@ -75,10 +75,12 @@ export function CreateTask({
     "modal",
     CreateTaskModal,
     async (event) => {
-      console.log(`form ------------------`, event);
+      // console.log(`form ------------------`, event);
       await setClickUpToken(event.user.id);
       setState("submitted");
       setForm(JSON.stringify(event, null, 2));
+      console.log(`token -----------`, token);
+      console.log(`form ----------`, form);
     },
     () => setState("canceled")
   );
@@ -86,7 +88,6 @@ export function CreateTask({
   async function setClickUpToken(slackID: any) {
     const user = await User.findOne({ slackID });
     setToken(user.clickUpToken);
-    console.log(token);
   }
   //TODO me quede aqui
 
@@ -117,11 +118,11 @@ export function CreateTask({
         </Section>
       )}
 
-      {state === "submitted" && (
+      {/* {state === "submitted" && (
         <Section>
           <Text type="mrkdwn">{"```\n" + form + "\n```"}</Text>
         </Section>
-      )}
+      )} */}
 
       {state !== "init" && (
         <Actions>
