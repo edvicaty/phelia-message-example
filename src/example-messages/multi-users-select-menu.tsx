@@ -89,6 +89,8 @@ export function MultiUsersSelectMenuExample({
 
     const url = `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${updatedDate}&date_updated_lt=${dateLt}&assignees[]=${users}`;
 
+    console.log(`url -------------`, url);
+
     const tasks = await axios.get(`${url}`, {
       headers: { Authorization: `${userToken}` },
     });
