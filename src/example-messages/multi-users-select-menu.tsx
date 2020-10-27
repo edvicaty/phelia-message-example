@@ -63,13 +63,17 @@ export function MultiUsersSelectMenuExample({
       user = event.user;
       form = event.form;
 
+      const slackID = user.id;
+      const currentUser = await User.findOne({ slackID });
+      userToken = currentUser.clickUpToken;
+
       const query = form.selection.map((id: any) => {
         return { slackID: id };
       });
 
       const usersArr = await User.find({ $or: query });
       // console.log(`users ----------------------`, usersArr);
-      const usersString = usersArr.toString();
+      const usersString = usersArr.map((user) => user.clickUpID).toString();
       await getFilteredTasks(usersString);
     }
   );
@@ -106,12 +110,7 @@ export function MultiUsersSelectMenuExample({
         accessory={
           <Button
             action="open-modal"
-            onClick={async (e) => {
-              const slackID = e.user.id;
-
-              const currentUser = await User.findOne({ slackID });
-              userToken = currentUser.clickUpToken;
-
+            onClick={async () => {
               openModal();
             }}>
             Open modal
