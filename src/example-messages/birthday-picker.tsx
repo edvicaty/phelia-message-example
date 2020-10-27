@@ -30,12 +30,6 @@ export function BirthdayPicker({ useState }: PheliaMessageProps) {
               //2020-10-26 date format === date
               //timeStamp is for sending request to clickUP API
               const timeStamp = new Date(date).getTime() / 1000;
-              console.log(
-                `timeStamp --------`,
-                timeStamp,
-                `user ----------`,
-                user
-              );
             }}
             action="date"
           />

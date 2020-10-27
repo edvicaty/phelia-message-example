@@ -186,7 +186,8 @@ app.post("/test", async function (req, res) {
 
   // client.postMessage(CreateTask, `${user_id}`);
   // client.postMessage(GetTasks, `${user_id}`);
-  client.postMessage(BirthdayPicker, `${user_id}`);
+  // client.postMessage(BirthdayPicker, `${user_id}`);
+  client.postMessage(MultiUsersSelectMenuExample, `${user_id}`);
 });
 //--------------------------------------------------------- routes END ----------------------------------------------------------------------------------
 
