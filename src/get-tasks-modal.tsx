@@ -69,23 +69,23 @@ export function ShowTasksModal({ props }: PheliaMessageProps) {
     >
       <Section
         text={`Select a day, default date: yesterday`}
-        // accessory={
-        //   <DatePicker
-        //     // initialDate={yesterday}
-        //     onSelect={async ({ user, date }) => {
-        //       updatedDate = await Number(new Date(date).getTime());
-        //     }}
-        //     action="date"
-        //   />
-        // }
+        accessory={
+          <DatePicker
+            // initialDate={yesterday}
+            onSelect={async ({ user, date }) => {
+              //   updatedDate = await Number(new Date(date).getTime());
+            }}
+            action="date"
+          />
+        }
       />
-      {/* <Input label="Select menu">
+      <Input label="Select menu">
         <MultiSelectMenu
           type="users"
           action="selection"
           placeholder="A placeholder"
         />
-      </Input> */}
+      </Input>
     </Modal>
   );
 }
