@@ -153,8 +153,12 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
         <Section>
           {tasks.map((task: any) => (
             <Text type="mrkdwn">
-              # Task: {task.name} {`\n`} *Asignees:* {``}
-              {task.assignees.map((asignee: any) => `${asignee.username}, `)}
+              *Task:* {task.name} {`\n`} *Asignees:* {``}
+              {task.assignees.map(
+                (asignee: any) => `${asignee.username}, `
+              )}{" "}
+              {``} hello | test {``}
+              {`\n`}
               {`\n`}
             </Text>
           ))}
