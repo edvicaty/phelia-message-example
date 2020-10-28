@@ -23,9 +23,9 @@ let day = date.getDate();
 let month = date.getMonth() + 1;
 let year = date.getFullYear();
 if (month < 10) {
-  yesterday = `${year}/0${month}/${day}`;
+  yesterday = `${day}/0${month}/${year}`;
 } else {
-  yesterday = `${year}/${month}/${day}`;
+  yesterday = `${day}/${month}/${year}`;
 }
 
 const today = new Date().toISOString().split("T")[0];
@@ -41,7 +41,7 @@ export function MultiUsersSelectMenuModal() {
         text={`Select a day`}
         accessory={
           <DatePicker
-            initialDate={today}
+            initialDate={yesterday}
             onSelect={async ({ user, date }) => {
               // await delay(2000);
               //2020-10-26 date format === date
