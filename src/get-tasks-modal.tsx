@@ -90,14 +90,14 @@ export function ShowTasksModal() {
 //-------------------------------- Message API fetch----------------------
 
 export function GetTasks({ useModal, useState }: PheliaMessageProps) {
-  const [tasks, setTasks] = useState<any>("tasks-key");
+  const [tasks, setTasks] = useState<any>("tasks");
 
   let form = null;
   let user: any = null;
   let userToken: string = null;
 
   const openDataModal = useModal(
-    "modal-data",
+    "modal",
     ShowTasksModal,
     (event) => console.log(event),
     () => console.log("canceled")
