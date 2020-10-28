@@ -31,7 +31,7 @@ export function MultiUsersSelectMenuModal() {
               // await delay(2000);
               //2020-10-26 date format === date
               //timeStamp is for sending request to clickUP API
-              updatedDate = (await Number(new Date(date).getTime())) + 86400000;
+              updatedDate = await Number(new Date(date).getTime());
               console.log(`updatedDate ------------------`, updatedDate);
             }}
             action="date"
