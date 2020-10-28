@@ -28,10 +28,11 @@ export function MultiUsersSelectMenuModal() {
           <DatePicker
             initialDate={today}
             onSelect={async ({ user, date }) => {
-              await delay(2000);
+              // await delay(2000);
               //2020-10-26 date format === date
               //timeStamp is for sending request to clickUP API
-              updatedDate = Number(new Date(date).getTime()) + 86400000;
+              updatedDate = (await Number(new Date(date).getTime())) + 86400000;
+              console.log(`updatedDate ------------------`, updatedDate);
             }}
             action="date"
           />
