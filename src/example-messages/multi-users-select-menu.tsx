@@ -23,9 +23,9 @@ let day = date.getDate();
 let month = date.getMonth() + 1;
 let year = date.getFullYear();
 if (month < 10) {
-  yesterday = `${day}/0${month}/${year}`;
+  yesterday = `${year}-0${month}-${day}`;
 } else {
-  yesterday = `${day}/${month}/${year}`;
+  yesterday = `${year}-${month}-${day}`;
 }
 
 const today = new Date().toISOString().split("T")[0];
