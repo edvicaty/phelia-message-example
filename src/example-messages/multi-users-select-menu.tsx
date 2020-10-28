@@ -15,8 +15,22 @@ import {
   DatePicker,
 } from "phelia";
 
-const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
-const today = new Date().toISOString().split("T")[0];
+//get yesterday function
+let yesterday: string = null;
+let date = new Date();
+date.setDate(date.getDate() - 1);
+let day = date.getDate();
+let month = date.getMonth() + 1;
+let year = date.getFullYear();
+if (month < 10) {
+  yesterday = `${day}-0${month}-${year}`;
+} else {
+  yesterday = `${day}-${month}-${year}`;
+}
+
+// const today = new Date().toISOString().split("T")[0];
+
+// const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 //TODO: correct time from UTC to central time on today
 // 1603742400 - 1603720800 = rest 21600000
@@ -30,9 +44,9 @@ export function MultiUsersSelectMenuModal() {
         text={`Select a day`}
         accessory={
           <DatePicker
-            initialDate={today}
+            initialDate={yesterday}
             onSelect={async ({ user, date }) => {
-              await delay(2000);
+              // await delay(2000);
               //2020-10-26 date format === date
               updatedDate = await Number(new Date(date).getTime());
             }}
