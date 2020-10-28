@@ -136,7 +136,18 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
 
   return (
     <Message text="Get tasks">
-      <Section text="Tasks" />
+      <Section
+        accessory={
+          <Button
+            action="open-modal"
+            onClick={() => {
+              openModal();
+            }}>
+            Get tasks
+          </Button>
+        }>
+        <Text>Get tasks</Text>
+      </Section>
 
       {showForm && tasks && (
         <Section
@@ -146,7 +157,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
               onClick={() => {
                 console.log(tasks);
               }}>
-              Get tasks
+              log tasks
             </Button>
           }>
           {tasks.map((task: any) => (
