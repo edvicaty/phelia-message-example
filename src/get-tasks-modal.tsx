@@ -93,7 +93,7 @@ export function ShowTasksModal({ props }: PheliaMessageProps) {
 //-------------------------------- Message API fetch----------------------
 
 export function GetTasks({ useModal, useState }: PheliaMessageProps) {
-  const [showData, setShowData] = useState("showData", false);
+  const [showData, setShowData] = useState<boolean>("showData", false);
 
   let form = null;
   let user: any = null;
@@ -162,7 +162,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
           </Button>
         }
       />
-      {showData ? (
+      {showData && (
         <Section
           text="Show data"
           accessory={
@@ -175,8 +175,6 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
             </Button>
           }
         />
-      ) : (
-        <></>
       )}
     </Message>
   );
