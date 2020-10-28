@@ -89,7 +89,7 @@ export function ShowTasksModal() {
 //-------------------------------- Message API fetch----------------------
 
 export function GetTasks({ useModal, useState }: PheliaMessageProps) {
-  const [tasks, setTasks] = useState<any>("tasks");
+  const [tasks, setTasks] = useState<Array<string>>("tasks");
 
   let form = null;
   let user: any = null;
@@ -110,16 +110,9 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     const usersString = usersArr.map((user) => user.clickUpID).toString();
 
     const fetchedTasks = await getFilteredTasks(usersString);
-    // setTasks(fetchedTasks.tasks);
+    await setTasks(fetchedTasks.tasks);
     // setShowData(true);
     console.log(`fetched ----------`, tasks);
-
-    useModal(
-      "modal",
-      ShowTasksModal,
-      (event) => console.log(event),
-      () => console.log("canceled")
-    );
 
     // openDataModal(); //{ tasks: fetchedTasks.tasks }
   });
