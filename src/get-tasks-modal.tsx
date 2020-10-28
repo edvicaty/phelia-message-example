@@ -90,13 +90,13 @@ export function ShowTasksModal() {
 //-------------------------------- Message API fetch----------------------
 
 export function GetTasks({ useModal, useState }: PheliaMessageProps) {
-  //   const [tasks, setTasks] = useState<Array<string>>("tasks");
+  const [tasks, setTasks] = useState<Array<string>>("tasks");
   const [showForm, setShowForm] = useState("showForm", false);
 
   let form = null;
   let user: any = null;
   let userToken: string = null;
-  let tasks = null;
+  //   let tasks = null;
 
   const openModal = useModal("modal", GetTasksByTimeModal, async (event) => {
     user = event.user;
@@ -114,6 +114,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
 
     const fetchedTasks = await getFilteredTasks(usersString);
     setShowForm(true);
+    setTasks(fetchedTasks.tasks);
     // tasks = fetchedTasks.tasks;
     //TODO: print fetched data
     // openDataModal(); //{ tasks: fetchedTasks.tasks }
@@ -153,7 +154,16 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
       />
 
       {showForm && (
-        <Section>
+        <Section
+          accessory={
+            <Button
+              action="tasks"
+              onClick={() => {
+                console.log(tasks);
+              }}>
+              check tasks
+            </Button>
+          }>
           <Text emoji>Hey there :wave:</Text>
           <Text type="mrkdwn">*Counter:* </Text>
           <Text type="mrkdwn">*Notifications:* </Text>
