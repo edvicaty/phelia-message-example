@@ -28,7 +28,7 @@ if (month < 10) {
   yesterday = `${year}/${month}/${day}`;
 }
 
-// const today = new Date().toISOString().split("T")[0];
+const today = new Date().toISOString().split("T")[0];
 
 // const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
@@ -41,7 +41,7 @@ export function MultiUsersSelectMenuModal() {
         text={`Select a day`}
         accessory={
           <DatePicker
-            initialDate={yesterday}
+            initialDate={today}
             onSelect={async ({ user, date }) => {
               // await delay(2000);
               //2020-10-26 date format === date
