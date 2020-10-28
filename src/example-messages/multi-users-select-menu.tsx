@@ -28,11 +28,9 @@ if (month < 10) {
   yesterday = `${year}-${month}-${day}`;
 }
 
-const today = new Date().toISOString().split("T")[0];
-
-// const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
-
 let updatedDate: any = null;
+
+//-------------------------------- Modal ------------------------------
 
 export function MultiUsersSelectMenuModal() {
   return (
@@ -43,8 +41,6 @@ export function MultiUsersSelectMenuModal() {
           <DatePicker
             initialDate={yesterday}
             onSelect={async ({ user, date }) => {
-              // await delay(2000);
-              //2020-10-26 date format === date
               updatedDate = await Number(new Date(date).getTime());
             }}
             action="date"
@@ -62,6 +58,8 @@ export function MultiUsersSelectMenuModal() {
   );
 }
 
+//-------------------------------- Message API fetch----------------------
+
 export function MultiUsersSelectMenuExample({
   useModal,
   useState,
@@ -70,13 +68,13 @@ export function MultiUsersSelectMenuExample({
   let user: any = null;
   let userToken: string = null;
 
+  //retrieving modal data
   const openModal = useModal(
     "modal",
     MultiUsersSelectMenuModal,
     async (event) => {
       user = event.user;
       form = event.form;
-
       const slackID = user.id;
       const currentUser = await User.findOne({ slackID });
       userToken = currentUser.clickUpToken;
@@ -84,15 +82,16 @@ export function MultiUsersSelectMenuExample({
       const query = form.selection.map((id: any) => {
         return { slackID: id };
       });
-
       const usersArr = await User.find({ $or: query });
       const usersString = usersArr.map((user) => user.clickUpID).toString();
-      await getFilteredTasks(usersString);
+
+      const tasks = await getFilteredTasks(usersString);
     }
   );
 
+  //retrieving modal data functions
   async function getFilteredTasks(users: string) {
-    const teamID = 8509000;
+    const teamID = 8509000; //worskpace ID
     const page = 0;
     const oneDay = 86400000;
     const utcToCentral = updatedDate + 21600000;
@@ -106,7 +105,7 @@ export function MultiUsersSelectMenuExample({
       headers: { Authorization: `${userToken}` },
     });
 
-    console.log(`tasks -------------`, tasks.data);
+    return tasks.data;
   }
 
   return (

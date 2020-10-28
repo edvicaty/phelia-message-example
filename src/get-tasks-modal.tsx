@@ -1,151 +1,120 @@
 import React from "react";
+import User from "./models/User";
+import axios from "axios";
 
 import {
-  Actions,
   Button,
-  Checkboxes,
-  DatePicker,
+  Divider,
   Input,
   Message,
   Modal,
-  Option,
+  MultiSelectMenu,
   PheliaMessageProps,
   Section,
   Text,
-  TextField,
-  PheliaModalProps,
+  DatePicker,
 } from "phelia";
-import axios from "axios";
-import User from "./models/User";
 
-const baseURL = "https://phelia-test-slack.herokuapp.com/";
-const createTaskService = axios.create({
-  baseURL,
-});
-//-----------------------------------MODAL COMPONENT------------------------------
+//get yesterday function
+let yesterday: string = null;
+let date = new Date();
+date.setDate(date.getDate() - 1);
+let day = date.getDate();
+let month = date.getMonth() + 1;
+let year = date.getFullYear();
+if (month < 10) {
+  yesterday = `${year}-0${month}-${day}`;
+} else {
+  yesterday = `${year}-${month}-${day}`;
+}
 
-export function GetTasksByTimeModal({ useState, props }: PheliaModalProps) {
-  const [showForm, setShowForm] = useState("showForm", false);
+let updatedDate: any = null;
+
+//-------------------------------- Modal ------------------------------
+
+export function GetTasksByTimeModal() {
   return (
-    <Modal title={`Create new task`} submit="submit">
-      {!showForm && (
-        <Actions>
-          <Button
-            action="showForm"
-            onClick={() => {
-              setShowForm(true);
-            }}>
-            {`show form`}
-          </Button>
-        </Actions>
-      )}
-
-      {showForm && (
-        <>
-          <Input label="Task name">
-            <TextField action="name" placeholder="Write the task's name" />
-          </Input>
-          <Input label="Task description">
-            <TextField
-              action="description"
-              placeholder="Write the task's description"
-            />
-          </Input>
-        </>
-      )}
+    <Modal title="Users multi select menu" submit="Submit">
+      <Section
+        text={`Select a day`}
+        accessory={
+          <DatePicker
+            initialDate={yesterday}
+            onSelect={async ({ user, date }) => {
+              updatedDate = await Number(new Date(date).getTime());
+            }}
+            action="date"
+          />
+        }
+      />
+      <Input label="Select menu">
+        <MultiSelectMenu
+          type="users"
+          action="selection"
+          placeholder="A placeholder"
+        />
+      </Input>
     </Modal>
   );
 }
 
-type State = "submitted" | "canceled" | "init";
+//-------------------------------- Message API fetch----------------------
 
-type Props = {
-  name: string;
-};
-
-//-----------------------------------TEXT COMPONENT------------------------------
-
-export function GetTasks({
-  useModal,
-  useState,
-  props,
-}: PheliaMessageProps<Props>) {
-  const [state, setState] = useState<State>("state", "init");
-
-  let token: string = null;
+export function GetTasks({ useModal, useState }: PheliaMessageProps) {
   let form = null;
-  let user = null;
+  let user: any = null;
+  let userToken: string = null;
 
-  //modal and form main function
-  const openModal = useModal(
-    "modal",
-    GetTasksByTimeModal,
-    async (event) => {
-      await setClickUpToken(event.user.id);
-      setState("submitted");
-      form = event.form;
-      user = event.user;
-      await createTask(form);
-    },
-    () => setState("canceled")
-  );
+  //retrieving modal data
+  const openModal = useModal("modal", GetTasksByTimeModal, async (event) => {
+    user = event.user;
+    form = event.form;
+    const slackID = user.id;
+    const currentUser = await User.findOne({ slackID });
+    userToken = currentUser.clickUpToken;
 
-  //fetch clickUP token from DB
-  async function setClickUpToken(slackID: any) {
-    const user = await User.findOne({ slackID });
-    token = user.clickUpToken;
-  }
+    const query = form.selection.map((id: any) => {
+      return { slackID: id };
+    });
+    const usersArr = await User.find({ $or: query });
+    const usersString = usersArr.map((user) => user.clickUpID).toString();
 
-  //clickUP API POST function
-  async function createTask(form: any) {
-    const listID = `46365851`;
-    await createTaskService.post(
-      `https://api.clickup.com/api/v2/list/${listID}/task/`,
-      form,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${token}`,
-        },
-      }
-    );
+    const tasks = await getFilteredTasks(usersString);
+  });
+
+  //retrieving modal data functions
+  async function getFilteredTasks(users: string) {
+    const teamID = 8509000; //worskpace ID
+    const page = 0;
+    const oneDay = 86400000;
+    const utcToCentral = updatedDate + 21600000;
+    const dateLt = utcToCentral + oneDay;
+
+    const url = `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${utcToCentral}&date_updated_lt=${dateLt}&assignees[]=${users}`;
+
+    console.log(`url -------------`, url);
+
+    const tasks = await axios.get(`${url}`, {
+      headers: { Authorization: `${userToken}` },
+    });
+
+    return tasks.data;
   }
 
   return (
-    <Message text="Create task example">
-      <Section>
-        <Text type="mrkdwn">hey {props?.name}!</Text>
-      </Section>
-
-      {state === "canceled" && (
-        <Section>
-          <Text>Create new task cancelled</Text>
-        </Section>
-      )}
-
-      {state !== "init" && (
-        <Actions>
+    <Message text="Get tasks">
+      <Section
+        text="Open get tasks modal"
+        accessory={
           <Button
-            style="danger"
-            action="reset"
-            onClick={() => setState("init")}>
-            Task Created!
-          </Button>
-        </Actions>
-      )}
-
-      {state === "init" && (
-        <Actions>
-          <Button
-            style="primary"
-            action="openModal"
+            action="open-modal"
             onClick={async () => {
               openModal();
             }}>
-            Create New Task
+            Open modal
           </Button>
-        </Actions>
-      )}
+        }
+      />
     </Message>
   );
 }

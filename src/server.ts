@@ -185,9 +185,8 @@ app.post("/test", async function (req, res) {
   // await client.openModal(CreateFileModal, trigger_id, { name: user_name });
 
   // client.postMessage(CreateTask, `${user_id}`);
-  // client.postMessage(GetTasks, `${user_id}`);
   // client.postMessage(BirthdayPicker, `${user_id}`);
-  client.postMessage(MultiUsersSelectMenuExample, `${user_id}`);
+  client.postMessage(GetTasks, `${user_id}`);
 });
 //--------------------------------------------------------- routes END ----------------------------------------------------------------------------------
 
@@ -243,9 +242,6 @@ app.post("/redirect", async function (req, res) {
     });
   }
   await client.openModal(RegistrationModal, trigger_id, { name: user_name });
-
-  // const client_id = "RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V"; //from slack web app
-  // const redirect_uri = "https://phelia-test-slack.herokuapp.com/auth";
 });
 
 //auth to bind ClickUp's API token to DB. The DB will relate slack's user ID to clickUP access token for future post request to ClickUp API
