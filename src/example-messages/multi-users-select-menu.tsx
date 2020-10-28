@@ -87,8 +87,7 @@ export function MultiUsersSelectMenuExample({
     const teamID = 8509000;
     const page = 0;
     const oneDay = 86400000;
-    const utcToCentral = updatedDate - 21600000;
-    const dateLt = utcToCentral + oneDay;
+    const dateLt = updatedDate + oneDay;
 
     const url = `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${updatedDate}&date_updated_lt=${dateLt}&assignees[]=${users}`;
 
