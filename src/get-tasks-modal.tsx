@@ -28,7 +28,11 @@ if (month < 10) {
   yesterday = `${year}-${month}-${day}`;
 }
 
-let updatedDate: any = null;
+let updatedDate: any = new Date();
+updatedDate.setDate(updatedDate.getDate() - 1).valueOf() - 21600000;
+
+//correction by utc to central and minus one day
+// let updatedDate: any = Number(new Date().getTime()) - 21600000 - 86400000;
 
 //-------------------------------- Modal ------------------------------
 
@@ -36,10 +40,10 @@ export function GetTasksByTimeModal() {
   return (
     <Modal title="Users multi select menu" submit="Submit">
       <Section
-        text={`Select a day`}
+        text={`Select a day, default date: yesterday`}
         accessory={
           <DatePicker
-            initialDate={yesterday}
+            // initialDate={yesterday}
             onSelect={async ({ user, date }) => {
               updatedDate = await Number(new Date(date).getTime());
             }}
