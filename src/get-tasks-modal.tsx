@@ -28,10 +28,8 @@ if (month < 10) {
   yesterday = `${year}-${month}-${day}`;
 }
 
-let updatedDate: any = new Date();
-updatedDate.setDate(updatedDate.getDate() - 1).getTime() - 21600000;
-
 //correction by utc to central and minus one day
+let updatedDate: any = null;
 // let updatedDate: any = Number(new Date().getTime()) - 21600000 - 86400000;
 
 //-------------------------------- Modal ------------------------------
