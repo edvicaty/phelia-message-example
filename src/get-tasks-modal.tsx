@@ -16,21 +16,22 @@ import {
 } from "phelia";
 
 //get yesterday function
-let yesterday: string = null;
-let date = new Date();
-date.setDate(date.getDate() - 1);
-let day = date.getDate();
-let month = date.getMonth() + 1;
-let year = date.getFullYear();
-if (month < 10) {
-  yesterday = `${year}-0${month}-${day}`;
-} else {
-  yesterday = `${year}-${month}-${day}`;
-}
+// let yesterday: string = null;
+// let date = new Date();
+// date.setDate(date.getDate() - 1);
+// let day = date.getDate();
+// let month = date.getMonth() + 1;
+// let year = date.getFullYear();
+// if (month < 10) {
+//   yesterday = `${year}-0${month}-${day}`;
+// } else {
+//   yesterday = `${year}-${month}-${day}`;
+// }
 
 //correction by utc to central and minus one day
-let updatedDate: any = null;
 // let updatedDate: any = Number(new Date().getTime()) - 21600000 - 86400000;
+
+let updatedDate: any = null;
 
 //-------------------------------- Modal ------------------------------
 
@@ -63,6 +64,8 @@ export function GetTasksByTimeModal() {
 //-------------------------------- Message API fetch----------------------
 
 export function GetTasks({ useModal, useState }: PheliaMessageProps) {
+  const [tasks, setTasks] = useState("tasks");
+
   let form = null;
   let user: any = null;
   let userToken: string = null;
@@ -81,8 +84,15 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     const usersArr = await User.find({ $or: query });
     const usersString = usersArr.map((user) => user.clickUpID).toString();
 
-    const tasks = await getFilteredTasks(usersString);
-    console.log(`tasks ------------------`, tasks);
+    const fetchedTasks = await getFilteredTasks(usersString);
+    setTasks(fetchedTasks.tasks);
+
+    console.log(
+      `tasks ------------------`,
+      tasks,
+      `feteched ----------`,
+      fetchedTasks
+    );
   });
 
   //retrieving modal data functions
@@ -95,7 +105,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
 
     const url = `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${utcToCentral}&date_updated_lt=${dateLt}&assignees[]=${users}`;
 
-    console.log(`url -------------`, url);
+    // console.log(`url -------------`, url);
 
     const tasks = await axios.get(`${url}`, {
       headers: { Authorization: `${userToken}` },
