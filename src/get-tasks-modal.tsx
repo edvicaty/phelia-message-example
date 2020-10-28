@@ -90,7 +90,7 @@ export function ShowTasksModal() {
 //-------------------------------- Message API fetch----------------------
 
 export function GetTasks({ useModal, useState }: PheliaMessageProps) {
-  const [tasks, setTasks] = useState<Array<string>>("tasks");
+  const [tasks, setTasks] = useState("tasks");
   const [showForm, setShowForm] = useState("showForm", false);
 
   let form = null;
@@ -160,7 +160,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
               check tasks
             </Button>
           }>
-          <> {tasks?.map((task: any) => task.name)} </>
+          {/* <> {tasks.map((task: any) => task.name)} </> */}
         </Section>
       )}
     </Message>
