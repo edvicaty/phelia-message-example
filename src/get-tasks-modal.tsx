@@ -103,8 +103,10 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     (event) => console.log(event),
     () => console.log("canceled")
   );
+
   //retrieving modal data
   const openModal = useModal("modal", GetTasksByTimeModal, async (event) => {
+    const [tasks, setTasks] = useState<any>("tasks-key");
     user = event.user;
     form = event.form;
     const slackID = user.id;
@@ -118,9 +120,9 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     const usersString = usersArr.map((user) => user.clickUpID).toString();
 
     const fetchedTasks = await getFilteredTasks(usersString);
-
-    openDataModal(); //{ tasks: fetchedTasks.tasks }
-    // console.log(`fetched ----------`, fetchedTasks.tasks);
+    setTasks(fetchedTasks.tasks);
+    // openDataModal(); //{ tasks: fetchedTasks.tasks }
+    console.log(`fetched ----------`, tasks);
   });
 
   //showing retrieved data modal
