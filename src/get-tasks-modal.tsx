@@ -60,12 +60,39 @@ export function GetTasksByTimeModal() {
     </Modal>
   );
 }
+export function ShowTasksModal({ props }: PheliaMessageProps) {
+  console.log(`props ----------------------------`, props);
+  return (
+    <Modal
+      title="Users multi select menuaa"
+      // submit="Done"
+    >
+      <Section
+        text={`Select a day, default date: yesterday`}
+        // accessory={
+        //   <DatePicker
+        //     // initialDate={yesterday}
+        //     onSelect={async ({ user, date }) => {
+        //       updatedDate = await Number(new Date(date).getTime());
+        //     }}
+        //     action="date"
+        //   />
+        // }
+      />
+      {/* <Input label="Select menu">
+        <MultiSelectMenu
+          type="users"
+          action="selection"
+          placeholder="A placeholder"
+        />
+      </Input> */}
+    </Modal>
+  );
+}
 
 //-------------------------------- Message API fetch----------------------
 
 export function GetTasks({ useModal, useState }: PheliaMessageProps) {
-  const [tasks, setTasks] = useState("tasks", []);
-
   let form = null;
   let user: any = null;
   let userToken: string = null;
@@ -86,15 +113,17 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
 
     const fetchedTasks = await getFilteredTasks(usersString);
 
-    await setTasks(fetchedTasks.tasks);
-
-    console.log(
-      `tasks ------------------`,
-      tasks,
-      `fetched ----------`,
-      fetchedTasks.tasks
-    );
+    openDataModal({ tasks: fetchedTasks.tasks });
+    // console.log(`fetched ----------`, fetchedTasks.tasks);
   });
+
+  //showing retrieved data modal
+  const openDataModal = useModal(
+    "modal-data",
+    ShowTasksModal,
+    (event) => console.log(event),
+    () => console.log("canceled")
+  );
 
   //retrieving modal data functions
   async function getFilteredTasks(users: string) {
@@ -128,15 +157,6 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
           </Button>
         }
       />
-      <Section>
-        {tasks.length > 0 ? (
-          tasks.map((task: any) => {
-            return <>{task?.name} </>;
-          })
-        ) : (
-          <></>
-        )}
-      </Section>
     </Message>
   );
 }
