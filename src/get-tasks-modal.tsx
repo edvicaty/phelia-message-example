@@ -64,7 +64,7 @@ export function GetTasksByTimeModal() {
 //-------------------------------- Message API fetch----------------------
 
 export function GetTasks({ useModal, useState }: PheliaMessageProps) {
-  const [tasks, setTasks] = useState("tasks", []);
+  const [tasks, setTasks] = useState("tasksArr");
 
   let form = null;
   let user: any = null;
@@ -85,7 +85,8 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     const usersString = usersArr.map((user) => user.clickUpID).toString();
 
     const fetchedTasks = await getFilteredTasks(usersString);
-    setTasks(fetchedTasks.tasks);
+
+    await setTasks(fetchedTasks.tasks);
 
     console.log(
       `tasks ------------------`,
