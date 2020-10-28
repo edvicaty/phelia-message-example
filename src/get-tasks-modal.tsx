@@ -80,6 +80,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     const usersString = usersArr.map((user) => user.clickUpID).toString();
 
     const tasks = await getFilteredTasks(usersString);
+    console.log(`tasks ------------------`, tasks);
   });
 
   //retrieving modal data functions
@@ -97,7 +98,6 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     const tasks = await axios.get(`${url}`, {
       headers: { Authorization: `${userToken}` },
     });
-
     return tasks.data;
   }
 
