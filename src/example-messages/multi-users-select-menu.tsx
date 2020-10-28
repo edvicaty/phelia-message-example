@@ -23,17 +23,14 @@ let day = date.getDate();
 let month = date.getMonth() + 1;
 let year = date.getFullYear();
 if (month < 10) {
-  yesterday = `${day}-0${month}-${year}`;
+  yesterday = `${year}/0${month}/${day}`;
 } else {
-  yesterday = `${day}-${month}-${year}`;
+  yesterday = `${year}/${month}/${day}`;
 }
 
 // const today = new Date().toISOString().split("T")[0];
 
 // const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
-
-//TODO: correct time from UTC to central time on today
-// 1603742400 - 1603720800 = rest 21600000
 
 let updatedDate: any = null;
 
