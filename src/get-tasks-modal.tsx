@@ -150,18 +150,12 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
       />
 
       {showForm && tasks && (
-        <Section
-          accessory={
-            <Button
-              action="tasks"
-              onClick={() => {
-                console.log(tasks);
-              }}>
-              check tasks
-            </Button>
-          }>
+        <Section>
           {tasks.map((task: any) => (
-            <Text>{task.name}</Text>
+            <Text type="mrkdwn">
+              - **Task**{task.name} **Asignees**
+              {task.assignees.map((asignee: any) => `${asignee.username}, `)}
+            </Text>
           ))}
         </Section>
       )}
