@@ -149,7 +149,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
         }
       />
 
-      {showForm && (
+      {showForm && tasks && (
         <Section
           accessory={
             <Button
