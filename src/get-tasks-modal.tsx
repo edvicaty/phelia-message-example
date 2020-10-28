@@ -96,7 +96,6 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
   let form = null;
   let user: any = null;
   let userToken: string = null;
-  //   let tasks = null;
 
   const openModal = useModal("modal", GetTasksByTimeModal, async (event) => {
     user = event.user;
@@ -115,9 +114,6 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     const fetchedTasks = await getFilteredTasks(usersString);
     setShowForm(true);
     setTasks(fetchedTasks.tasks);
-    // tasks = fetchedTasks.tasks;
-    //TODO: print fetched data
-    // openDataModal(); //{ tasks: fetchedTasks.tasks }
   });
 
   //retrieving modal data functions
@@ -164,7 +160,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
               check tasks
             </Button>
           }>
-          {tasks?.map((task: any) => task.name)}
+          <> {tasks?.map((task: any) => task.name)} </>
         </Section>
       )}
     </Message>
