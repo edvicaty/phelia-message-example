@@ -41,17 +41,11 @@ export function CreateTaskModal({ useState, props }: PheliaModalProps) {
       )}
 
       {showForm && (
-        <>
-          <Input label="Task name">
-            <TextField action="name" placeholder="Write the task's name" />
-          </Input>
-          <Input label="Task description">
-            <TextField
-              action="description"
-              placeholder="Write the task's description"
-            />
-          </Input>
-        </>
+        <Section>
+          <Text emoji>Hey there :wave:</Text>
+          <Text type="mrkdwn">*Counter:* </Text>
+          <Text type="mrkdwn">*Notifications:* </Text>
+        </Section>
       )}
     </Modal>
   );

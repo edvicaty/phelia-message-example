@@ -13,6 +13,7 @@ import {
   Section,
   Text,
   DatePicker,
+  Actions,
 } from "phelia";
 
 //get yesterday function
@@ -89,11 +90,13 @@ export function ShowTasksModal() {
 //-------------------------------- Message API fetch----------------------
 
 export function GetTasks({ useModal, useState }: PheliaMessageProps) {
-  const [tasks, setTasks] = useState<Array<string>>("tasks");
+  //   const [tasks, setTasks] = useState<Array<string>>("tasks");
+  const [showForm, setShowForm] = useState("showForm", false);
 
   let form = null;
   let user: any = null;
   let userToken: string = null;
+  let tasks = null;
 
   const openModal = useModal("modal", GetTasksByTimeModal, async (event) => {
     user = event.user;
@@ -110,10 +113,9 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     const usersString = usersArr.map((user) => user.clickUpID).toString();
 
     const fetchedTasks = await getFilteredTasks(usersString);
-    await setTasks(fetchedTasks.tasks);
-    // setShowData(true);
-    console.log(`fetched ----------`, tasks);
-
+    setShowForm(true);
+    // tasks = fetchedTasks.tasks;
+    //TODO: print fetched data
     // openDataModal(); //{ tasks: fetchedTasks.tasks }
   });
 
@@ -149,6 +151,14 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
           </Button>
         }
       />
+
+      {showForm && (
+        <Section>
+          <Text emoji>Hey there :wave:</Text>
+          <Text type="mrkdwn">*Counter:* </Text>
+          <Text type="mrkdwn">*Notifications:* </Text>
+        </Section>
+      )}
     </Message>
   );
 }
