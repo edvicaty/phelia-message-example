@@ -61,16 +61,15 @@ export function GetTasksByTimeModal() {
   );
 }
 export function ShowTasksModal() {
-  //   console.log(`props ----------------------------`, props);
   return (
-    <Modal title="Users multi select menuaa" submit="Done">
+    <Modal title="Users multi select menu" submit="Submit">
       <Section
         text={`Select a day, default date: yesterday`}
         accessory={
           <DatePicker
             // initialDate={yesterday}
             onSelect={async ({ user, date }) => {
-              //   updatedDate = await Number(new Date(date).getTime());
+              updatedDate = await Number(new Date(date).getTime());
             }}
             action="date"
           />
@@ -96,12 +95,12 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
   let user: any = null;
   let userToken: string = null;
 
-  const openDataModal = useModal(
-    "modal",
-    ShowTasksModal,
-    (event) => console.log(event),
-    () => console.log("canceled")
-  );
+  //   const openDataModal = useModal(
+  //     "modal",
+  //     ShowTasksModal,
+  //     (event) => console.log(event),
+  //     () => console.log("canceled")
+  //   );
 
   const openModal = useModal("modal", ShowTasksModal, async (event) => {
     user = event.user;
@@ -120,7 +119,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     const fetchedTasks = await getFilteredTasks(usersString);
     // setTasks(fetchedTasks.tasks);
     // setShowData(true);
-    openDataModal(); //{ tasks: fetchedTasks.tasks }
+    // openDataModal(); //{ tasks: fetchedTasks.tasks }
     console.log(`fetched ----------`, tasks);
   });
 
@@ -149,7 +148,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
         accessory={
           <Button
             action="open-modal"
-            onClick={async () => {
+            onClick={() => {
               openModal();
             }}>
             Open modal
