@@ -18,7 +18,7 @@ import {
 //get yesterday function
 let yesterday: string = null;
 let date = new Date();
-date.setDate(date.getDate() - 1.25);
+date.setDate(date.getDate() - 1);
 let day = date.getDate();
 let month = date.getMonth() + 1;
 let year = date.getFullYear();
