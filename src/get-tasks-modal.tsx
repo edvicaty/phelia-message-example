@@ -128,6 +128,17 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
           </Button>
         }
       />
+      <Section
+        text={
+          tasks ? (
+            tasks.map((task: any) => {
+              return <>{task?.name} </>;
+            })
+          ) : (
+            <></>
+          )
+        }
+      />
     </Message>
   );
 }
