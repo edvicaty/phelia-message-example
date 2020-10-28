@@ -64,7 +64,7 @@ export function GetTasksByTimeModal() {
 //-------------------------------- Message API fetch----------------------
 
 export function GetTasks({ useModal, useState }: PheliaMessageProps) {
-  const [tasks, setTasks] = useState("tasksArr");
+  const [tasks, setTasks] = useState("tasks", []);
 
   let form = null;
   let user: any = null;
@@ -128,17 +128,15 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
           </Button>
         }
       />
-      <Section
-        text={
-          tasks ? (
-            tasks.map((task: any) => {
-              return <>{task?.name} </>;
-            })
-          ) : (
-            <></>
-          )
-        }
-      />
+      <Section>
+        {tasks.length > 0 ? (
+          tasks.map((task: any) => {
+            return <>{task?.name} </>;
+          })
+        ) : (
+          <></>
+        )}
+      </Section>
     </Message>
   );
 }
