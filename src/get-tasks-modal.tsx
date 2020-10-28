@@ -64,7 +64,7 @@ export function GetTasksByTimeModal() {
 //-------------------------------- Message API fetch----------------------
 
 export function GetTasks({ useModal, useState }: PheliaMessageProps) {
-  const [tasks, setTasks] = useState("tasks");
+  const [tasks, setTasks] = useState("tasks", []);
 
   let form = null;
   let user: any = null;
@@ -90,8 +90,8 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     console.log(
       `tasks ------------------`,
       tasks,
-      `feteched ----------`,
-      fetchedTasks
+      `fetched ----------`,
+      fetchedTasks.tasks
     );
   });
 
