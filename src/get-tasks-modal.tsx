@@ -95,13 +95,6 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
   let user: any = null;
   let userToken: string = null;
 
-  const openDataModal = useModal(
-    "modalData",
-    ShowTasksModal,
-    (event) => console.log(event),
-    () => console.log("canceled")
-  );
-
   const openModal = useModal("modal", GetTasksByTimeModal, async (event) => {
     user = event.user;
     form = event.form;
@@ -120,6 +113,14 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     // setTasks(fetchedTasks.tasks);
     // setShowData(true);
     console.log(`fetched ----------`, tasks);
+
+    const openDataModal = useModal(
+      "modal",
+      ShowTasksModal,
+      (event) => console.log(event),
+      () => console.log("canceled")
+    );
+
     setTimeout(openDataModal, 1000);
     // openDataModal(); //{ tasks: fetchedTasks.tasks }
   });
