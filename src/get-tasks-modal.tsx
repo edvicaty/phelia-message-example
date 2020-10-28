@@ -60,13 +60,10 @@ export function GetTasksByTimeModal() {
     </Modal>
   );
 }
-export function ShowTasksModal({ props }: PheliaMessageProps) {
+export function ShowTasksModal() {
   //   console.log(`props ----------------------------`, props);
   return (
-    <Modal
-      title="Users multi select menuaa"
-      // submit="Done"
-    >
+    <Modal title="Users multi select menuaa" submit="Done">
       <Section
         text={`Select a day, default date: yesterday`}
         accessory={
