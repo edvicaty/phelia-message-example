@@ -18,7 +18,8 @@ import {
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 const today = new Date().toISOString().split("T")[0];
 
-//TODO: correct time from UTC to central time
+//TODO: correct time from UTC to central time on today
+// 1603742400 - 1603720800 = rest 21600000
 
 let updatedDate: any = null;
 
@@ -34,9 +35,6 @@ export function MultiUsersSelectMenuModal() {
               await delay(2000);
               //2020-10-26 date format === date
               updatedDate = await Number(new Date(date).getTime());
-              //TODO: correct time from UTC to central time
-              // 1603742400 - 1603720800 = rest 21600000
-              console.log(`updatedDate ------------------`, updatedDate);
             }}
             action="date"
           />
@@ -77,7 +75,6 @@ export function MultiUsersSelectMenuExample({
       });
 
       const usersArr = await User.find({ $or: query });
-      // console.log(`users ----------------------`, usersArr);
       const usersString = usersArr.map((user) => user.clickUpID).toString();
       await getFilteredTasks(usersString);
     }
@@ -90,7 +87,7 @@ export function MultiUsersSelectMenuExample({
     const utcToCentral = updatedDate + 21600000;
     const dateLt = utcToCentral + oneDay;
 
-    const url = `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${updatedDate}&date_updated_lt=${dateLt}&assignees[]=${users}`;
+    const url = `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${utcToCentral}&date_updated_lt=${dateLt}&assignees[]=${users}`;
 
     console.log(`url -------------`, url);
 
