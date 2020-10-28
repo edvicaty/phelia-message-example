@@ -61,7 +61,7 @@ export function GetTasksByTimeModal() {
   );
 }
 export function ShowTasksModal({ props }: PheliaMessageProps) {
-  console.log(`props ----------------------------`, props);
+  //   console.log(`props ----------------------------`, props);
   return (
     <Modal
       title="Users multi select menuaa"
@@ -97,6 +97,12 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
   let user: any = null;
   let userToken: string = null;
 
+  const openDataModal = useModal(
+    "modal-data",
+    ShowTasksModal,
+    (event) => console.log(event),
+    () => console.log("canceled")
+  );
   //retrieving modal data
   const openModal = useModal("modal", GetTasksByTimeModal, async (event) => {
     user = event.user;
@@ -113,17 +119,11 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
 
     const fetchedTasks = await getFilteredTasks(usersString);
 
-    openDataModal({ tasks: fetchedTasks.tasks });
+    openDataModal(); //{ tasks: fetchedTasks.tasks }
     // console.log(`fetched ----------`, fetchedTasks.tasks);
   });
 
   //showing retrieved data modal
-  const openDataModal = useModal(
-    "modal-data",
-    ShowTasksModal,
-    (event) => console.log(event),
-    () => console.log("canceled")
-  );
 
   //retrieving modal data functions
   async function getFilteredTasks(users: string) {
