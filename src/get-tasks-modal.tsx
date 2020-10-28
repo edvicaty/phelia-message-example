@@ -164,9 +164,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
               check tasks
             </Button>
           }>
-          <Text emoji>Hey there :wave:</Text>
-          <Text type="mrkdwn">*Counter:* </Text>
-          <Text type="mrkdwn">*Notifications:* </Text>
+          {tasks?.map((task: any) => task.name)}
         </Section>
       )}
     </Message>
