@@ -93,6 +93,8 @@ export function ShowTasksModal({ props }: PheliaMessageProps) {
 //-------------------------------- Message API fetch----------------------
 
 export function GetTasks({ useModal, useState }: PheliaMessageProps) {
+  const [showData, setShowData] = useState("showData", false);
+
   let form = null;
   let user: any = null;
   let userToken: string = null;
@@ -106,7 +108,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
 
   //retrieving modal data
   const openModal = useModal("modal", GetTasksByTimeModal, async (event) => {
-    const [tasks, setTasks] = useState<any>("tasks-key");
+    const [tasks, setTasks] = useState("tasks-key");
     user = event.user;
     form = event.form;
     const slackID = user.id;
@@ -120,9 +122,10 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     const usersString = usersArr.map((user) => user.clickUpID).toString();
 
     const fetchedTasks = await getFilteredTasks(usersString);
-    setTasks(fetchedTasks.tasks);
+
+    setShowData(true);
     // openDataModal(); //{ tasks: fetchedTasks.tasks }
-    console.log(`fetched ----------`, tasks);
+    // console.log(`fetched ----------`, tasks);
   });
 
   //showing retrieved data modal
@@ -159,6 +162,22 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
           </Button>
         }
       />
+      {showData ? (
+        <Section
+          text="Show data"
+          accessory={
+            <Button
+              action="open-modal-data"
+              onClick={() => {
+                openDataModal();
+              }}>
+              Data
+            </Button>
+          }
+        />
+      ) : (
+        <></>
+      )}
     </Message>
   );
 }
