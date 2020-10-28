@@ -160,7 +160,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
               check tasks
             </Button>
           }>
-          {/* <> {tasks.map((task: any) => task.name)} </> */}
+          <Text>hello</Text>
         </Section>
       )}
     </Message>
