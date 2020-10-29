@@ -6,6 +6,7 @@ export interface IUser extends mongoose.Document {
   slackID: string;
   clickUpToken: string;
   clickUpID: string;
+  isAdmin: boolean;
 }
 
 const userSchema = new Schema(
@@ -14,6 +15,10 @@ const userSchema = new Schema(
     slackID: String,
     clickUpToken: String,
     clickUpID: String,
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: {

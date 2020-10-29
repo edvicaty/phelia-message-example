@@ -46,6 +46,7 @@ import {
   GetTasksByTimeModal,
   ShowTasksModal,
 } from "./get-tasks-modal";
+import { setAdmin, setAdminModal } from "./set-admin-modal";
 
 dotenv.config();
 
@@ -56,6 +57,8 @@ const port = process.env.PORT || 80;
 const client = new Phelia(process.env.SLACK_TOKEN);
 
 client.registerComponents([
+  setAdmin,
+  setAdminModal,
   ShowTasksModal,
   GetTasksByTimeModal,
   GetTasks,
@@ -244,6 +247,7 @@ app.post("/redirect", async function (req, res) {
       slackID: user_id,
       clickUpToken: "",
       clickUpID: "",
+      isAdmin: false,
     });
   }
   await client.openModal(RegistrationModal, trigger_id, { name: user_name });
@@ -261,7 +265,6 @@ app.get("/auth", async function (req, res) {
 
   const user = await getUser(accessToken.data.access_token);
 
-  // is Admin? info wont show up on this request
   await User.findOneAndUpdate(
     { slackID: slackUserIDToRegister },
     {
@@ -279,6 +282,29 @@ app.get("/auth", async function (req, res) {
 app.get("/registration", function (req, res) {
   res.send("Registration completed");
 });
+
+//TODO: implement route to update the ADMIN status
+//TODO: condition get-tasks (from all users) for ADMINs only
+//TODO: implement component and route to get own tasks (for all users)
+
+//set current slack user as admin route (/setAdmin)
+
+app.post("/setadmin", async function (req, res) {
+  await res.sendStatus(200);
+  console.log(`req.body with params ----------`, req.body);
+  const {
+    token,
+    team_id,
+    team_domain,
+    user_id,
+    user_name,
+    api_app_id,
+    trigger_id,
+  } = await req.body;
+
+  // client.postMessage(setAdmin, `${user_id}`);
+});
+
 //--------------------------------------------------------- AUTH END ----------------------------------------------------------------------------------
 
 app.listen(port, () =>
