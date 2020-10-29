@@ -47,6 +47,7 @@ import {
   ShowTasksModal,
 } from "./get-tasks-modal";
 import { setAdmin, setAdminModal } from "./set-admin-modal";
+import { TextMessage } from "./text-message";
 
 dotenv.config();
 
@@ -57,6 +58,7 @@ const port = process.env.PORT || 80;
 const client = new Phelia(process.env.SLACK_TOKEN);
 
 client.registerComponents([
+  TextMessage,
   setAdmin,
   setAdminModal,
   ShowTasksModal,
@@ -300,9 +302,19 @@ app.post("/setadmin", async function (req, res) {
     user_name,
     api_app_id,
     trigger_id,
+    text,
   } = await req.body;
 
-  // client.postMessage(setAdmin, `${user_id}`);
+  let message: string = null;
+
+  if (text === process.env.SLACK_ADMIN_TOKEN) {
+    message = "hello";
+    client.postMessage(TextMessage, `${user_id}`, { message });
+  } else {
+    message = "hello2";
+
+    client.postMessage(TextMessage, `${user_id}`, { message });
+  }
 });
 
 //--------------------------------------------------------- AUTH END ----------------------------------------------------------------------------------
