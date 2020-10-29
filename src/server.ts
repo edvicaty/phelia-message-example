@@ -46,7 +46,7 @@ import {
   GetTasksByTimeModal,
   ShowTasksModal,
 } from "./get-tasks-modal";
-import { setAdmin, setAdminModal } from "./set-admin-modal";
+// import { setAdmin, setAdminModal } from "./set-admin-modal";
 import { TextMessage } from "./text-message";
 
 dotenv.config();
@@ -59,8 +59,8 @@ const client = new Phelia(process.env.SLACK_TOKEN);
 
 client.registerComponents([
   TextMessage,
-  setAdmin,
-  setAdminModal,
+  // setAdmin,
+  // setAdminModal,
   ShowTasksModal,
   GetTasksByTimeModal,
   GetTasks,
@@ -169,7 +169,6 @@ mongoose
 
 //--------------------------------------------------------- routes START ----------------------------------------------------------------------------------
 
-//On slack app you will define post routes for slash commands, here is te POST route corresponding to /randomImg
 app.post("/test", async function (req, res) {
   //A response with status 200 is needed to prevent slack's incomplete message feedback
   await res.sendStatus(200);
@@ -191,12 +190,14 @@ app.post("/test", async function (req, res) {
 
   //You can also set a modal to be oppened. It's recommended to pass as props the data needed to that modal to load (e.g. here we are passing the user_name as the prop 'name')
 
-  // await client.openModal(CreateFileModal, trigger_id, { name: user_name });
-  // await client.openModal(CreateFileModal, trigger_id, { name: user_name });
+  const user = await User.findOne({ slackID: user_id });
 
-  // client.postMessage(CreateTask, `${user_id}`);
-  // client.postMessage(BirthdayPicker, `${user_id}`);
-  client.postMessage(GetTasks, `${user_id}`);
+  if (user.isAdmin) {
+    client.postMessage(GetTasks, `${user_id}`);
+  } else {
+    const message = `You need to have ADMIN status to be able to check the tasks of all users. Try /setAdmin [token] to set yourself as an ADMIN. \n If you want to check your own tasks try /get-my-tasks command`;
+    client.postMessage(TextMessage, `${user_id}`, { message });
+  }
 });
 //--------------------------------------------------------- routes END ----------------------------------------------------------------------------------
 
@@ -285,15 +286,13 @@ app.get("/registration", function (req, res) {
   res.send("Registration completed");
 });
 
-//TODO: implement route to update the ADMIN status
 //TODO: condition get-tasks (from all users) for ADMINs only
 //TODO: implement component and route to get own tasks (for all users)
 
 //set current slack user as admin route (/setAdmin)
-
 app.post("/setadmin", async function (req, res) {
   await res.sendStatus(200);
-  console.log(`req.body with params ----------`, req.body);
+
   const {
     token,
     team_id,
@@ -307,15 +306,12 @@ app.post("/setadmin", async function (req, res) {
 
   let message: string = null;
 
-  console.log(`env ---------`, process.env.SLACK_ADMIN_TOKEN);
-  console.log(`token ---------`, text);
-
-  if (text == process.env.SLACK_ADMIN_TOKEN) {
+  if (text === process.env.SLACK_ADMIN_TOKEN) {
+    await User.findOneAndUpdate({ slackID: user_id }, { isAdmin: true });
     message = `${user_name} is now admin`;
     client.postMessage(TextMessage, `${user_id}`, { message });
   } else {
     message = "Wrong token";
-
     client.postMessage(TextMessage, `${user_id}`, { message });
   }
 });

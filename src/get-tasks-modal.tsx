@@ -140,7 +140,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
         accessory={
           <Button
             action="open-modal"
-            onClick={() => {
+            onClick={async () => {
               openModal();
             }}>
             Get tasks
