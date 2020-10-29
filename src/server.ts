@@ -299,8 +299,6 @@ app.get("/registration", function (req, res) {
   res.send("Registration completed");
 });
 
-//TODO: be able to edit ADMIN status. modify the component loaded with setadmin to list and modify admins
-
 //set current slack user as admin route (/setAdmin)
 app.post("/setadmin", async function (req, res) {
   await res.sendStatus(200);
@@ -328,7 +326,7 @@ app.post("/setadmin", async function (req, res) {
   }
 });
 
-//admin panel to list and modify slack admins
+//admin panel to list and modify slack admins (/admin-panel)
 app.post("/admin-panel", async function (req, res) {
   await res.sendStatus(200);
 

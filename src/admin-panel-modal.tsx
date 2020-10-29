@@ -14,42 +14,46 @@ import {
   Text,
   DatePicker,
   Actions,
+  Checkboxes,
+  Option,
 } from "phelia";
+import { ConversationsSelectMenuModal } from "./example-messages";
 
 //-------------------------------- Modal ------------------------------
-
+//TODO: setup modal logic
 export function AdminPanelModal({ useState }: PheliaMessageProps) {
-  const [showForm, setShowForm] = useState("showForm", false);
+  const [showData, setShowData] = useState("showData", false);
   return (
     <Modal title={`A fancy pants modal`} submit="cancel">
-      {!showForm && (
+      {!showData && (
         <Actions>
           <Button
             // url="https://app.clickup.com/api?client_id=RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V&redirect_uri=https://phelia-test-slack.herokuapp.com/auth"
-            action="showForm"
+            action="showData"
             onClick={() => {
               // console.log(`event ------`, e);
               // console.log(`props from click event ------`, props);
-              setShowForm(true);
+              setShowData(true);
             }}>
             {`show form `}
           </Button>
         </Actions>
       )}
 
-      {showForm && (
+      {showData && (
         <>
           <Actions>
-            <Button
-              // url="https://app.clickup.com/api?client_id=RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V&redirect_uri=https://phelia-test-slack.herokuapp.com/auth"
-              action="showForm"
-              onClick={() => {
-                // console.log(`event ------`, e);
-                // console.log(`props from click event ------`, props);
-                setShowForm(true);
-              }}>
-              {`show form `}
-            </Button>
+            <Input label="Some checkboxes">
+              <Checkboxes action="checkboxes">
+                <Option value="option-a">option a</Option>
+
+                <Option value="option-b" selected>
+                  option b
+                </Option>
+
+                <Option value="option-c">option c</Option>
+              </Checkboxes>
+            </Input>
           </Actions>
         </>
       )}
@@ -67,6 +71,7 @@ export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
   const openModal = useModal("modal", AdminPanelModal, async (event) => {
     user = event.user;
     form = event.form;
+    console.log(`event -----------`, event);
     const slackID = user.id;
     const currentUser = await User.findOne({ slackID });
     userToken = currentUser.clickUpToken;
