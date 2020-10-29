@@ -120,11 +120,9 @@ export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
         <Text>Opens the ADMIN panel. Click the button to begin</Text>
       </Section>
       {cancelled && (
-        <Input label="ADMIN PANEL CANCELLED">
-          <Section>
-            <Text>No changes were made to admin status</Text>
-          </Section>
-        </Input>
+        <Section>
+          <Text>No changes were made to admin status</Text>
+        </Section>
       )}
     </Message>
   );
