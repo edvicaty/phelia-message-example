@@ -121,7 +121,9 @@ export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
       </Section>
       {cancelled && (
         <Section>
-          <Text>No changes were made to admin status</Text>
+          <Text type="mrkdwn">
+            ```Update Cancelled: No changes were made to admin status```
+          </Text>
         </Section>
       )}
     </Message>
