@@ -33,6 +33,7 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
             onClick={() => {
               // console.log(`event ------`, e);
               // console.log(`props from click event ------`, props);
+              console.log(`clicked ------`);
               setShowData(true);
             }}>
             {`show form `}
