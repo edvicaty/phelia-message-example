@@ -307,7 +307,7 @@ app.post("/setadmin", async function (req, res) {
 
   let message: string = null;
 
-  if (text === process.env.SLACK_ADMIN_TOKEN) {
+  if (text === String(process.env.SLACK_ADMIN_TOKEN)) {
     message = "hello";
     client.postMessage(TextMessage, `${user_id}`, { message });
   } else {
