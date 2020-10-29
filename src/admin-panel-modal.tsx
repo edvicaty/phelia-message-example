@@ -22,10 +22,10 @@ import { ConversationsSelectMenuModal } from "./example-messages";
 //-------------------------------- Modal ------------------------------
 //TODO: setup modal logic
 export function AdminPanelModal({ useState }: PheliaMessageProps) {
-  const [showData, setShowData] = useState("showData", false);
+  const [showForm, setShowForm] = useState("showForm", false);
   return (
     <Modal title={`A fancy pants modal`} submit="cancel">
-      {!showData && (
+      {!showForm && (
         <Actions>
           <Button
             // url="https://app.clickup.com/api?client_id=RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V&redirect_uri=https://phelia-test-slack.herokuapp.com/auth"
@@ -33,14 +33,14 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
             onClick={() => {
               // console.log(`event ------`, e);
               // console.log(`props from click event ------`, props);
-              setShowData(true);
+              setShowForm(true);
             }}>
             {`show form `}
           </Button>
         </Actions>
       )}
 
-      {showData && (
+      {showForm && (
         <>
           <Actions>
             <Input label="Some checkboxes">
