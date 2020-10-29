@@ -42,7 +42,8 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
 
       {showData && (
         <Section>
-          <Input label="Some checkboxes">
+          <Text>hello</Text>
+          {/* <Input label="Some checkboxes">
             <Checkboxes action="checkboxes">
               <Option value="option-a">option a</Option>
 
@@ -52,7 +53,7 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
 
               <Option value="option-c">option c</Option>
             </Checkboxes>
-          </Input>
+          </Input> */}
         </Section>
       )}
     </Modal>
