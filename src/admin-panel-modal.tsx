@@ -19,6 +19,8 @@ import {
   TextField,
 } from "phelia";
 
+let submitted = false;
+
 //-------------------------------- Modal ------------------------------
 export function AdminPanelModal({ useState }: PheliaMessageProps) {
   const [showData, setShowData] = useState("showData", false);
@@ -38,7 +40,8 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
             action="showData"
             onClick={async () => {
               await fetchUsers();
-              setShowData(true);
+              await setShowData(true);
+              submitted = true;
             }}>
             Show current ADMINS
           </Button>
@@ -69,28 +72,34 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
 //-------------------------------- Message API fetch----------------------
 
 export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
+  const [cancelled, setCancelled] = useState("cancelled", false);
+
   let form = null;
   let user: any = null;
   let userToken: string = null;
   let admins: any = null;
   //TODO: update ADMIN status
   const openModal = useModal("modal", AdminPanelModal, async (event) => {
-    user = event.user;
-    form = event.form;
-    admins = event.form.checkboxes;
+    if (submitted) {
+      user = event.user;
+      form = event.form;
+      admins = event.form.checkboxes;
 
-    //update permissions
-    await User.update({}, { $set: { isAdmin: false } }, { multi: true });
+      //update permissions
+      await User.update({}, { $set: { isAdmin: false } }, { multi: true });
 
-    const query = admins.map((id: any) => {
-      return { slackID: id };
-    });
+      const query = admins.map((id: any) => {
+        return { slackID: id };
+      });
 
-    await User.update(
-      { $or: query },
-      { $set: { isAdmin: true } },
-      { multi: true }
-    );
+      await User.update(
+        { $or: query },
+        { $set: { isAdmin: true } },
+        { multi: true }
+      );
+    } else {
+      setCancelled(true);
+    }
   });
 
   //retrieving modal data functions
@@ -109,6 +118,13 @@ export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
         }>
         <Text>Opens the ADMIN panel. Click the button to begin</Text>
       </Section>
+      {cancelled && (
+        <Input label="ADMIN PANEL CANCELLED">
+          <Section>
+            <Text>No changes were made to admin status</Text>
+          </Section>
+        </Input>
+      )}
     </Message>
   );
 }
