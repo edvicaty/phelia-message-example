@@ -260,7 +260,8 @@ app.get("/auth", async function (req, res) {
   );
 
   const user = await getUser(accessToken.data.access_token);
-  console.log(`user data ----------------------`, user.data);
+
+  // is Admin? info wont show up on this request
   await User.findOneAndUpdate(
     { slackID: slackUserIDToRegister },
     {
