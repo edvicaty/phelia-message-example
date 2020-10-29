@@ -44,10 +44,14 @@ import { CreateTask, CreateTaskModal } from "./create-task-modal";
 import {
   GetTasks,
   GetTasksByTimeModal,
-  ShowTasksModal,
+  // ShowTasksModal,
 } from "./get-tasks-modal";
 // import { setAdmin, setAdminModal } from "./set-admin-modal";
 import { TextMessage } from "./text-message";
+import {
+  GetTasksCurrentUser,
+  GetTasksCurrentUserModal,
+} from "./get-tasks-current-user-modal";
 
 dotenv.config();
 
@@ -58,10 +62,12 @@ const port = process.env.PORT || 80;
 const client = new Phelia(process.env.SLACK_TOKEN);
 
 client.registerComponents([
-  TextMessage,
   // setAdmin,
   // setAdminModal,
-  ShowTasksModal,
+  // ShowTasksModal,
+  TextMessage,
+  GetTasksCurrentUser,
+  GetTasksCurrentUserModal,
   GetTasksByTimeModal,
   GetTasks,
   CreateTaskModal,
@@ -169,11 +175,10 @@ mongoose
 
 //--------------------------------------------------------- routes START ----------------------------------------------------------------------------------
 
-app.post("/test", async function (req, res) {
-  //A response with status 200 is needed to prevent slack's incomplete message feedback
+//get tasks admin
+app.post("/get-tasks-admin", async function (req, res) {
   await res.sendStatus(200);
 
-  //The body of the request will contain the following data:
   const {
     token,
     team_id,
@@ -184,12 +189,6 @@ app.post("/test", async function (req, res) {
     trigger_id,
   } = await req.body;
 
-  // You can post a message to a certain user or channel, te first parameter of the following function is the component to be loaded, the second parameter corresponds to
-  // the user or channel in which the message will be posted. You can use ID's (recommended for users) or #channel for channel (e.g. #general)
-  // client.postMessage(HomeApp, "U01CMED2XF1");
-
-  //You can also set a modal to be oppened. It's recommended to pass as props the data needed to that modal to load (e.g. here we are passing the user_name as the prop 'name')
-
   const user = await User.findOne({ slackID: user_id });
 
   if (user.isAdmin) {
@@ -198,6 +197,23 @@ app.post("/test", async function (req, res) {
     const message = `You need to have ADMIN status to be able to check the tasks of all users. Try /setAdmin [token] to set yourself as an ADMIN. \n If you want to check your own tasks try /get-my-tasks command`;
     client.postMessage(TextMessage, `${user_id}`, { message });
   }
+});
+
+//get tasks current user
+app.post("/get-tasks-admin", async function (req, res) {
+  await res.sendStatus(200);
+
+  const {
+    token,
+    team_id,
+    team_domain,
+    user_id,
+    user_name,
+    api_app_id,
+    trigger_id,
+  } = await req.body;
+
+  client.postMessage(GetTasksCurrentUser, `${user_id}`);
 });
 //--------------------------------------------------------- routes END ----------------------------------------------------------------------------------
 
@@ -286,8 +302,8 @@ app.get("/registration", function (req, res) {
   res.send("Registration completed");
 });
 
-//TODO: condition get-tasks (from all users) for ADMINs only
 //TODO: implement component and route to get own tasks (for all users)
+//TODO: be able to edit ADMIN status. modify the component loaded with setadmin to list and modify admins
 
 //set current slack user as admin route (/setAdmin)
 app.post("/setadmin", async function (req, res) {
