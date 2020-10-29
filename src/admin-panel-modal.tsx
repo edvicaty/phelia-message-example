@@ -24,13 +24,22 @@ import { ConversationsSelectMenuModal } from "./example-messages";
 //TODO: setup modal logic
 export function AdminPanelModal({ useState }: PheliaMessageProps) {
   const [showData, setShowData] = useState("showData", false);
+  const [users, setUsers] = useState<Array<string>>("setUsers");
+
+  //fetch Users from DB
+  const fetchUsers = async () => {
+    const usersArr = await User.find();
+    console.log(`usersARR------------`, usersArr);
+  };
+
   return (
     <Modal title={`Admin Panel`} submit="submit">
       {!showData && (
         <Actions>
           <Button
             action="showData"
-            onClick={() => {
+            onClick={async () => {
+              await fetchUsers();
               setShowData(true);
             }}>
             Show current ADMINS
@@ -38,28 +47,20 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
         </Actions>
       )}
 
-      {showData && (
+      {showData && users && (
         <>
           <Input label="Some checkboxes">
             <Checkboxes action="checkboxes">
-              <Option value="option-a">option a</Option>
-
-              <Option value="option-b" selected>
-                option b
-              </Option>
-
-              <Option value="option-c">option c</Option>
+              {users.map((user: any) => {
+                return (
+                  <Option
+                    value={`${user.username}`}
+                    selected={user.isAdmin ? true : false}>
+                    option b
+                  </Option>
+                );
+              })}
             </Checkboxes>
-          </Input>
-          <Input label="Select menu">
-            <MultiSelectMenu
-              onSelect={async (event) => {
-                console.log(`event --------------`, event);
-              }}
-              type="users"
-              action="selection"
-              placeholder="A placeholder"
-            />
           </Input>
         </>
       )}
