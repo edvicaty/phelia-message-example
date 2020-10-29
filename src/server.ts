@@ -6,7 +6,6 @@ import Phelia from "phelia";
 import axios from "axios";
 import mongoose from "mongoose";
 import User from "./models/User";
-
 import {
   BirthdayPicker,
   ChannelsSelectMenuExample,
@@ -41,17 +40,13 @@ import {
 } from "./example-messages";
 import { RegistrationModal } from "./registration-modal";
 import { CreateTask, CreateTaskModal } from "./create-task-modal";
-import {
-  GetTasks,
-  GetTasksByTimeModal,
-  // ShowTasksModal,
-} from "./get-tasks-modal";
-// import { setAdmin, setAdminModal } from "./set-admin-modal";
+import { GetTasks, GetTasksByTimeModal } from "./get-tasks-modal";
 import { TextMessage } from "./text-message";
 import {
   GetTasksCurrentUser,
   GetTasksCurrentUserModal,
 } from "./get-tasks-current-user-modal";
+import { AdminPanel, AdminPanelModal } from "./admin-panel-modal";
 
 dotenv.config();
 
@@ -66,6 +61,8 @@ client.registerComponents([
   // setAdminModal,
   // ShowTasksModal,
   TextMessage,
+  AdminPanel,
+  AdminPanelModal,
   GetTasksCurrentUser,
   GetTasksCurrentUserModal,
   GetTasksByTimeModal,
@@ -272,7 +269,7 @@ app.post("/redirect", async function (req, res) {
   await client.openModal(RegistrationModal, trigger_id, { name: user_name });
 });
 
-//auth to bind ClickUp's API token to DB. The DB will relate slack's user ID to clickUP access token for future post request to ClickUp API
+//auth to bind ClickUp's API token to DB.
 app.get("/auth", async function (req, res) {
   const authCode = await req.query.code;
 
@@ -302,7 +299,6 @@ app.get("/registration", function (req, res) {
   res.send("Registration completed");
 });
 
-//TODO: implement component and route to get own tasks (for all users)
 //TODO: be able to edit ADMIN status. modify the component loaded with setadmin to list and modify admins
 
 //set current slack user as admin route (/setAdmin)
@@ -328,6 +324,31 @@ app.post("/setadmin", async function (req, res) {
     client.postMessage(TextMessage, `${user_id}`, { message });
   } else {
     message = "Wrong token";
+    client.postMessage(TextMessage, `${user_id}`, { message });
+  }
+});
+
+//admin panel to list and modify slack admins
+app.post("/admin-panel", async function (req, res) {
+  await res.sendStatus(200);
+
+  const {
+    token,
+    team_id,
+    team_domain,
+    user_id,
+    user_name,
+    api_app_id,
+    trigger_id,
+    text,
+  } = await req.body;
+
+  const user = await User.findOne({ slackID: user_id });
+
+  if (user.isAdmin) {
+    client.postMessage(AdminPanel, `${user_id}`);
+  } else {
+    const message = `You need to have ADMIN status to be able to use this command. Try /setAdmin [token] to set yourself as an ADMIN. \n If you want to check your own tasks try /get-my-tasks command`;
     client.postMessage(TextMessage, `${user_id}`, { message });
   }
 });
