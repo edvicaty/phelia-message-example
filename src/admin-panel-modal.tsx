@@ -78,7 +78,7 @@ export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
   let user: any = null;
   let userToken: string = null;
   let admins: any = null;
-  //TODO: update ADMIN status
+
   const openModal = useModal("modal", AdminPanelModal, async (event) => {
     if (submitted) {
       user = event.user;
