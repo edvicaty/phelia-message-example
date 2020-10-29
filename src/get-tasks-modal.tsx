@@ -143,10 +143,10 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
             onClick={async () => {
               openModal();
             }}>
-            Get tasks from different users. Click the button to begin
+            Get tasks
           </Button>
         }>
-        <Text>Get tasks</Text>
+        <Text>Get tasks from different users. Click the button to begin</Text>
       </Section>
 
       {showForm && tasks && (
