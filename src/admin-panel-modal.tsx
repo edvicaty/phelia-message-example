@@ -25,7 +25,7 @@ import { ConversationsSelectMenuModal } from "./example-messages";
 export function AdminPanelModal({ useState }: PheliaMessageProps) {
   const [showData, setShowData] = useState("showData", false);
   return (
-    <Modal title={`A fancy pants modal`} submit="cancel">
+    <Modal title={`A fancy pants modal`} submit="submit">
       {!showData && (
         <Actions>
           <Button
@@ -44,12 +44,6 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
 
       {showData && (
         <>
-          <Input label="Expiration date">
-            <DatePicker action="date" />
-          </Input>
-          <Input label="Little bit">
-            <TextField action="little-bit" placeholder="just a little bit" />
-          </Input>
           <Input label="Some checkboxes">
             <Checkboxes action="checkboxes">
               <Option value="option-a">option a</Option>
@@ -60,13 +54,6 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
 
               <Option value="option-c">option c</Option>
             </Checkboxes>
-          </Input>
-          <Input label="Summary">
-            <TextField
-              action="summary"
-              placeholder="type something here"
-              multiline
-            />
           </Input>
         </>
       )}
