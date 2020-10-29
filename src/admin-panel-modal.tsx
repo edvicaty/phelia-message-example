@@ -25,19 +25,15 @@ import { ConversationsSelectMenuModal } from "./example-messages";
 export function AdminPanelModal({ useState }: PheliaMessageProps) {
   const [showData, setShowData] = useState("showData", false);
   return (
-    <Modal title={`A fancy pants modal`} submit="submit">
+    <Modal title={`Admin Panel`} submit="submit">
       {!showData && (
         <Actions>
           <Button
-            // url="https://app.clickup.com/api?client_id=RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V&redirect_uri=https://phelia-test-slack.herokuapp.com/auth"
             action="showData"
             onClick={() => {
-              // console.log(`event ------`, e);
-              // console.log(`props from click event ------`, props);
-              console.log(`clicked ------`);
               setShowData(true);
             }}>
-            {`show form `}
+            Show current ADMINS
           </Button>
         </Actions>
       )}
@@ -54,6 +50,16 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
 
               <Option value="option-c">option c</Option>
             </Checkboxes>
+          </Input>
+          <Input label="Select menu">
+            <MultiSelectMenu
+              onSelect={async (event) => {
+                console.log(`event --------------`, event);
+              }}
+              type="users"
+              action="selection"
+              placeholder="A placeholder"
+            />
           </Input>
         </>
       )}
