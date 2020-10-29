@@ -15,10 +15,7 @@ const userSchema = new Schema(
     slackID: String,
     clickUpToken: String,
     clickUpID: String,
-    isAdmin: {
-      type: Boolean,
-      default: false,
-    },
+    isAdmin: Boolean,
   },
   {
     timestamps: {

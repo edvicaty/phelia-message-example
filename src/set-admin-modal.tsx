@@ -66,7 +66,7 @@ export function setAdmin({ useModal, useState }: PheliaMessageProps) {
     const teamID = 8509000; //worskpace ID
     const page = 0;
     const oneDay = 86400000;
-    const utcToCentral = updatedDate + 21600000;
+    const utcToCentral = 21600000;
     const dateLt = utcToCentral + oneDay;
 
     const url = `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${utcToCentral}&date_updated_lt=${dateLt}&assignees[]=${users}`;
