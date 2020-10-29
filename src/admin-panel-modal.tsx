@@ -18,10 +18,8 @@ import {
   Option,
   TextField,
 } from "phelia";
-import { ConversationsSelectMenuModal } from "./example-messages";
 
 //-------------------------------- Modal ------------------------------
-//TODO: setup modal logic
 export function AdminPanelModal({ useState }: PheliaMessageProps) {
   const [showData, setShowData] = useState("showData", false);
   const [users, setUsers] = useState<Array<string>>("setUsers");
@@ -33,7 +31,7 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
   };
 
   return (
-    <Modal title={`Admin Panel`} submit="submit">
+    <Modal title={`Admin Panel`} submit="Update Admin permissions">
       {!showData && (
         <Actions>
           <Button
@@ -49,7 +47,7 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
 
       {showData && users && (
         <>
-          <Input label="Some checkboxes">
+          <Input label="Current Admins (checkbox enabled):">
             <Checkboxes action="checkboxes">
               {users.map((user: any) => {
                 return (
@@ -74,14 +72,25 @@ export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
   let form = null;
   let user: any = null;
   let userToken: string = null;
-
+  let admins: any = null;
+  //TODO: update ADMIN status
   const openModal = useModal("modal", AdminPanelModal, async (event) => {
     user = event.user;
     form = event.form;
-    console.log(`event -----------`, event);
-    const slackID = user.id;
-    const currentUser = await User.findOne({ slackID });
-    userToken = currentUser.clickUpToken;
+    admins = event.form.checkboxes;
+
+    //update permissions
+    await User.update({}, { $set: { isAdmin: false } }, { multi: true });
+
+    const query = admins.map((id: any) => {
+      return { slackID: id };
+    });
+
+    await User.update(
+      { $or: query },
+      { $set: { isAdmin: true } },
+      { multi: true }
+    );
   });
 
   //retrieving modal data functions
