@@ -72,7 +72,7 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
 //-------------------------------- Message API fetch----------------------
 
 export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
-  const [cancelled, setCancelled] = useState("cancelled", false);
+  const [cancelled, setCancelled] = useState<boolean>("cancelled", false);
 
   let form = null;
   let user: any = null;
@@ -97,6 +97,7 @@ export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
         { $set: { isAdmin: true } },
         { multi: true }
       );
+      submitted = false;
     } else {
       setCancelled(true);
     }
