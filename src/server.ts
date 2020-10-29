@@ -200,7 +200,7 @@ app.post("/get-tasks-admin", async function (req, res) {
 });
 
 //get tasks current user
-app.post("/get-tasks-admin", async function (req, res) {
+app.post("/get-tasks-user", async function (req, res) {
   await res.sendStatus(200);
 
   const {
