@@ -94,7 +94,7 @@ export function GetTasksCurrentUser({
             onClick={async () => {
               openModal();
             }}>
-            Get tasks from different users. Click the button to begin
+            Get tasks from current user. Click the button to begin
           </Button>
         }>
         <Text>Get tasks</Text>
