@@ -28,8 +28,8 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
 
   //fetch Users from DB
   const fetchUsers = async () => {
-    const usersArr = await User.find();
-    console.log(`usersARR------------`, usersArr);
+    const usersArr: any = await User.find();
+    setUsers(usersArr);
   };
 
   return (
@@ -54,9 +54,9 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
               {users.map((user: any) => {
                 return (
                   <Option
-                    value={`${user.username}`}
+                    value={`${user.slackID}`}
                     selected={user.isAdmin ? true : false}>
-                    option b
+                    {user.username}
                   </Option>
                 );
               })}
