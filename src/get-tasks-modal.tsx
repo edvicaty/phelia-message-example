@@ -16,22 +16,6 @@ import {
   Actions,
 } from "phelia";
 
-//get yesterday function
-// let yesterday: string = null;
-// let date = new Date();
-// date.setDate(date.getDate() - 1);
-// let day = date.getDate();
-// let month = date.getMonth() + 1;
-// let year = date.getFullYear();
-// if (month < 10) {
-//   yesterday = `${year}-0${month}-${day}`;
-// } else {
-//   yesterday = `${year}-${month}-${day}`;
-// }
-
-//correction by utc to central and minus one day
-// let updatedDate: any = Number(new Date().getTime()) - 21600000 - 86400000;
-
 let updatedDate: any = null;
 
 //-------------------------------- Modal ------------------------------
@@ -61,31 +45,6 @@ export function GetTasksByTimeModal() {
     </Modal>
   );
 }
-// export function ShowTasksModal() {
-//   return (
-//     <Modal title="Users multi select menu" submit="Submit">
-//       <Section
-//         text={`Select a day, default date: yesterday`}
-//         accessory={
-//           <DatePicker
-//             // initialDate={yesterday}
-//             onSelect={async ({ user, date }) => {
-//               updatedDate = await Number(new Date(date).getTime());
-//             }}
-//             action="date"
-//           />
-//         }
-//       />
-//       <Input label="Select menu">
-//         <MultiSelectMenu
-//           type="users"
-//           action="selection"
-//           placeholder="A placeholder"
-//         />
-//       </Input>
-//     </Modal>
-//   );
-// }
 
 //-------------------------------- Message API fetch----------------------
 

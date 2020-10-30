@@ -57,9 +57,6 @@ const port = process.env.PORT || 80;
 const client = new Phelia(process.env.SLACK_TOKEN);
 
 client.registerComponents([
-  // setAdmin,
-  // setAdminModal,
-  // ShowTasksModal,
   TextMessage,
   AdminPanel,
   AdminPanelModal,
@@ -111,46 +108,6 @@ app.post(
 const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
 
 app.use("/events", slackEvents.requestListener());
-
-//post HomeApp component when app is opened
-// slackEvents.on("app_home_opened", client.appHomeHandler(HomeApp));
-
-//Here are the documentation's base components to be implemented. For some of them to work, user data will be required (pass user data as props)
-
-// client.postMessage(RandomImage, "U01CMED2XF1"); //main account user ID for edvicaty. User ID or @edvicaty will work. ID recommended
-// client.postMessage(RandomImage, "C01D8BH4L2G"); //using channel's ID get from slack API https://api.slack.com/methods/conversations.list/test token is bot oauth token.
-// client.postMessage(BirthdayPicker, "#general"); //using channel's name with # prefix will work too
-// client.postMessage(RandomImage, "general"); //using channel's name without prefix will work. Not recommended
-// client.postMessage(BirthdayPicker, "U01CMED2XF1");
-// client.postMessage(ChannelsSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(ChannelsSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(ConversationsSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(ConversationsSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(Counter, "U01CMED2XF1");
-// client.postMessage(ExternalSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(ExternalSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(Greeter, "U01CMED2XF1");
-// client.postMessage(ModalExample, "U01CMED2XF1");
-// client.postMessage(MultiChannelsSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(MultiChannelsSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(MultiConversationsSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(MultiConversationsSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(MultiExternalSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(MultiExternalSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(MultiStaticSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(MultiStaticSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(MultiUsersSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(MultiUsersSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(MyModal, "U01CMED2XF1");
-// client.postMessage(OverflowMenuExample, "U01CMED2XF1");
-// client.postMessage(RadioButtonExample, "U01CMED2XF1");
-// client.postMessage(RadioButtonModal, "U01CMED2XF1");
-// client.postMessage(RandomImage, "U01CMED2XF1");
-// client.postMessage(StaticSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(StaticSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(UsersSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(UsersSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(HomeApp, "U01CMED2XF1");
 
 //loading body parser before phelia components will crash the app
 app.use(bodyParser.json());
