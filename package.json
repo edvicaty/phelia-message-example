@@ -15,6 +15,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
+    "@google-cloud/firestore": "^4.6.1",
     "@slack/interactive-messages": "^1.5.0",
     "@types/mongoose": "^5.7.36",
     "@types/react-dom": "^16.9.6",
@@ -34,6 +35,7 @@
     "build": "tsc",
     "clean": "yarn rimraf dist",
     "prestart": "yarn build",
+    "preinstall": "node gcpSetup.js",
     "start": "node dist/server.js",
     "deploy": "git add . && git commit -m Heroku && git push heroku master"
   },

@@ -4,8 +4,6 @@ import { createEventAdapter } from "@slack/events-api";
 import bodyParser from "body-parser";
 import Phelia from "phelia";
 import axios from "axios";
-import mongoose from "mongoose";
-import User from "./models/User";
 import {
   BirthdayPicker,
   ChannelsSelectMenuExample,
@@ -47,6 +45,7 @@ import {
   GetTasksCurrentUserModal,
 } from "./get-tasks-current-user-modal";
 import { AdminPanel, AdminPanelModal } from "./admin-panel-modal";
+import { Firestore } from "@google-cloud/firestore";
 
 dotenv.config();
 
@@ -115,16 +114,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //--------------------------------------------------------- config & imports END ----------------------------------------------------------------------------------
 
 //----------------------------------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ----------- mongoDB START ----------------------------------------------------------------------------------
-mongoose
-  .connect(process.env.DB, { useNewUrlParser: true })
-  .then((x) => {
-    console.log(
-      `Connected to Mongo! Database name: "${x.connections[0].name}"`
-    );
-  })
-  .catch((err) => {
-    console.error("Error connecting to mongo", err);
-  });
+
+//TODO: check firestore implementation -----------------------------------------------
+const db = new Firestore({
+  projectId: "octavia-bot-test",
+  keyFilename:
+    process.env.GOOGLE_APPLICATION_CREDENTIALS || process.env.GCP_KEY_FILE,
+});
+
 //--------------------------------------------------------- mongoDB END ------------------------------------------------------------------------------------
 
 //--------------------------------------------------------- routes START ----------------------------------------------------------------------------------
@@ -142,10 +139,11 @@ app.post("/get-tasks-admin", async function (req, res) {
     api_app_id,
     trigger_id,
   } = await req.body;
+  //TODO: check firestore implementation -----------------------------------------------
+  const userRef = await db.collection(`user`).doc(`${user_id}`);
+  const user = await userRef.get();
 
-  const user = await User.findOne({ slackID: user_id });
-
-  if (user.isAdmin) {
+  if (user.exists && user.data().isAdmin) {
     client.postMessage(GetTasks, `${user_id}`);
   } else {
     const message = `You need to have ADMIN status to be able to check the tasks of all users. Try /setAdmin [token] to set yourself as an ADMIN. \n If you want to check your own tasks try /get-my-tasks command`;
@@ -213,9 +211,12 @@ app.post("/redirect", async function (req, res) {
 
   slackUserIDToRegister = user_id;
 
-  const user = await User.findOne({ slackID: user_id });
-  if (!user) {
-    User.create({
+  //TODO: check firestore implementation -----------------------------------------------
+  //name of the docs corresponds to the user slack ID
+  const userRef = await db.collection(`users`).doc(`${user_id}`);
+  const user = await userRef.get();
+  if (!user.exists) {
+    await userRef.set({
       username: user_name,
       slackID: user_id,
       clickUpToken: "",
@@ -238,13 +239,11 @@ app.get("/auth", async function (req, res) {
 
   const user = await getUser(accessToken.data.access_token);
 
-  await User.findOneAndUpdate(
-    { slackID: slackUserIDToRegister },
-    {
-      clickUpToken: accessToken.data.access_token,
-      clickUpID: user.data.user.id,
-    }
-  );
+  //TODO: check firestore implementation -----------------------------------------------
+  await db.collection(`users`).doc(`${slackUserIDToRegister}`).update({
+    clickUpToken: accessToken.data.access_token,
+    clickUpID: user.data.user.id,
+  });
 
   slackUserIDToRegister = null;
 
@@ -274,7 +273,7 @@ app.post("/setadmin", async function (req, res) {
   let message: string = null;
 
   if (text === process.env.SLACK_ADMIN_TOKEN) {
-    await User.findOneAndUpdate({ slackID: user_id }, { isAdmin: true });
+    await db.collection(`users`).doc(`${user_id}`).update({ isAdmin: true });
     message = `${user_name} is now admin`;
     client.postMessage(TextMessage, `${user_id}`, { message });
   } else {
@@ -298,9 +297,11 @@ app.post("/admin-panel", async function (req, res) {
     text,
   } = await req.body;
 
-  const user = await User.findOne({ slackID: user_id });
+  //TODO: check firestore implementation -----------------------------------------------
+  const userRef = await db.collection(`users`).doc(`${user_id}`);
+  const user = await userRef.get();
 
-  if (user.isAdmin) {
+  if (user.exists && user.data().isAdmin) {
     client.postMessage(AdminPanel, `${user_id}`);
   } else {
     const message = `You need to have ADMIN status to be able to use this command. Try /setAdmin [token] to set yourself as an ADMIN. \n If you want to check your own tasks try /get-my-tasks command`;
