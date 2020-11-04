@@ -152,6 +152,12 @@ app.post("/get-tasks-admin", async function (req, res) {
   //TODO: check firestore implementation -----------------------------------------------
   const userRef = await db.collection(`user`).doc(`${user_id}`);
   const user = await userRef.get();
+  console.log(
+    `checking if admin ----------`,
+    user.data(),
+    `exists?--------`,
+    user.exists
+  );
 
   if (user.exists && user.data().isAdmin) {
     client.postMessage(GetTasks, `${user_id}`);
