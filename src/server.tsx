@@ -46,6 +46,8 @@ import {
 } from "./get-tasks-current-user-modal";
 import { AdminPanel, AdminPanelModal } from "./admin-panel-modal";
 import { Firestore } from "@google-cloud/firestore";
+import test from "./test.json";
+import admin from "firebase-admin";
 
 dotenv.config();
 
@@ -115,11 +117,29 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //----------------------------------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ----------- mongoDB START ----------------------------------------------------------------------------------
 
-//TODO: check firestore implementation -----------------------------------------------
-const db = new Firestore({
-  projectId: "octavia-bot-test",
-  keyFilename: process.env.GPC_KEY,
+// const config = {
+//   apiKey: "AIzaSyB8P5gjjTNV1dnizXdN8QdNTNY7RJUvHYY",
+//   authDomain: "test-firestore-b9cbd.firebaseapp.com",
+//   databaseURL: "https://test-firestore-b9cbd.firebaseio.com",
+//   projectId: "test-firestore-b9cbd",
+//   storageBucket: "test-firestore-b9cbd.appspot.com",
+//   messagingSenderId: "497807419690",
+//   appId: "1:497807419690:web:9c6374815c502ba6f6d653",
+// };
+
+// //TODO: check firestore implementation -----------------------------------------------
+// const db = new Firestore({
+//   projectId: "octavia-bot-test",
+//   keyFilename: process.env.GPC_KEY,
+// });
+
+admin.initializeApp({
+  credential: admin.credential.cert(require(`./test.json`)),
 });
+
+const db = admin.firestore();
+
+// Get a reference to the database service
 
 //--------------------------------------------------------- mongoDB END ------------------------------------------------------------------------------------
 
