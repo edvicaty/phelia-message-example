@@ -28,6 +28,7 @@ export function GetTasksCurrentUserModal() {
         accessory={
           <DatePicker
             onSelect={async ({ user, date }) => {
+              console.log(`date picked------`, date);
               updatedDate = await Number(new Date(date).getTime());
             }}
             action="date"
@@ -55,6 +56,7 @@ export function GetTasksCurrentUser({
     "modal",
     GetTasksCurrentUserModal,
     async (event) => {
+      console.log(`submit trigered------`, event);
       user = event.user;
       form = event.form;
       const slackID = user.id;
