@@ -61,7 +61,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     const slackID = user.id;
 
     // const currentUser = await User.findOne({ slackID });
-    const userRef = await db.collection(`user`).doc(`${slackID}`);
+    const userRef = await db.collection(`users`).doc(`${slackID}`);
     const currentUser = await userRef.get();
     userToken = currentUser.data().clickUpToken;
 
@@ -69,7 +69,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
       return { slackID: id };
     });
 
-    const usersRef = await db.collection(`user`);
+    const usersRef = await db.collection(`users`);
     const usersArr: any = await usersRef.get();
 
     console.log(`usersArr-----`, usersArr, usersArr.data());

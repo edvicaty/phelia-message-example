@@ -93,7 +93,7 @@ export function CreateTask({
   //fetch clickUP token from DB
   async function setClickUpToken(slackID: any) {
     // const user = await User.findOne({ slackID });
-    const userRef = await db.collection(`user`).doc(`${slackID}`);
+    const userRef = await db.collection(`users`).doc(`${slackID}`);
 
     const user = await userRef.get();
 

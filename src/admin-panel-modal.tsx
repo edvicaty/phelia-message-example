@@ -27,7 +27,7 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
 
   //fetch Users from DB
   const fetchUsers = async () => {
-    const userRef = await db.collection(`user`);
+    const userRef = await db.collection(`users`);
     const usersArr: any = await userRef.get();
 
     console.log(`usersArr-----`, usersArr, usersArr.data());
