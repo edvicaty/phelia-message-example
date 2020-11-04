@@ -1,5 +1,5 @@
 import React from "react";
-import User from "../models/User";
+// import User from "../models/User";
 import axios from "axios";
 
 import {
@@ -76,16 +76,16 @@ export function MultiUsersSelectMenuExample({
       user = event.user;
       form = event.form;
       const slackID = user.id;
-      const currentUser = await User.findOne({ slackID });
-      userToken = currentUser.clickUpToken;
+      // const currentUser = await User.findOne({ slackID });
+      // userToken = currentUser.clickUpToken;
 
       const query = form.selection.map((id: any) => {
         return { slackID: id };
       });
-      const usersArr = await User.find({ $or: query });
-      const usersString = usersArr.map((user) => user.clickUpID).toString();
+      // const usersArr = await User.find({ $or: query });
+      // const usersString = usersArr.map((user) => user.clickUpID).toString();
 
-      const tasks = await getFilteredTasks(usersString);
+      // const tasks = await getFilteredTasks(usersString);
     }
   );
 
