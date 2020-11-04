@@ -73,12 +73,9 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     const usersRef = await db.collection(`users`);
     const usersArr: any = await usersRef.get();
 
-    console.log(
-      `usersArr-----`,
-      usersArr,
-      `single user --------`
-      // usersArr[0].data()
-    );
+    usersArr.forEach((doc: any) => {
+      console.log(doc.id, "=>", doc.data());
+    });
 
     // const usersArr = await User.find({ $or: query });
 
