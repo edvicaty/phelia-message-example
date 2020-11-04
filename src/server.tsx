@@ -120,7 +120,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // //TODO: check firestore implementation -----------------------------------------------
 
 admin.initializeApp({
-  credential: admin.credential.cert(require(`./test.json`)),
+  credential: admin.credential.cert(require("./test.json")),
 });
 
 const db = admin.firestore();

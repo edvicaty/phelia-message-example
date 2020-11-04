@@ -25,6 +25,8 @@ const get_tasks_modal_1 = require("./get-tasks-modal");
 const text_message_1 = require("./text-message");
 const get_tasks_current_user_modal_1 = require("./get-tasks-current-user-modal");
 const admin_panel_modal_1 = require("./admin-panel-modal");
+// import { Firestore } from "@google-cloud/firestore";
+// import test from "./test.json";
 const firebase_admin_1 = __importDefault(require("firebase-admin"));
 dotenv_1.default.config();
 const app = express_1.default();
@@ -81,25 +83,11 @@ app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 //--------------------------------------------------------- config & imports END ----------------------------------------------------------------------------------
 //----------------------------------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ----------- mongoDB START ----------------------------------------------------------------------------------
-// const config = {
-//   apiKey: "AIzaSyB8P5gjjTNV1dnizXdN8QdNTNY7RJUvHYY",
-//   authDomain: "test-firestore-b9cbd.firebaseapp.com",
-//   databaseURL: "https://test-firestore-b9cbd.firebaseio.com",
-//   projectId: "test-firestore-b9cbd",
-//   storageBucket: "test-firestore-b9cbd.appspot.com",
-//   messagingSenderId: "497807419690",
-//   appId: "1:497807419690:web:9c6374815c502ba6f6d653",
-// };
 // //TODO: check firestore implementation -----------------------------------------------
-// const db = new Firestore({
-//   projectId: "octavia-bot-test",
-//   keyFilename: process.env.GPC_KEY,
-// });
 firebase_admin_1.default.initializeApp({
-    credential: firebase_admin_1.default.credential.cert(require(`./test.json`)),
+    credential: firebase_admin_1.default.credential.cert(require("./test.json")),
 });
 const db = firebase_admin_1.default.firestore();
-// Get a reference to the database service
 //--------------------------------------------------------- mongoDB END ------------------------------------------------------------------------------------
 //--------------------------------------------------------- routes START ----------------------------------------------------------------------------------
 //get tasks admin
