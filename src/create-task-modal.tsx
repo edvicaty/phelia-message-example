@@ -16,7 +16,7 @@ import {
   PheliaModalProps,
 } from "phelia";
 import axios from "axios";
-import User from "./models/User";
+import db from "./firestore-config";
 
 const baseURL = "https://phelia-test-slack.herokuapp.com/";
 const createTaskService = axios.create({
@@ -92,8 +92,12 @@ export function CreateTask({
 
   //fetch clickUP token from DB
   async function setClickUpToken(slackID: any) {
-    const user = await User.findOne({ slackID });
-    token = user.clickUpToken;
+    // const user = await User.findOne({ slackID });
+    const userRef = await db.collection(`user`).doc(`${slackID}`);
+
+    const user = await userRef.get();
+
+    token = user.data().clickUpToken;
   }
 
   //clickUP API POST function

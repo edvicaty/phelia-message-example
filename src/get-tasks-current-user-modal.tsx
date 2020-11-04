@@ -1,7 +1,6 @@
 import React from "react";
-import User from "./models/User";
 import axios from "axios";
-
+import db from "./firestore-config";
 import {
   Button,
   Divider,
@@ -28,7 +27,6 @@ export function GetTasksCurrentUserModal() {
         accessory={
           <DatePicker
             onSelect={async ({ user, date }) => {
-              console.log(`date picked------`, date);
               updatedDate = await Number(new Date(date).getTime());
             }}
             action="date"
@@ -60,10 +58,14 @@ export function GetTasksCurrentUser({
       user = event.user;
       form = event.form;
       const slackID = user.id;
-      const currentUser = await User.findOne({ slackID });
-      userToken = currentUser.clickUpToken;
 
-      const fetchedTasks = await getFilteredTasks(currentUser.clickUpID);
+      // const currentUser = await User.findOne({ slackID });
+      const userRef = await db.collection(`user`).doc(`${slackID}`);
+      const currentUser = await userRef.get();
+
+      userToken = currentUser.data().clickUpToken;
+
+      const fetchedTasks = await getFilteredTasks(currentUser.data().clickUpID);
       setShowForm(true);
       setTasks(fetchedTasks.tasks);
     }

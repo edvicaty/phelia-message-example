@@ -1,5 +1,4 @@
 import React from "react";
-import User from "./models/User";
 import axios from "axios";
 
 import {
@@ -18,7 +17,7 @@ import {
   Option,
   TextField,
 } from "phelia";
-
+import db from "./firestore-config";
 let submitted = false;
 
 //-------------------------------- Modal ------------------------------
@@ -28,8 +27,12 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
 
   //fetch Users from DB
   const fetchUsers = async () => {
-    const usersArr: any = await User.find();
-    setUsers(usersArr);
+    const userRef = await db.collection(`user`);
+    const usersArr: any = await userRef.get();
+
+    console.log(`usersArr-----`, usersArr, usersArr.data());
+
+    setUsers(usersArr.data());
   };
 
   return (
@@ -86,18 +89,18 @@ export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
       admins = event.form.checkboxes;
 
       //update permissions
-      await User.update({}, { $set: { isAdmin: false } }, { multi: true });
+      // await User.update({}, { $set: { isAdmin: false } }, { multi: true });
 
       const query = admins.map((id: any) => {
         return { slackID: id };
       });
 
-      await User.update(
-        { $or: query },
-        { $set: { isAdmin: true } },
-        { multi: true }
-      );
-      submitted = false;
+      // await User.update(
+      //   { $or: query },
+      //   { $set: { isAdmin: true } },
+      //   { multi: true }
+      // );
+      // submitted = false;
     } else {
       setCancelled(true);
     }

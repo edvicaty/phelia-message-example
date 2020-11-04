@@ -1,7 +1,6 @@
 import React from "react";
-import User from "./models/User";
 import axios from "axios";
-
+import db from "./firestore-config";
 import {
   Button,
   Divider,
@@ -60,19 +59,28 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     user = event.user;
     form = event.form;
     const slackID = user.id;
-    const currentUser = await User.findOne({ slackID });
-    userToken = currentUser.clickUpToken;
+
+    // const currentUser = await User.findOne({ slackID });
+    const userRef = await db.collection(`user`).doc(`${slackID}`);
+    const currentUser = await userRef.get();
+    userToken = currentUser.data().clickUpToken;
 
     const query = form.selection.map((id: any) => {
       return { slackID: id };
     });
 
-    const usersArr = await User.find({ $or: query });
-    const usersString = usersArr.map((user) => user.clickUpID).toString();
+    const usersRef = await db.collection(`user`);
+    const usersArr: any = await usersRef.get();
 
-    const fetchedTasks = await getFilteredTasks(usersString);
+    console.log(`usersArr-----`, usersArr, usersArr.data());
+
+    // const usersArr = await User.find({ $or: query });
+
+    // const usersString = usersArr.map((user) => user.clickUpID).toString();
+
+    // const fetchedTasks = await getFilteredTasks(usersString);
     setShowForm(true);
-    setTasks(fetchedTasks.tasks);
+    // setTasks(fetchedTasks.tasks);
   });
 
   //retrieving modal data functions

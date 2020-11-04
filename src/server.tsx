@@ -47,7 +47,8 @@ import {
 import { AdminPanel, AdminPanelModal } from "./admin-panel-modal";
 // import { Firestore } from "@google-cloud/firestore";
 // import test from "./test.json";
-import admin from "firebase-admin";
+// import admin from "firebase-admin";
+import db from "./firestore-config";
 
 dotenv.config();
 
@@ -119,16 +120,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // //TODO: check firestore implementation -----------------------------------------------
 
-admin.initializeApp({
-  credential: admin.credential.cert({
-    projectId: "octavia-bot-test",
-    clientEmail: "octavia-bot-test@octavia-bot-test.iam.gserviceaccount.com",
-    privateKey: process.env.PRIVATE_KEY_GCP.replace(/\\n/g, "\n"),
-  }),
-  databaseURL: "https://test-firestore-b9cbd.firebaseio.com",
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert({
+//     projectId: "octavia-bot-test",
+//     clientEmail: "octavia-bot-test@octavia-bot-test.iam.gserviceaccount.com",
+//     privateKey: process.env.PRIVATE_KEY_GCP.replace(/\\n/g, "\n"),
+//   }),
+//   databaseURL: "https://test-firestore-b9cbd.firebaseio.com",
+// });
 
-const db = admin.firestore();
+// const db = admin.firestore();
 
 //--------------------------------------------------------- mongoDB END ------------------------------------------------------------------------------------
 
