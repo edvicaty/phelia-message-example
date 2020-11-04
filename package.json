@@ -35,7 +35,6 @@
     "build": "tsc",
     "clean": "yarn rimraf dist",
     "prestart": "yarn build",
-    "preinstall": "node gcpSetup.js",
     "start": "node dist/server.js",
     "deploy": "git add . && git commit -m Heroku && git push heroku master"
   },

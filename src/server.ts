@@ -118,7 +118,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //TODO: check firestore implementation -----------------------------------------------
 const db = new Firestore({
   projectId: "octavia-bot-test",
-  keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS || "./gcpconfig.json",
+  keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
 });
 
 //--------------------------------------------------------- mongoDB END ------------------------------------------------------------------------------------
@@ -138,6 +138,7 @@ app.post("/get-tasks-admin", async function (req, res) {
     api_app_id,
     trigger_id,
   } = await req.body;
+
   //TODO: check firestore implementation -----------------------------------------------
   const userRef = await db.collection(`user`).doc(`${user_id}`);
   const user = await userRef.get();
@@ -279,6 +280,46 @@ app.post("/setadmin", async function (req, res) {
     message = "Wrong token";
     client.postMessage(TextMessage, `${user_id}`, { message });
   }
+});
+
+app.get("/teest", async () => {
+  const citiesRef = db.collection("cities");
+
+  await citiesRef.doc("SF").set({
+    name: "San Francisco",
+    state: "CA",
+    country: "USA",
+    capital: false,
+    population: 860000,
+  });
+  await citiesRef.doc("LA").set({
+    name: "Los Angeles",
+    state: "CA",
+    country: "USA",
+    capital: false,
+    population: 3900000,
+  });
+  await citiesRef.doc("DC").set({
+    name: "Washington, D.C.",
+    state: null,
+    country: "USA",
+    capital: true,
+    population: 680000,
+  });
+  await citiesRef.doc("TOK").set({
+    name: "Tokyo",
+    state: null,
+    country: "Japan",
+    capital: true,
+    population: 9000000,
+  });
+  await citiesRef.doc("BJ").set({
+    name: "Beijing",
+    state: null,
+    country: "China",
+    capital: true,
+    population: 21500000,
+  });
 });
 
 //admin panel to list and modify slack admins (/admin-panel)

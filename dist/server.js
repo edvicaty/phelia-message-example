@@ -18,8 +18,6 @@ const events_api_1 = require("@slack/events-api");
 const body_parser_1 = __importDefault(require("body-parser"));
 const phelia_1 = __importDefault(require("phelia"));
 const axios_1 = __importDefault(require("axios"));
-// import mongoose from "mongoose";
-// import User from "./models/User";
 const example_messages_1 = require("./example-messages");
 const registration_modal_1 = require("./registration-modal");
 const create_task_modal_1 = require("./create-task-modal");
@@ -86,18 +84,8 @@ app.use(body_parser_1.default.urlencoded({ extended: true }));
 //TODO: check firestore implementation -----------------------------------------------
 const db = new firestore_1.Firestore({
     projectId: "octavia-bot-test",
-    keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+    keyFilename: "./octavia-test-firestore-key.json",
 });
-// mongoose
-//   .connect(process.env.DB, { useNewUrlParser: true })
-//   .then((x) => {
-//     console.log(
-//       `Connected to Mongo! Database name: "${x.connections[0].name}"`
-//     );
-//   })
-//   .catch((err) => {
-//     console.error("Error connecting to mongo", err);
-//   });
 //--------------------------------------------------------- mongoDB END ------------------------------------------------------------------------------------
 //--------------------------------------------------------- routes START ----------------------------------------------------------------------------------
 //get tasks admin
@@ -105,13 +93,16 @@ app.post("/get-tasks-admin", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         yield res.sendStatus(200);
         const { token, team_id, team_domain, user_id, user_name, api_app_id, trigger_id, } = yield req.body;
-        // const user = await User.findOne({ slackID: user_id });
-        // if (user.isAdmin) {
-        //   client.postMessage(GetTasks, `${user_id}`);
-        // } else {
-        //   const message = `You need to have ADMIN status to be able to check the tasks of all users. Try /setAdmin [token] to set yourself as an ADMIN. \n If you want to check your own tasks try /get-my-tasks command`;
-        //   client.postMessage(TextMessage, `${user_id}`, { message });
-        // }
+        //TODO: check firestore implementation -----------------------------------------------
+        const userRef = yield db.collection(`user`).doc(`${user_id}`);
+        const user = yield userRef.get();
+        if (user.exists && user.data().isAdmin) {
+            client.postMessage(get_tasks_modal_1.GetTasks, `${user_id}`);
+        }
+        else {
+            const message = `You need to have ADMIN status to be able to check the tasks of all users. Try /setAdmin [token] to set yourself as an ADMIN. \n If you want to check your own tasks try /get-my-tasks command`;
+            client.postMessage(text_message_1.TextMessage, `${user_id}`, { message });
+        }
     });
 });
 //get tasks current user
@@ -204,64 +195,59 @@ app.post("/setadmin", function (req, res) {
         }
     });
 });
-app.get("/test-data", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/teest", () => __awaiter(void 0, void 0, void 0, function* () {
     const citiesRef = db.collection("cities");
-    // await citiesRef.doc("SF").set({
-    //   name: "San Francisco",
-    //   state: "CA",
-    //   country: "USA",
-    //   capital: false,
-    //   population: 860000,
-    // });
-    // await citiesRef.doc("LA").set({
-    //   name: "Los Angeles",
-    //   state: "CA",
-    //   country: "USA",
-    //   capital: false,
-    //   population: 3900000,
-    // });
-    // await citiesRef.doc("DC").set({
-    //   name: "Washington, D.C.",
-    //   state: null,
-    //   country: "USA",
-    //   capital: true,
-    //   population: 680000,
-    // });
-    // await citiesRef.doc("TOK").set({
-    //   name: "Tokyo",
-    //   state: null,
-    //   country: "Japan",
-    //   capital: true,
-    //   population: 9000000,
-    // });
-    // await citiesRef.doc("BJ").set({
-    //   name: "Beijing",
-    //   state: null,
-    //   country: "China",
-    //   capital: true,
-    //   population: 21500000,
-    // });
-    const cityRef = db.collection("cities").doc("SF");
-    const doc = yield cityRef.get();
-    if (!doc.exists) {
-        console.log("No such document!");
-    }
-    else {
-        console.log("Document data:", doc.data().country);
-    }
+    yield citiesRef.doc("SF").set({
+        name: "San Francisco",
+        state: "CA",
+        country: "USA",
+        capital: false,
+        population: 860000,
+    });
+    yield citiesRef.doc("LA").set({
+        name: "Los Angeles",
+        state: "CA",
+        country: "USA",
+        capital: false,
+        population: 3900000,
+    });
+    yield citiesRef.doc("DC").set({
+        name: "Washington, D.C.",
+        state: null,
+        country: "USA",
+        capital: true,
+        population: 680000,
+    });
+    yield citiesRef.doc("TOK").set({
+        name: "Tokyo",
+        state: null,
+        country: "Japan",
+        capital: true,
+        population: 9000000,
+    });
+    yield citiesRef.doc("BJ").set({
+        name: "Beijing",
+        state: null,
+        country: "China",
+        capital: true,
+        population: 21500000,
+    });
 }));
 //admin panel to list and modify slack admins (/admin-panel)
 app.post("/admin-panel", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         yield res.sendStatus(200);
         const { token, team_id, team_domain, user_id, user_name, api_app_id, trigger_id, text, } = yield req.body;
-        // const userRef =
-        // if (user.isAdmin) {
-        //   client.postMessage(AdminPanel, `${user_id}`);
-        // } else {
-        //   const message = `You need to have ADMIN status to be able to use this command. Try /setAdmin [token] to set yourself as an ADMIN. \n If you want to check your own tasks try /get-my-tasks command`;
-        //   client.postMessage(TextMessage, `${user_id}`, { message });
-        // }
+        //TODO: check firestore implementation -----------------------------------------------
+        const userRef = yield db.collection(`users`).doc(`${user_id}`);
+        const user = yield userRef.get();
+        if (user.exists && user.data().isAdmin) {
+            client.postMessage(admin_panel_modal_1.AdminPanel, `${user_id}`);
+        }
+        else {
+            const message = `You need to have ADMIN status to be able to use this command. Try /setAdmin [token] to set yourself as an ADMIN. \n If you want to check your own tasks try /get-my-tasks command`;
+            client.postMessage(text_message_1.TextMessage, `${user_id}`, { message });
+        }
     });
 });
 //--------------------------------------------------------- AUTH END ----------------------------------------------------------------------------------
