@@ -84,7 +84,7 @@ app.use(body_parser_1.default.urlencoded({ extended: true }));
 //TODO: check firestore implementation -----------------------------------------------
 const db = new firestore_1.Firestore({
     projectId: "octavia-bot-test",
-    keyFilename: "./octavia-test-firestore-key.json",
+    keyFilename: "./test.json",
 });
 //--------------------------------------------------------- mongoDB END ------------------------------------------------------------------------------------
 //--------------------------------------------------------- routes START ----------------------------------------------------------------------------------
