@@ -120,7 +120,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // //TODO: check firestore implementation -----------------------------------------------
 
 admin.initializeApp({
-  credential: admin.credential.cert(require("./test.json")),
+  credential: admin.credential.cert({
+    projectId: "octavia-bot-test",
+    clientEmail: "octavia-bot-test@octavia-bot-test.iam.gserviceaccount.com",
+    privateKey: process.env.PRIVATE_KEY_GCP,
+  }),
+  databaseURL: "https://test-firestore-b9cbd.firebaseio.com",
 });
 
 const db = admin.firestore();
