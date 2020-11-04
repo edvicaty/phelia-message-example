@@ -150,7 +150,7 @@ app.post("/get-tasks-admin", async function (req, res) {
   } = await req.body;
 
   //TODO: check firestore implementation -----------------------------------------------
-  const userRef = await db.collection(`user`).doc(`${user_id}`);
+  const userRef = await db.collection(`users`).doc(`${user_id}`);
   const user = await userRef.get();
   console.log(
     `checking if admin ----------`,
