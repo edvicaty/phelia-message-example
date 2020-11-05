@@ -71,8 +71,9 @@ export function GetTasksCurrentUser({
         String(currentUser.data().clickUpID)
       );
 
+      console.log(`tasks when not fetched --------`, fetchedTasks);
       if (fetchedTasks.tasks.length === 0 || !fetchedTasks) {
-        setTasks([]);
+        setTasks(null);
       } else {
         setTasks(fetchedTasks.tasks);
       }
