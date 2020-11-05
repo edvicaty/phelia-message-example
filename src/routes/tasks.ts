@@ -1,7 +1,7 @@
 import express from "express";
-import { GetTasksCurrentUser } from "../get-tasks-current-user-modal";
-import { GetTasks } from "../get-tasks-modal";
-import { TextMessage } from "../text-message";
+import { GetTasksCurrentUser } from "../components/get-tasks-current-user-modal";
+import { GetTasks } from "../components/get-tasks-modal";
+import { TextMessage } from "../components/text-message";
 import db from "../firestore-config";
 import client from "../phelia-config";
 

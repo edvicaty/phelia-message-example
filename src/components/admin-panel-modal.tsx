@@ -17,7 +17,7 @@ import {
   Option,
   TextField,
 } from "phelia";
-import db from "./firestore-config";
+import db from "../firestore-config";
 
 let submitted = false;
 

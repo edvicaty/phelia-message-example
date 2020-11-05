@@ -1,8 +1,8 @@
 import Axios from "axios";
 import express from "express";
-import { AdminPanel } from "../admin-panel-modal";
-import { RegistrationModal } from "../registration-modal";
-import { TextMessage } from "../text-message";
+import { AdminPanel } from "../components/admin-panel-modal";
+import { RegistrationModal } from "../components/registration-modal";
+import { TextMessage } from "../components/text-message";
 import db from "../firestore-config";
 import client from "../phelia-config";
 

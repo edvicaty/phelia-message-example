@@ -13,14 +13,14 @@ const auth_1 = __importDefault(require("./routes/auth"));
 const tasks_1 = __importDefault(require("./routes/tasks"));
 const app = express_1.default();
 const port = process.env.PORT || 80;
-//loading body parser before phelia components will crash the app
-app.use(body_parser_1.default.json());
-app.use(body_parser_1.default.urlencoded({ extended: true }));
 // Register your Home App
 const slackEvents = events_api_1.createEventAdapter(process.env.SLACK_SIGNING_SECRET);
 app.use("/events", slackEvents.requestListener());
 // Register the interaction webhook
 app.post("/interactions", phelia_config_1.default.messageHandler(process.env.SLACK_SIGNING_SECRET));
+//loading body parser before phelia components will crash the app
+app.use(body_parser_1.default.json());
+app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use("/", auth_1.default);
 app.use("/", tasks_1.default);
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));

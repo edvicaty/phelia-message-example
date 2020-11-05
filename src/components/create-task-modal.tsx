@@ -16,7 +16,7 @@ import {
   PheliaModalProps,
 } from "phelia";
 import axios from "axios";
-import db from "./firestore-config";
+import db from "../firestore-config";
 
 const baseURL = "https://phelia-test-slack.herokuapp.com/";
 const createTaskService = axios.create({

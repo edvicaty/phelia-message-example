@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import db from "./firestore-config";
+import db from "../firestore-config";
 import {
   Button,
   Divider,
