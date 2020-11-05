@@ -98,11 +98,7 @@ export function GetTasksCurrentUser({
       headers: { Authorization: `${userToken}` },
     });
 
-    if (tasks.data) {
-      return tasks.data;
-    } else {
-      return null;
-    }
+    return tasks.data;
   }
 
   return (
