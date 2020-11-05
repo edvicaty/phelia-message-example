@@ -72,7 +72,12 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
 
     //TODO: continue from here, this works
 
-    const clickUpIdsArr = usersArr.map((doc: any) => doc.data().clickUpID);
+    //map wont work, use forEach
+    let clickUpIdsArr: any = [];
+
+    usersArr.forEach((doc: any) => {
+      clickUpIdsArr.push(doc.data().clickUpID);
+    });
 
     console.log(`clickUpIdsArr-----:`, clickUpIdsArr);
 
