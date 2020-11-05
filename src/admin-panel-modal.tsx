@@ -84,7 +84,7 @@ export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
 
   let form = null;
   let user: any = null;
-  let userToken: string = null;
+  // let userToken: string = null;
   let admins: any = null;
 
   const openModal = useModal("modal", AdminPanelModal, async (event) => {
@@ -108,7 +108,7 @@ export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
       // 2. set users on admins as admins
       const usersRef = await db.collection(`users`);
 
-      console.log(`usersRef --------`, usersRef);
+      // console.log(`usersRef --------`, usersRef);
 
       const usersArr = await usersRef
         .where(`slackID`, "in", admins)
@@ -121,7 +121,7 @@ export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
           });
         });
 
-      console.log(`usersArr --------`, usersArr);
+      // console.log(`usersArr --------`, usersArr);
 
       submitted = false;
     } else {

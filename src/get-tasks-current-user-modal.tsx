@@ -70,7 +70,7 @@ export function GetTasksCurrentUser({
       const fetchedTasks = await getFilteredTasks(
         String(currentUser.data().clickUpID)
       );
-      // console.log(`fetchedTasks -------`, fetchedTasks);
+      console.log(`fetchedTasks -------`, fetchedTasks);
       setShowForm(true);
       setTasks(fetchedTasks.tasks);
     }
