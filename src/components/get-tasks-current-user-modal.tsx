@@ -99,7 +99,7 @@ export function GetTasksCurrentUser({
             onClick={async () => {
               openModal();
             }}>
-            Get tasks ADMIN
+            Get tasks
           </Button>
         }>
         <Text>Get tasks from the current user. Click the button to begin</Text>

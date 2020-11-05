@@ -124,7 +124,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
                 setNotAdmin(true);
               }
             }}>
-            Get tasks
+            Get tasks ADMIN
           </Button>
         }>
         <Text>Get tasks from different users. Click the button to begin</Text>
