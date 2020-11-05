@@ -87,7 +87,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
 
     const fetchedTasks = await getFilteredTasks(usersString);
 
-    if (fetchedTasks.tasks.length === 0) {
+    if (fetchedTasks.tasks.length === 0 || !fetchedTasks) {
       setTasks([]);
     } else {
       setTasks(fetchedTasks.tasks);
@@ -111,6 +111,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     const tasks = await axios.get(`${url}`, {
       headers: { Authorization: `${userToken}` },
     });
+
     return tasks.data;
   }
 

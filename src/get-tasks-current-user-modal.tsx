@@ -71,7 +71,7 @@ export function GetTasksCurrentUser({
         String(currentUser.data().clickUpID)
       );
 
-      if (fetchedTasks.tasks.length === 0) {
+      if (fetchedTasks.tasks.length === 0 || !fetchedTasks) {
         setTasks([]);
       } else {
         setTasks(fetchedTasks.tasks);
@@ -95,6 +95,7 @@ export function GetTasksCurrentUser({
     const tasks = await axios.get(`${url}`, {
       headers: { Authorization: `${userToken}` },
     });
+
     return tasks.data;
   }
 
