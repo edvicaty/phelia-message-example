@@ -1,19 +1,6 @@
 import React from "react";
-import axios from "axios";
 
-import {
-  Button,
-  Divider,
-  Input,
-  Message,
-  Modal,
-  MultiSelectMenu,
-  PheliaMessageProps,
-  Section,
-  Text,
-  DatePicker,
-  Actions,
-} from "phelia";
+import { Message, Section, Text } from "phelia";
 
 export function TextMessage({ props }: any) {
   return (

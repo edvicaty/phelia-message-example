@@ -32,7 +32,7 @@ async function getUser(token: any) {
 
 let slackUserIDToRegister: string = null;
 
-//slash command POST route => set from slack web app /register command
+//slash command POST route => set from slack web app : /register command
 router.post("/redirect", async function (req, res) {
   await res.sendStatus(200);
 
@@ -64,7 +64,7 @@ router.post("/redirect", async function (req, res) {
   await client.openModal(RegistrationModal, trigger_id, { name: user_name });
 });
 
-//auth to bind ClickUp's API token to DB.
+//auth to bind ClickUp's API token to DB
 router.get("/auth", async function (req, res) {
   const authCode = await req.query.code;
 
@@ -91,7 +91,7 @@ router.get("/registration", function (req, res) {
   res.send("Registration completed");
 });
 
-//set current slack user as admin route (/setAdmin)
+//set current slack user as admin route : /setAdmin [token] command
 router.post("/setadmin", async function (req, res) {
   await res.sendStatus(200);
 
@@ -118,7 +118,7 @@ router.post("/setadmin", async function (req, res) {
   }
 });
 
-//admin panel to list and modify slack admins (/admin-panel)
+//admin panel to list and modify slack admins: /admin-panel command
 router.post("/admin-panel", async function (req, res) {
   await res.sendStatus(200);
 

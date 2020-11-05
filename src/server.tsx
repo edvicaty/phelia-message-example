@@ -19,7 +19,8 @@ app.post(
   "/interactions",
   client.messageHandler(process.env.SLACK_SIGNING_SECRET)
 );
-//loading body parser before phelia components will crash the app
+
+//NOTE: loading body parser before phelia config will crash the app
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

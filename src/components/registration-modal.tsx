@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Actions, Button, Modal, PheliaModalProps } from "phelia";
 
 export function RegistrationModal({ props }: PheliaModalProps) {

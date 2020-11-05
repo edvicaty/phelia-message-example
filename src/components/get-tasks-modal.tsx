@@ -3,7 +3,6 @@ import axios from "axios";
 import db from "../firestore-config";
 import {
   Button,
-  Divider,
   Input,
   Message,
   Modal,
@@ -12,7 +11,6 @@ import {
   Section,
   Text,
   DatePicker,
-  Actions,
 } from "phelia";
 
 let updatedDate: any = null;
@@ -26,7 +24,6 @@ export function GetTasksByTimeModal() {
         text={`Select a day`}
         accessory={
           <DatePicker
-            // initialDate={yesterday}
             onSelect={async ({ user, date }) => {
               updatedDate = await Number(new Date(date).getTime());
             }}
@@ -56,6 +53,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
   let user: any = null;
   let userToken: string = null;
 
+  //Modal form function
   const openModal = useModal("modal", GetTasksByTimeModal, async (event) => {
     user = event.user;
     form = event.form;
@@ -71,22 +69,15 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
       .where("slackID", "in", form.selection)
       .get();
 
-    //map wont work, use forEach
     let clickUpIdsArr: any = [];
 
     usersArr.forEach((doc: any) => {
       clickUpIdsArr.push(doc.data().clickUpID);
     });
 
-    // console.log(`clickUpIdsArr-----:`, clickUpIdsArr);
-
     const usersString = clickUpIdsArr.toString();
 
-    // console.log(`usersString-----:`, usersString);
-
     const fetchedTasks = await getFilteredTasks(usersString);
-
-    // console.log(`tasks when not fetched --------`, fetchedTasks);
 
     if (fetchedTasks.tasks.length === 0 || !fetchedTasks) {
       setTasks(null);
@@ -106,8 +97,6 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     const dateLt = utcToCentral + oneDay;
 
     const url = `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${utcToCentral}&date_updated_lt=${dateLt}&assignees[]=${users}`;
-
-    // console.log(`url -------------`, url);
 
     const tasks = await axios.get(`${url}`, {
       headers: { Authorization: `${userToken}` },
@@ -169,4 +158,3 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     </Message>
   );
 }
-//

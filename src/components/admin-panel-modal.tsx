@@ -1,21 +1,16 @@
 import React from "react";
-import axios from "axios";
 
 import {
   Button,
-  Divider,
   Input,
   Message,
   Modal,
-  MultiSelectMenu,
   PheliaMessageProps,
   Section,
   Text,
-  DatePicker,
   Actions,
   Checkboxes,
   Option,
-  TextField,
 } from "phelia";
 import db from "../firestore-config";
 
@@ -26,7 +21,6 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
   const [showData, setShowData] = useState("showData", false);
   const [users, setUsers] = useState<Array<string>>("setUsers");
 
-  //fetch Users from DB
   const fetchUsers = async () => {
     const userRef = await db.collection(`users`);
     const usersArr: any = await userRef.get();
@@ -35,8 +29,6 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
     usersArr.forEach((doc: any) => {
       users.push(doc.data());
     });
-
-    console.log(`usersArr-----`, usersArr, `users`, users);
 
     setUsers(users);
   };
@@ -81,21 +73,18 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
 //-------------------------------- Message API fetch----------------------
 
 export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
-  const [cancelled, setCancelled] = useState<boolean>("cancelled", false);
   const [notAdmin, setNotAdmin] = useState<boolean>("notAdmin", false);
 
   let form = null;
   let user: any = null;
-  // let userToken: string = null;
   let admins: any = null;
 
   const openModal = useModal("modal", AdminPanelModal, async (event) => {
     if (submitted) {
       user = event.user;
       form = event.form;
-      admins = event.form.checkboxes; //array with IDs of all admins
+      admins = event.form.checkboxes;
 
-      // 1. set all users to non-admin status
       await db
         .collection(`users`)
         .get()
@@ -107,12 +96,9 @@ export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
           });
         });
 
-      // 2. set users on admins as admins
       const usersRef = await db.collection(`users`);
 
-      // console.log(`usersRef --------`, usersRef);
-
-      const usersArr = await usersRef
+      await usersRef
         .where(`slackID`, "in", admins)
         .get()
         .then((querySnapshot) => {
@@ -123,15 +109,9 @@ export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
           });
         });
 
-      // console.log(`usersArr --------`, usersArr);
-
       submitted = false;
-    } else {
-      setCancelled(true);
     }
   });
-
-  //retrieving modal data functions
 
   return (
     <Message text="Get tasks">
@@ -140,6 +120,7 @@ export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
           <Button
             action="open-modal"
             onClick={async (e) => {
+              submitted = false;
               const user = await db
                 .collection(`users`)
                 .doc(`${e.user.id}`)
@@ -152,7 +133,7 @@ export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
                 setNotAdmin(true);
               }
             }}>
-            Open Panel
+            Open Admin Panel
           </Button>
         }>
         <Text>Opens the ADMIN panel. Click the button to begin</Text>

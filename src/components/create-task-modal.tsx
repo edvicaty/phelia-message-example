@@ -3,12 +3,9 @@ import React from "react";
 import {
   Actions,
   Button,
-  Checkboxes,
-  DatePicker,
   Input,
   Message,
   Modal,
-  Option,
   PheliaMessageProps,
   Section,
   Text,
@@ -22,9 +19,10 @@ const baseURL = "https://phelia-test-slack.herokuapp.com/";
 const createTaskService = axios.create({
   baseURL,
 });
+
 //-----------------------------------MODAL COMPONENT------------------------------
 
-export function CreateTaskModal({ useState, props }: PheliaModalProps) {
+export function CreateTaskModal({ useState }: PheliaModalProps) {
   const [showForm, setShowForm] = useState("showForm", false);
   return (
     <Modal title={`Create new task`} submit="submit">
@@ -92,7 +90,6 @@ export function CreateTask({
 
   //fetch clickUP token from DB
   async function setClickUpToken(slackID: any) {
-    // const user = await User.findOne({ slackID });
     const userRef = await db.collection(`users`).doc(`${slackID}`);
 
     const user = await userRef.get();
@@ -118,7 +115,9 @@ export function CreateTask({
   return (
     <Message text="Create task example">
       <Section>
-        <Text type="mrkdwn">hey {props?.name}!</Text>
+        <Text type="mrkdwn">
+          Create a new task. Click the button to continue
+        </Text>
       </Section>
 
       {state === "canceled" && (

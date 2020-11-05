@@ -3,16 +3,12 @@ import axios from "axios";
 import db from "../firestore-config";
 import {
   Button,
-  Divider,
-  Input,
   Message,
   Modal,
-  MultiSelectMenu,
   PheliaMessageProps,
   Section,
   Text,
   DatePicker,
-  Actions,
 } from "phelia";
 
 let updatedDate: any = null;
@@ -26,7 +22,7 @@ export function GetTasksCurrentUserModal() {
         text={`Select a day`}
         accessory={
           <DatePicker
-            onSelect={async ({ user, date }) => {
+            onSelect={async ({ date }) => {
               updatedDate = await Number(new Date(date).getTime());
             }}
             action="date"
@@ -50,28 +46,23 @@ export function GetTasksCurrentUser({
   let user: any = null;
   let userToken: string = null;
 
+  //Modal form function
   const openModal = useModal(
     "modal",
     GetTasksCurrentUserModal,
     async (event) => {
-      // console.log(`submit trigered------`, event);
       user = event.user;
       form = event.form;
       const slackID = user.id;
 
-      // const currentUser = await User.findOne({ slackID });
       const userRef = await db.collection(`users`).doc(`${slackID}`);
       const currentUser = await userRef.get();
 
       userToken = currentUser.data().clickUpToken;
 
-      // console.log(`userToken ------`, userToken);
-
       const fetchedTasks = await getFilteredTasks(
         String(currentUser.data().clickUpID)
       );
-
-      // console.log(`tasks when not fetched --------`, fetchedTasks);
 
       if (fetchedTasks.tasks.length === 0 || !fetchedTasks) {
         setTasks(null);
@@ -92,8 +83,6 @@ export function GetTasksCurrentUser({
 
     const url = `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${utcToCentral}&date_updated_lt=${dateLt}&assignees[]=${users}`;
 
-    // console.log(`url -------------`, url);
-
     const tasks = await axios.get(`${url}`, {
       headers: { Authorization: `${userToken}` },
     });
@@ -110,7 +99,7 @@ export function GetTasksCurrentUser({
             onClick={async () => {
               openModal();
             }}>
-            Get tasks
+            Get tasks ADMIN
           </Button>
         }>
         <Text>Get tasks from the current user. Click the button to begin</Text>

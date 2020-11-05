@@ -6,7 +6,8 @@ import db from "../firestore-config";
 import client from "../phelia-config";
 
 const router = express.Router();
-//get tasks admin
+
+//get tasks admin : /get-tasks command
 router.post("/get-tasks-admin", async function (req, res) {
   await res.sendStatus(200);
 
@@ -31,7 +32,7 @@ router.post("/get-tasks-admin", async function (req, res) {
   }
 });
 
-//get tasks current user
+//get tasks current user : /get-my-tasks command
 router.post("/get-tasks-user", async function (req, res) {
   await res.sendStatus(200);
 
