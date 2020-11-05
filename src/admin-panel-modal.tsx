@@ -86,21 +86,39 @@ export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
     if (submitted) {
       user = event.user;
       form = event.form;
-      admins = event.form.checkboxes;
+      admins = event.form.checkboxes; //array with IDs of all admins
 
-      //update permissions
-      // await User.update({}, { $set: { isAdmin: false } }, { multi: true });
+      // 1. set all users to non-admin status
+      await db
+        .collection(`users`)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc: any) => {
+            doc.ref.update({
+              isAdmin: false,
+            });
+          });
+        });
 
-      const query = admins.map((id: any) => {
-        return { slackID: id };
-      });
+      // 2. set users on admins as admins
+      const usersRef = await db.collection(`users`);
 
-      // await User.update(
-      //   { $or: query },
-      //   { $set: { isAdmin: true } },
-      //   { multi: true }
-      // );
-      // submitted = false;
+      console.log(`usersRef --------`, usersRef);
+
+      const usersArr = await usersRef
+        .where(`slackID`, "in", admins)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc: any) => {
+            doc.ref.update({
+              isAdmin: true,
+            });
+          });
+        });
+
+      console.log(`usersArr --------`, usersArr);
+
+      submitted = false;
     } else {
       setCancelled(true);
     }
