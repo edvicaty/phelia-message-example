@@ -70,8 +70,6 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
       .where("slackID", "in", form.selection)
       .get();
 
-    //TODO: continue from here, this works
-
     //map wont work, use forEach
     let clickUpIdsArr: any = [];
 
@@ -87,7 +85,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
 
     const fetchedTasks = await getFilteredTasks(usersString);
 
-    console.log(`tasks when not fetched --------`, fetchedTasks);
+    // console.log(`tasks when not fetched --------`, fetchedTasks);
 
     if (fetchedTasks.tasks.length === 0 || !fetchedTasks) {
       setTasks(null);

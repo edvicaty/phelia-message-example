@@ -18,6 +18,7 @@ import {
   TextField,
 } from "phelia";
 import db from "./firestore-config";
+
 let submitted = false;
 
 //-------------------------------- Modal ------------------------------
@@ -137,7 +138,8 @@ export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
         accessory={
           <Button
             action="open-modal"
-            onClick={async () => {
+            onClick={async (e) => {
+              console.log(`check event to open modal ---------`, e);
               openModal();
             }}>
             Open Panel
