@@ -64,11 +64,6 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
 
     const currentUser = await userRef.get();
     userToken = currentUser.data().clickUpToken;
-    //form.selection is an array of slack IDs
-
-    // const query = form.selection.map((id: any) => {
-    //   return { slackID: id };
-    // });
 
     const usersRef = await db.collection(`users`);
     const usersArr: any = await usersRef
@@ -76,17 +71,20 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
       .get();
 
     //TODO: continue from here, this works
-    usersArr.forEach((doc: any) => {
-      console.log(doc.id, "=>", doc.data(), doc.data().username);
-    });
 
-    // const usersArr = await User.find({ $or: query });
+    const clickUpIdsArr = usersArr.map((doc: any) => doc.data().clickUpID);
 
-    // const usersString = usersArr.map((user) => user.clickUpID).toString();
+    console.log(`clickUpIdsArr-----:`, clickUpIdsArr);
 
-    // const fetchedTasks = await getFilteredTasks(usersString);
+    const usersString = clickUpIdsArr
+      .map((user: any) => user.clickUpID)
+      .toString();
+
+    console.log(`usersString-----:`, usersString);
+
+    const fetchedTasks = await getFilteredTasks(usersString);
     setShowForm(true);
-    // setTasks(fetchedTasks.tasks);
+    setTasks(fetchedTasks.tasks);
   });
 
   //retrieving modal data functions
@@ -99,7 +97,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
 
     const url = `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${utcToCentral}&date_updated_lt=${dateLt}&assignees[]=${users}`;
 
-    // console.log(`url -------------`, url);
+    console.log(`url -------------`, url);
 
     const tasks = await axios.get(`${url}`, {
       headers: { Authorization: `${userToken}` },
