@@ -70,9 +70,13 @@ export function GetTasksCurrentUser({
       const fetchedTasks = await getFilteredTasks(
         String(currentUser.data().clickUpID)
       );
-      console.log(`fetchedTasks -------`, fetchedTasks);
+
+      if (fetchedTasks.tasks.length === 0) {
+        setTasks([]);
+      } else {
+        setTasks(fetchedTasks.tasks);
+      }
       setShowForm(true);
-      setTasks(fetchedTasks.tasks);
     }
   );
 

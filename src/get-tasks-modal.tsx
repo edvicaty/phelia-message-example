@@ -86,8 +86,14 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     // console.log(`usersString-----:`, usersString);
 
     const fetchedTasks = await getFilteredTasks(usersString);
+
+    if (fetchedTasks.tasks.length === 0) {
+      setTasks([]);
+    } else {
+      setTasks(fetchedTasks.tasks);
+    }
+
     setShowForm(true);
-    setTasks(fetchedTasks.tasks);
   });
 
   //retrieving modal data functions
