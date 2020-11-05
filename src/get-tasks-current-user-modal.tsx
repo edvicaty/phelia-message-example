@@ -72,6 +72,7 @@ export function GetTasksCurrentUser({
       );
 
       console.log(`tasks when not fetched --------`, fetchedTasks);
+
       if (fetchedTasks.tasks.length === 0 || !fetchedTasks) {
         setTasks(null);
       } else {
@@ -97,7 +98,11 @@ export function GetTasksCurrentUser({
       headers: { Authorization: `${userToken}` },
     });
 
-    return tasks.data;
+    if (tasks.data) {
+      return tasks.data;
+    } else {
+      return null;
+    }
   }
 
   return (

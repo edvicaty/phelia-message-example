@@ -87,6 +87,8 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
 
     const fetchedTasks = await getFilteredTasks(usersString);
 
+    console.log(`tasks when not fetched --------`, fetchedTasks);
+
     if (fetchedTasks.tasks.length === 0 || !fetchedTasks) {
       setTasks([]);
     } else {
@@ -112,7 +114,11 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
       headers: { Authorization: `${userToken}` },
     });
 
-    return tasks.data;
+    if (tasks.data) {
+      return tasks.data;
+    } else {
+      return null;
+    }
   }
 
   return (
