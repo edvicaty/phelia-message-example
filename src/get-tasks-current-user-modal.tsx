@@ -117,16 +117,7 @@ export function GetTasksCurrentUser({
       </Section>
 
       {showForm && tasks && (
-        <Section
-          accessory={
-            <Button
-              action="tasks"
-              onClick={() => {
-                console.log(tasks);
-              }}>
-              log tasks
-            </Button>
-          }>
+        <Section>
           {tasks.map((task: any) => (
             <Text type="mrkdwn">
               * *Task:* {task.name}

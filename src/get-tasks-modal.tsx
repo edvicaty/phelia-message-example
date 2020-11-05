@@ -147,22 +147,12 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
             ```NOT ADMIN```
             {`\n`} {``} *use {``} ```/setAdmin {` [token] `}``` {``} to set
             yourself as an ADMIN. {``}
-            {`\n`} {``} Then, reload this component {``}
           </Text>
         </Section>
       )}
 
-      {showForm && tasks && (
-        <Section
-          accessory={
-            <Button
-              action="tasks"
-              onClick={() => {
-                console.log(tasks);
-              }}>
-              log tasks
-            </Button>
-          }>
+      {showForm && tasks && !notAdmin && (
+        <Section>
           {tasks.map((task: any) => (
             <Text type="mrkdwn">
               * *Task:* {task.name}

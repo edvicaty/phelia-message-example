@@ -164,7 +164,6 @@ export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
             ```NOT ADMIN```
             {`\n`} {``} *use ```/setAdmin {` [token] `}``` to set yourself as an
             ADMIN. {``}
-            {`\n`} {``} Then, reload this component {``}
           </Text>
         </Section>
       )}
