@@ -50,6 +50,7 @@ export function GetTasksByTimeModal() {
 export function GetTasks({ useModal, useState }: PheliaMessageProps) {
   const [tasks, setTasks] = useState<Array<string>>("tasks");
   const [showForm, setShowForm] = useState("showForm", false);
+  const [notAdmin, setNotAdmin] = useState<boolean>("notAdmin", false);
 
   let form = null;
   let user: any = null;
@@ -121,14 +122,35 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
         accessory={
           <Button
             action="open-modal"
-            onClick={async () => {
-              openModal();
+            onClick={async (e) => {
+              const user = await db
+                .collection(`users`)
+                .doc(`${e.user.id}`)
+                .get();
+
+              if (user.exists && user.data().isAdmin) {
+                setNotAdmin(false);
+                openModal();
+              } else {
+                setNotAdmin(true);
+              }
             }}>
             Get tasks
           </Button>
         }>
         <Text>Get tasks from different users. Click the button to begin</Text>
       </Section>
+
+      {notAdmin && (
+        <Section>
+          <Text type="mrkdwn">
+            ```NOT ADMIN```
+            {`\n`} {``} *use {``} ```/setAdmin {` [token] `}``` {``} to set
+            yourself as an ADMIN. {``}
+            {`\n`} {``} Then, reload this component {``}
+          </Text>
+        </Section>
+      )}
 
       {showForm && tasks && (
         <Section

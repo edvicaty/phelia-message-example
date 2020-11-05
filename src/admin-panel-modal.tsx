@@ -82,6 +82,7 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
 
 export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
   const [cancelled, setCancelled] = useState<boolean>("cancelled", false);
+  const [notAdmin, setNotAdmin] = useState<boolean>("notAdmin", false);
 
   let form = null;
   let user: any = null;
@@ -139,14 +140,34 @@ export function AdminPanel({ useModal, useState }: PheliaMessageProps) {
           <Button
             action="open-modal"
             onClick={async (e) => {
-              console.log(`check event to open modal ---------`, e);
-              openModal();
+              const user = await db
+                .collection(`users`)
+                .doc(`${e.user.id}`)
+                .get();
+
+              if (user.exists && user.data().isAdmin) {
+                setNotAdmin(false);
+                openModal();
+              } else {
+                setNotAdmin(true);
+              }
             }}>
             Open Panel
           </Button>
         }>
         <Text>Opens the ADMIN panel. Click the button to begin</Text>
       </Section>
+
+      {notAdmin && (
+        <Section>
+          <Text type="mrkdwn">
+            ```NOT ADMIN```
+            {`\n`} {``} *use ```/setAdmin {` [token] `}``` to set yourself as an
+            ADMIN. {``}
+            {`\n`} {``} Then, reload this component {``}
+          </Text>
+        </Section>
+      )}
     </Message>
   );
 }
