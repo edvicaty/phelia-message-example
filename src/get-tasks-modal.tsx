@@ -81,9 +81,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
 
     console.log(`clickUpIdsArr-----:`, clickUpIdsArr);
 
-    const usersString = clickUpIdsArr
-      .map((user: any) => user.clickUpID)
-      .toString();
+    const usersString = clickUpIdsArr.toString();
 
     console.log(`usersString-----:`, usersString);
 
