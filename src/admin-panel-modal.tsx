@@ -30,9 +30,14 @@ export function AdminPanelModal({ useState }: PheliaMessageProps) {
     const userRef = await db.collection(`users`);
     const usersArr: any = await userRef.get();
 
-    console.log(`usersArr-----`, usersArr, usersArr.data());
+    let users: any = [];
+    usersArr.forEach((doc: any) => {
+      users.push(doc.data());
+    });
 
-    setUsers(usersArr.data());
+    console.log(`usersArr-----`, usersArr, `users`, users);
+
+    setUsers(users);
   };
 
   return (
