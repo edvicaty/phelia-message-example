@@ -60,7 +60,7 @@ export function GetTasksCurrentUser({
       const slackID = user.id;
 
       // const currentUser = await User.findOne({ slackID });
-      const userRef = await db.collection(`user`).doc(`${slackID}`);
+      const userRef = await db.collection(`users`).doc(`${slackID}`);
       const currentUser = await userRef.get();
 
       userToken = currentUser.data().clickUpToken;

@@ -60,21 +60,24 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
     form = event.form;
     const slackID = user.id;
 
-    // const currentUser = await User.findOne({ slackID });
     const userRef = await db.collection(`users`).doc(`${slackID}`);
 
     const currentUser = await userRef.get();
     userToken = currentUser.data().clickUpToken;
+    //form.selection is an array of slack IDs
 
     // const query = form.selection.map((id: any) => {
     //   return { slackID: id };
     // });
 
     const usersRef = await db.collection(`users`);
-    const usersArr: any = await usersRef.get();
+    const usersArr: any = await usersRef
+      .where("slackID", "in", form.selection)
+      .get();
 
+    //TODO: continue from here, this works
     usersArr.forEach((doc: any) => {
-      console.log(doc.id, "=>", doc.data());
+      console.log(doc.id, "=>", doc.data(), doc.data().username);
     });
 
     // const usersArr = await User.find({ $or: query });

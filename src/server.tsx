@@ -240,6 +240,7 @@ app.post("/redirect", async function (req, res) {
       isAdmin: false,
     });
   }
+
   await client.openModal(RegistrationModal, trigger_id, { name: user_name });
 });
 
