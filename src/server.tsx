@@ -118,8 +118,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //----------------------------------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ----------- mongoDB START ----------------------------------------------------------------------------------
 
-// //TODO: check firestore implementation -----------------------------------------------
-
 // admin.initializeApp({
 //   credential: admin.credential.cert({
 //     projectId: "octavia-bot-test",
@@ -149,15 +147,14 @@ app.post("/get-tasks-admin", async function (req, res) {
     trigger_id,
   } = await req.body;
 
-  //TODO: check firestore implementation -----------------------------------------------
   const userRef = await db.collection(`users`).doc(`${user_id}`);
   const user = await userRef.get();
-  console.log(
-    `checking if admin ----------`,
-    user.data(),
-    `exists?--------`,
-    user.exists
-  );
+  // console.log(
+  //   `checking if admin ----------`,
+  //   user.data(),
+  //   `exists?--------`,
+  //   user.exists
+  // );
 
   if (user.exists && user.data().isAdmin) {
     client.postMessage(GetTasks, `${user_id}`);
@@ -227,7 +224,6 @@ app.post("/redirect", async function (req, res) {
 
   slackUserIDToRegister = user_id;
 
-  //TODO: check firestore implementation -----------------------------------------------
   //name of the docs corresponds to the user slack ID
   const userRef = await db.collection(`users`).doc(`${user_id}`);
   const user = await userRef.get();
@@ -256,7 +252,6 @@ app.get("/auth", async function (req, res) {
 
   const user = await getUser(accessToken.data.access_token);
 
-  //TODO: check firestore implementation -----------------------------------------------
   await db.collection(`users`).doc(`${slackUserIDToRegister}`).update({
     clickUpToken: accessToken.data.access_token,
     clickUpID: user.data.user.id,
@@ -354,7 +349,6 @@ app.post("/admin-panel", async function (req, res) {
     text,
   } = await req.body;
 
-  //TODO: check firestore implementation -----------------------------------------------
   const userRef = await db.collection(`users`).doc(`${user_id}`);
   const user = await userRef.get();
 

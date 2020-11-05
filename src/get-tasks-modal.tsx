@@ -99,7 +99,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
 
   //retrieving modal data functions
   async function getFilteredTasks(users: string) {
-    const teamID = 8509000; //worskpace ID
+    const teamID = process.env.WORKSPACE_ID;
     const page = 0;
     const oneDay = 86400000;
     const utcToCentral = updatedDate + 21600000;
