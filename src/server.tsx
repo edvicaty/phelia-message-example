@@ -10,10 +10,6 @@ import tasksRoutes from "./routes/tasks";
 const app = express();
 const port = process.env.PORT || 80;
 
-//loading body parser before phelia components will crash the app
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 // Register your Home App
 const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
 app.use("/events", slackEvents.requestListener());
@@ -23,6 +19,9 @@ app.post(
   "/interactions",
   client.messageHandler(process.env.SLACK_SIGNING_SECRET)
 );
+//loading body parser before phelia components will crash the app
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/", authRoutes);
 app.use("/", tasksRoutes);
