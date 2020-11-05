@@ -79,11 +79,11 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
       clickUpIdsArr.push(doc.data().clickUpID);
     });
 
-    console.log(`clickUpIdsArr-----:`, clickUpIdsArr);
+    // console.log(`clickUpIdsArr-----:`, clickUpIdsArr);
 
     const usersString = clickUpIdsArr.toString();
 
-    console.log(`usersString-----:`, usersString);
+    // console.log(`usersString-----:`, usersString);
 
     const fetchedTasks = await getFilteredTasks(usersString);
     setShowForm(true);
@@ -100,7 +100,7 @@ export function GetTasks({ useModal, useState }: PheliaMessageProps) {
 
     const url = `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${utcToCentral}&date_updated_lt=${dateLt}&assignees[]=${users}`;
 
-    console.log(`url -------------`, url);
+    // console.log(`url -------------`, url);
 
     const tasks = await axios.get(`${url}`, {
       headers: { Authorization: `${userToken}` },

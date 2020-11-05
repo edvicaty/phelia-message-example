@@ -65,7 +65,12 @@ export function GetTasksCurrentUser({
 
       userToken = currentUser.data().clickUpToken;
 
-      const fetchedTasks = await getFilteredTasks(currentUser.data().clickUpID);
+      console.log(`userToken ------`, userToken);
+
+      const fetchedTasks = await getFilteredTasks(
+        String(currentUser.data().clickUpID)
+      );
+      console.log(`fetchedTasks -------`, fetchedTasks);
       setShowForm(true);
       setTasks(fetchedTasks.tasks);
     }
@@ -81,7 +86,7 @@ export function GetTasksCurrentUser({
 
     const url = `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${utcToCentral}&date_updated_lt=${dateLt}&assignees[]=${users}`;
 
-    // console.log(`url -------------`, url);
+    console.log(`url -------------`, url);
 
     const tasks = await axios.get(`${url}`, {
       headers: { Authorization: `${userToken}` },
