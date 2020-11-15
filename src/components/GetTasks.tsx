@@ -112,14 +112,14 @@ query($slackId: String!) {
     const currentUser = await getData(getUserBySlackIdQuery, slackIdVar);
     console.log(`currentUser`, currentUser);
     userToken = currentUser.filtered[0].services.clickUp.token;
-    let clickUpIdsArr: any = [];
     console.log(`userToken`, userToken);
 
     //form.selection is an array of SlackId's
-    form.selection.forEach(async (slackId: any) => {
+    const clickUpIdsArr = form.selection.map(async (slackId: any) => {
       const user = await getData(getClickUpIdBySlackId, { slackId });
-      clickUpIdsArr.push(user.filtered[0].services.clickUp.id);
+      return user.filtered[0].services.clickUp.id;
     });
+
     console.log(`clickUpIdsArr`, clickUpIdsArr);
     console.log(`form.selection`, form.selection);
 
