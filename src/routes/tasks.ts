@@ -44,7 +44,6 @@ router.post("/get-tasks-admin", async function (req, res) {
     }
   }
   `;
-
   const user = await getData(getUserBySlackIdQuery, slackIdVar);
 
   if (user.filtered[0].id && user.filtered[0].services.clickUp.isAdmin) {
