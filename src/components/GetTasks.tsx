@@ -121,6 +121,7 @@ query($slackId: String!) {
       clickUpIdsArr.push(user.filtered[0].services.clickUp.id);
     });
     console.log(`clickUpIdsArr`, clickUpIdsArr);
+    console.log(`form.selection`, form.selection);
 
     // const usersRef = await db.collection(`users`)
     // const usersArr: any = await usersRef.where("slackID", "in", form.selection).get()
