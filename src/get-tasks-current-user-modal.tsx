@@ -66,7 +66,8 @@ export function GetTasksCurrentUser({
         date
       );
 
-      setDate(String(new Date(chooseDate).getTime()));
+      await setDate(String(new Date(chooseDate).getTime()));
+
       console.log(`date------`, date);
       const slackID = user.id;
       const currentUser = await User.findOne({ slackID });
