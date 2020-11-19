@@ -60,13 +60,18 @@ export function GetTasksCurrentUser({
       user = event.user;
       form = event.form;
       const chooseDate = event.form.date;
+
       console.log(
         `datebef
       ------`,
         date
       );
 
-      await setDate(String(new Date(chooseDate).getTime()));
+      function setStateFunction(chooseDate: any) {
+        setDate(String(new Date(chooseDate).getTime()));
+      }
+
+      await setStateFunction(chooseDate);
 
       console.log(`date------`, date);
       const slackID = user.id;
