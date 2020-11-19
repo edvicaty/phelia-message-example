@@ -57,6 +57,7 @@ export function GetTasksCurrentUser({
     async (event) => {
       user = event.user;
       form = event.form;
+      console.log(`-----form`, form);
       const slackID = user.id;
       const currentUser = await User.findOne({ slackID });
       userToken = currentUser.clickUpToken;
