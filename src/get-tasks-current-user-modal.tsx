@@ -16,7 +16,7 @@ import {
   Actions,
 } from "phelia";
 
-let updatedDate: any = null;
+// let updatedDate: any = null;
 
 //-------------------------------- Modal ------------------------------
 
@@ -27,10 +27,10 @@ export function GetTasksCurrentUserModal() {
         text={`Select a day`}
         accessory={
           <DatePicker
-            onSelect={async ({ user, date }) => {
-              console.log(`date from select--------`, date);
-              updatedDate = await Number(new Date(date).getTime());
-            }}
+            // onSelect={async ({ user, date }) => {
+            //   console.log(`date from select--------`, date);
+            //   updatedDate = await Number(new Date(date).getTime());
+            // }}
             action="date"
           />
         }
@@ -47,6 +47,7 @@ export function GetTasksCurrentUser({
 }: PheliaMessageProps) {
   const [tasks, setTasks] = useState<Array<string>>("tasks");
   const [showForm, setShowForm] = useState("showForm", false);
+  const [date, setDate] = useState("setDate", null);
 
   let form = null;
   let user: any = null;
@@ -58,8 +59,15 @@ export function GetTasksCurrentUser({
     async (event) => {
       user = event.user;
       form = event.form;
-      //-----form { date: '2020-11-15' }
-      console.log(`-----form`, form);
+      const chooseDate = event.form.date;
+      console.log(
+        `datebef
+      ------`,
+        date
+      );
+
+      setDate(Number(new Date(chooseDate).getTime()));
+      console.log(`date------`, date);
       const slackID = user.id;
       const currentUser = await User.findOne({ slackID });
       userToken = currentUser.clickUpToken;
@@ -75,7 +83,7 @@ export function GetTasksCurrentUser({
     const teamID = 8509000; //worskpace ID
     const page = 0;
     const oneDay = 86400000;
-    const utcToCentral = updatedDate + 21600000;
+    const utcToCentral = date + 21600000;
     const dateLt = utcToCentral + oneDay;
 
     const url = `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${utcToCentral}&date_updated_lt=${dateLt}&assignees[]=${users}`;
