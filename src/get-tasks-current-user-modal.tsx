@@ -47,7 +47,7 @@ export function GetTasksCurrentUser({
 }: PheliaMessageProps) {
   const [tasks, setTasks] = useState<Array<string>>("tasks");
   const [showForm, setShowForm] = useState("showForm", false);
-  const [date, setDate] = useState("setDate", null);
+  const [date, setDate] = useState<string>("setDate", null);
 
   let form = null;
   let user: any = null;
@@ -66,7 +66,7 @@ export function GetTasksCurrentUser({
         date
       );
 
-      setDate(Number(new Date(chooseDate).getTime()));
+      setDate(String(new Date(chooseDate).getTime()));
       console.log(`date------`, date);
       const slackID = user.id;
       const currentUser = await User.findOne({ slackID });
