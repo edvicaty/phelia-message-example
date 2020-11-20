@@ -99,36 +99,23 @@ export function GetTasksCurrentUserModal({
         }
       />
       {showForm && tasks && (
-        <Section
-          accessory={
-            <MultiSelectMenu action="selection" placeholder="A placeholder">
-              <OptionGroup label="an option group">
-                <Option value="option-a">option a</Option>
-                <Option value="option-b">option b</Option>
-                <Option value="option-c">option c</Option>
-              </OptionGroup>
-
-              <OptionGroup label="another option group">
-                <Option value="option-d">option d</Option>
-                <Option value="option-e" selected>
-                  option e
-                </Option>
-                <Option value="option-f">option f</Option>
-              </OptionGroup>
-            </MultiSelectMenu>
-          }>
+        <>
           {tasks.map((task: any) => (
-            <Text type="mrkdwn">
-              * *Task:* {task.name}
-              {`\n`} {``}* *Description:* {``}
-              {task.description}
-              {`\n`} {``}* *Assignee:* {``}
-              {task.assignees.map((assignee: any) => `${assignee.username}, `)}
-              {`\n`}* *Status:* {``}```
-              {task.status.type}``` ----------
-            </Text>
+            <Section>
+              <Text type="mrkdwn">
+                * *Task:* {task.name}
+                {`\n`} {``}* *Description:* {``}
+                {task.description}
+                {`\n`} {``}* *Assignee:* {``}
+                {task.assignees.map(
+                  (assignee: any) => `${assignee.username}, `
+                )}
+                {`\n`}* *Status:* {``}```
+                {task.status.type}``` ----------
+              </Text>
+            </Section>
           ))}
-        </Section>
+        </>
       )}
     </Modal>
   );
