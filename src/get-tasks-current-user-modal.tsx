@@ -119,52 +119,34 @@ export function GetTasksCurrentUser({
       </Section>
 
       {showForm && tasks && (
-        <>
-          <Actions>
-            <MultiSelectMenu
-              action="selection"
-              placeholder="Select an option"
-              onSelect={() => {
-                console.log(`selected--`);
-              }}>
-              <OptionGroup label="an option group">
-                <Option value="option-a">option a</Option>
-                <Option value="option-b">option b</Option>
-                <Option value="option-c">option c</Option>
-              </OptionGroup>
+        <Section>
+          {tasks.map((task: any) => (
+            <Text type="mrkdwn">
+              * *Task:* {task.name}
+              {`\n`} {``}* *Description:* {``}
+              {task.description}
+              {`\n`} {``}* *Assignee:* {``}
+              {task.assignees.map((assignee: any) => `${assignee.username}, `)}
+              {`\n`}* *Status:* {``}```
+              {task.status.type}``` ----------
+            </Text>
+          ))}
+          <MultiSelectMenu action="selection" placeholder="Select an option">
+            <OptionGroup label="an option group">
+              <Option value="option-a">option a</Option>
+              <Option value="option-b">option b</Option>
+              <Option value="option-c">option c</Option>
+            </OptionGroup>
 
-              <OptionGroup label="another option group">
-                <Option value="option-d">option d</Option>
-                <Option value="option-e" selected>
-                  option e
-                </Option>
-                <Option value="option-f">option f</Option>
-              </OptionGroup>
-            </MultiSelectMenu>
-          </Actions>
-
-          <Section
-            accessory={
-              <Image
-                imageUrl="https://media-exp1.licdn.com/dms/image/C560BAQF2B0YVN7bLUg/company-logo_200_200/0?e=2159024400&v=beta&t=GZwz-ya2e1Dznp44PmIGZaVjEoWcmXQnecoDhWho8II"
-                alt="Octahedroid logo"
-              />
-            }>
-            {tasks.map((task: any) => (
-              <Text type="mrkdwn">
-                * *Task:* {task.name}
-                {`\n`} {``}* *Description:* {``}
-                {task.description}
-                {`\n`} {``}* *Assignee:* {``}
-                {task.assignees.map(
-                  (assignee: any) => `${assignee.username}, `
-                )}
-                {`\n`}* *Status:* {``}```
-                {task.status.type}``` ----------
-              </Text>
-            ))}
-          </Section>
-        </>
+            <OptionGroup label="another option group">
+              <Option value="option-d">option d</Option>
+              <Option value="option-e" selected>
+                option e
+              </Option>
+              <Option value="option-f">option f</Option>
+            </OptionGroup>
+          </MultiSelectMenu>
+        </Section>
       )}
     </Message>
   );
