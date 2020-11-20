@@ -78,7 +78,7 @@ export function GetTasksCurrentUserModal({
               const fetchedTasks = await getFilteredTasks(
                 currentUser.clickUpID
               );
-              console.log(`tasks---`, JSON.stringify(tasks, null, 2));
+              console.log(`tasks---`, JSON.stringify(fetchedTasks, null, 2));
               setShowForm(true);
               setTasks(fetchedTasks.tasks);
             }}
