@@ -45,7 +45,7 @@ import { TextMessage } from "./text-message";
 import {
   GetTasksCurrentUser,
   GetTasksCurrentUserModal,
-  testModal,
+  // testModal,
 } from "./get-tasks-current-user-modal";
 import { AdminPanel, AdminPanelModal } from "./admin-panel-modal";
 
@@ -97,7 +97,7 @@ client.registerComponents([
   MultiChannelsSelectMenuModal,
   MultiConversationsSelectMenuExample,
   MultiConversationsSelectMenuModal,
-  testModal,
+  // testModal,
 ]);
 
 // Register the interaction webhook
