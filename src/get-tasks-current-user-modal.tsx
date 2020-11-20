@@ -24,43 +24,43 @@ import {
 let updatedDate: any = null;
 
 //-------------------------------- Modal ------------------------------
-export function testModal({ useModal, useState }: PheliaMessageProps) {
-  // const openModal = useModal("modal", GetTasksCurrentUserModal);
-  return (
-    <Modal title="Users multi select menu22" submit="Submit">
-      <Section
-        text={`Select a day`}
-        accessory={
-          <DatePicker
-            onSelect={async ({ user, date }) => {
-              console.log(`date from select--------`, date);
-              updatedDate = await Number(new Date(date).getTime());
-            }}
-            action="date"
-          />
-        }
-      />
-      <Section
-        text={`Open itself`}
-        accessory={
-          <Button
-            action="open-modal"
-            onClick={async () => {
-              // openModal();
-            }}>
-            Open itself
-          </Button>
-        }
-      />
-    </Modal>
-  );
-}
+// export function testModal({ useModal, useState }: PheliaMessageProps) {
+//   // const openModal = useModal("modal", GetTasksCurrentUserModal);
+//   return (
+//     <Modal title="Users multi select menu22" submit="Submit">
+//       <Section
+//         text={`Select a day`}
+//         accessory={
+//           <DatePicker
+//             onSelect={async ({ user, date }) => {
+//               console.log(`date from select--------`, date);
+//               updatedDate = await Number(new Date(date).getTime());
+//             }}
+//             action="date"
+//           />
+//         }
+//       />
+//       <Section
+//         text={`Open itself`}
+//         accessory={
+//           <Button
+//             action="open-modal"
+//             onClick={async () => {
+//               // openModal();
+//             }}>
+//             Open itself
+//           </Button>
+//         }
+//       />
+//     </Modal>
+//   );
+// }
 
 export function GetTasksCurrentUserModal({
   useModal,
   useState,
 }: PheliaMessageProps) {
-  const openModal = useModal("modal2", testModal);
+  // const openModal = useModal("modal2", testModal);
   return (
     <Modal title="Users multi select menu" submit="Submit">
       <Section
@@ -81,7 +81,7 @@ export function GetTasksCurrentUserModal({
           <Button
             action="open-modal2"
             onClick={async () => {
-              openModal();
+              // openModal();
             }}>
             Open itself
           </Button>
