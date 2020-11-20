@@ -23,43 +23,33 @@ import {
 
 let updatedDate: any = null;
 
-//-------------------------------- Modal ------------------------------
-// export function testModal({ useModal, useState }: PheliaMessageProps) {
-//   // const openModal = useModal("modal", GetTasksCurrentUserModal);
-//   return (
-//     <Modal title="Users multi select menu22" submit="Submit">
-//       <Section
-//         text={`Select a day`}
-//         accessory={
-//           <DatePicker
-//             onSelect={async ({ user, date }) => {
-//               console.log(`date from select--------`, date);
-//               updatedDate = await Number(new Date(date).getTime());
-//             }}
-//             action="date"
-//           />
-//         }
-//       />
-//       <Section
-//         text={`Open itself`}
-//         accessory={
-//           <Button
-//             action="open-modal"
-//             onClick={async () => {
-//               // openModal();
-//             }}>
-//             Open itself
-//           </Button>
-//         }
-//       />
-//     </Modal>
-//   );
-// }
-
 export function GetTasksCurrentUserModal({
   useModal,
   useState,
 }: PheliaMessageProps) {
+  const [tasks, setTasks] = useState<Array<string>>("tasks");
+  const [showForm, setShowForm] = useState("showForm", false);
+
+  let user: any = null;
+  let userToken: string = null;
+
+  async function getFilteredTasks(users: string) {
+    const teamID = 8509000; //worskpace ID
+    const page = 0;
+    const oneDay = 86400000;
+    const utcToCentral = updatedDate + 21600000;
+    const dateLt = utcToCentral + oneDay;
+
+    const url = `https://api.clickup.com/api/v2/team/${teamID}/task?page=${page}&date_updated_gt=${utcToCentral}&date_updated_lt=${dateLt}&assignees[]=${users}`;
+
+    // console.log(`url -------------`, url);
+
+    const tasks = await axios.get(`${url}`, {
+      headers: { Authorization: `${userToken}` },
+    });
+    return tasks.data;
+  }
+
   // const openModal = useModal("modal2", testModal);
   return (
     <Modal title="Users multi select menu" submit="Submit">
@@ -70,6 +60,26 @@ export function GetTasksCurrentUserModal({
             onSelect={async ({ user, date }) => {
               console.log(`date from select--------`, date);
               updatedDate = await Number(new Date(date).getTime());
+
+              // const chooseDate = event.form.date;
+              // console.log(
+              //   `datebef
+              // ------`,
+              //   date
+              // );
+
+              // await setStateFunction(chooseDate);
+
+              // console.log(`date------`, date);
+              const slackID = user.id;
+              const currentUser = await User.findOne({ slackID });
+              userToken = currentUser.clickUpToken;
+
+              const fetchedTasks = await getFilteredTasks(
+                currentUser.clickUpID
+              );
+              setShowForm(true);
+              setTasks(fetchedTasks.tasks);
             }}
             action="date"
           />
@@ -87,6 +97,38 @@ export function GetTasksCurrentUserModal({
           </Button>
         }
       />
+      {showForm && tasks && (
+        <Section
+          accessory={
+            <MultiSelectMenu action="selection" placeholder="A placeholder">
+              <OptionGroup label="an option group">
+                <Option value="option-a">option a</Option>
+                <Option value="option-b">option b</Option>
+                <Option value="option-c">option c</Option>
+              </OptionGroup>
+
+              <OptionGroup label="another option group">
+                <Option value="option-d">option d</Option>
+                <Option value="option-e" selected>
+                  option e
+                </Option>
+                <Option value="option-f">option f</Option>
+              </OptionGroup>
+            </MultiSelectMenu>
+          }>
+          {tasks.map((task: any) => (
+            <Text type="mrkdwn">
+              * *Task:* {task.name}
+              {`\n`} {``}* *Description:* {``}
+              {task.description}
+              {`\n`} {``}* *Assignee:* {``}
+              {task.assignees.map((assignee: any) => `${assignee.username}, `)}
+              {`\n`}* *Status:* {``}```
+              {task.status.type}``` ----------
+            </Text>
+          ))}
+        </Section>
+      )}
     </Modal>
   );
 }
