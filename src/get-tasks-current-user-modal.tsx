@@ -189,7 +189,7 @@ export function GetTasksCurrentUser({
     console.log(`from openModal-------`, user);
 
     const currentUser = await User.findOne({ slackID: user.id });
-    // setUser(currentUser);
+    setUser(currentUser);
 
     openAdminModal();
     // if (user?.services?.clickUp?.isAdmin) {}
@@ -212,6 +212,7 @@ export function GetTasksCurrentUser({
       // console.log(`date------`, date);
       // const slackID = user.id;
       // const currentUser = await User.findOne({ slackID });
+      console.log(`user from useState-----------`, user);
       userToken = user.clickUpToken;
 
       const fetchedTasks = await getFilteredTasks(user.clickUpID);
