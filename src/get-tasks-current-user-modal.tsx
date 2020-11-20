@@ -143,7 +143,7 @@ export function GetTasksCurrentUser({
               <Option value="option-f">option f</Option>
             </OptionGroup>
           </MultiSelectMenu>
-          {tasks.map((task: any) => (
+          {/* {tasks.map((task: any) => (
             <Text type="mrkdwn">
               * *Task:* {task.name}
               {`\n`} {``}* *Description:* {``}
@@ -153,7 +153,7 @@ export function GetTasksCurrentUser({
               {`\n`}* *Status:* {``}```
               {task.status.type}``` ----------
             </Text>
-          ))}
+          ))} */}
         </Section>
       )}
     </Message>
