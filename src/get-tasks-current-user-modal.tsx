@@ -101,19 +101,30 @@ export function GetTasksCurrentUserModal({
       {showForm && tasks && (
         <>
           {tasks.map((task: any) => (
-            <Section>
-              <Text type="mrkdwn">
-                * *Task:* {task.name}
-                {`\n`} {``}* *Description:* {``}
-                {task.description}
-                {`\n`} {``}* *Assignee:* {``}
-                {task.assignees.map(
-                  (assignee: any) => `${assignee.username}, `
-                )}
-                {`\n`}* *Status:* {``}```
-                {task.status.type}``` ----------
-              </Text>
-            </Section>
+            <>
+              <Divider />
+              <Section
+                accessory={
+                  <Button
+                    url={`${task.url}`}
+                    action="openURL"
+                    onClick={() => {}}>
+                    {`See task on ClickUp`}
+                  </Button>
+                }>
+                <Text type="mrkdwn">
+                  * *Task:* {task.name}
+                  {`\n`} {``}* *Description:* {``}
+                  {task.description}
+                  {`\n`} {``}* *Assignee:* {``}
+                  {task.assignees.map(
+                    (assignee: any) => `${assignee.username}, `
+                  )}
+                  {`\n`}* *Status:* {``}```
+                  {task.status.type}``` ----------
+                </Text>
+              </Section>
+            </>
           ))}
         </>
       )}
