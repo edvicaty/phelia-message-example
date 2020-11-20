@@ -113,6 +113,7 @@ export function GetTasksCurrentUserModal({
                   //   onClick={() => {}}>
                   //   {`See task on ClickUp`}
                   // </Button>
+                  //----------------------------------------
                   // <RadioButtons
                   //   action="radio-buttons"
                   //   onSelect={(event: any) => {
@@ -126,6 +127,8 @@ export function GetTasksCurrentUserModal({
                   //   </Option>
                   //   <Option value="option-c">option c</Option>
                   // </RadioButtons>
+                  //----------------------------------------
+
                   <OverflowMenu
                     action="overflow"
                     onSelect={(event) => {
@@ -173,19 +176,29 @@ export function GetTasksCurrentUser({
   const [tasks, setTasks] = useState<Array<string>>("tasks");
   const [showForm, setShowForm] = useState("showForm", false);
   // const [date, setDate] = useState<string>("setDate", null);
-
+  const [user, setUser] = useState<any>("user", {});
+  //TODO: probar record Steve
   let form = null;
-  let user: any = null;
   let userToken: string = null;
 
   // async function setStateFunction(chooseDate: any) {
   //   await setDate(String(new Date(chooseDate).getTime()));
   // }
-  const openModal = useModal(
+
+  const openModal = async (user: any) => {
+    console.log(`from openModal-------`, user);
+
+    const currentUser = await User.findOne({ slackID: user.id });
+    // setUser(currentUser);
+
+    openAdminModal();
+    // if (user?.services?.clickUp?.isAdmin) {}
+  };
+
+  const openAdminModal = useModal(
     "modal",
     GetTasksCurrentUserModal,
     async (event) => {
-      user = event.user;
       form = event.form;
       // const chooseDate = event.form.date;
       // console.log(
@@ -197,11 +210,11 @@ export function GetTasksCurrentUser({
       // await setStateFunction(chooseDate);
 
       // console.log(`date------`, date);
-      const slackID = user.id;
-      const currentUser = await User.findOne({ slackID });
-      userToken = currentUser.clickUpToken;
+      // const slackID = user.id;
+      // const currentUser = await User.findOne({ slackID });
+      userToken = user.clickUpToken;
 
-      const fetchedTasks = await getFilteredTasks(currentUser.clickUpID);
+      const fetchedTasks = await getFilteredTasks(user.clickUpID);
       setShowForm(true);
       setTasks(fetchedTasks.tasks);
     }
@@ -231,8 +244,9 @@ export function GetTasksCurrentUser({
         accessory={
           <Button
             action="open-modal"
-            onClick={async () => {
-              openModal();
+            onClick={async (e) => {
+              openModal(e.user);
+              console.log(`from onCLick-------`, e.user);
             }}>
             Get tasks
           </Button>
