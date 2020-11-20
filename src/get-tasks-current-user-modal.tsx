@@ -113,17 +113,19 @@ export function GetTasksCurrentUserModal({
                   </Button>
                 }>
                 <Text type="mrkdwn">
-                  {`  `} *Task:* {task.name}
-                  {`\n`} {`  `}-{`  `} *Description:* {``}
+                  -{`  `} *Task:* {task.name}
+                  {`\n`} -{`  `} *Description:* {``}
+                  {`\n`}
                   {task.description}
-                  {`\n`} {`  `}-{`  `} *URL:* {``}
-                  {task.url}
-                  {`\n`} {`  `}-{`  `}*Assignee:* {``}
+                  {`\n`} -{`  `}*Assignee:* {``}
+                  {`\n`}
                   {task.assignees.map(
                     (assignee: any) => `${assignee.username}, `
                   )}
                   {`\n`}* *Status:* {``}```
                   {task.status.type}```
+                  {`\n`} -{`  `} *URL:* {``}
+                  {task.url}
                 </Text>
               </Section>
             </>
