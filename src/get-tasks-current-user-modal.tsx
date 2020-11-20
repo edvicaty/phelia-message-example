@@ -14,6 +14,8 @@ import {
   Text,
   DatePicker,
   Actions,
+  OptionGroup,
+  Option,
 } from "phelia";
 
 let updatedDate: any = null;
@@ -126,6 +128,21 @@ export function GetTasksCurrentUser({
               log tasks
             </Button>
           }>
+          <MultiSelectMenu action="selection" placeholder="A placeholder">
+            <OptionGroup label="an option group">
+              <Option value="option-a">option a</Option>
+              <Option value="option-b">option b</Option>
+              <Option value="option-c">option c</Option>
+            </OptionGroup>
+
+            <OptionGroup label="another option group">
+              <Option value="option-d">option d</Option>
+              <Option value="option-e" selected>
+                option e
+              </Option>
+              <Option value="option-f">option f</Option>
+            </OptionGroup>
+          </MultiSelectMenu>
           {tasks.map((task: any) => (
             <Text type="mrkdwn">
               * *Task:* {task.name}
