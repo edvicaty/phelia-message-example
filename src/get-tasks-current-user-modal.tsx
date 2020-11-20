@@ -189,6 +189,8 @@ export function GetTasksCurrentUser({
     console.log(`from openModal-------`, user);
 
     const currentUser = await User.findOne({ slackID: user.id });
+    console.log(`token from DB------`, currentUser);
+    console.log(`token from DB------`, currentUser.clickUpToken);
     setClickUpToken(currentUser.clickUpToken);
 
     openAdminModal();
