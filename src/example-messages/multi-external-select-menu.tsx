@@ -14,7 +14,10 @@ import {
   MultiSelectMenu,
 } from "phelia";
 
-export function MultiExternalSelectMenuModal() {
+export function MultiExternalSelectMenuModal({
+  useModal,
+  useState,
+}: PheliaMessageProps) {
   return (
     <Modal title="External menu" submit="Submit">
       <Input label="All external">

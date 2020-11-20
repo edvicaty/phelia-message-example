@@ -25,7 +25,32 @@ let updatedDate: any = null;
 
 //-------------------------------- Modal ------------------------------
 
-export function GetTasksCurrentUserModal() {
+export function GetTasksCurrentUserModal({
+  useModal,
+  useState,
+}: PheliaMessageProps) {
+  const openModal = useModal(
+    "modal",
+    GetTasksCurrentUserModal,
+    async (event) => {
+      // user = event.user;
+      // form = event.form;
+      // const chooseDate = event.form.date;
+      // console.log(
+      //   `datebef
+      // ------`,
+      //   date
+      // );
+      // await setStateFunction(chooseDate);
+      // console.log(`date------`, date);
+      // const slackID = user.id;
+      // const currentUser = await User.findOne({ slackID });
+      // userToken = currentUser.clickUpToken;
+      // const fetchedTasks = await getFilteredTasks(currentUser.clickUpID);
+      // setShowForm(true);
+      // setTasks(fetchedTasks.tasks);
+    }
+  );
   return (
     <Modal title="Users multi select menu" submit="Submit">
       <Section
@@ -38,6 +63,18 @@ export function GetTasksCurrentUserModal() {
             }}
             action="date"
           />
+        }
+      />
+      <Section
+        text={`Open itself`}
+        accessory={
+          <Button
+            action="open-modal"
+            onClick={async () => {
+              openModal();
+            }}>
+            Open itself
+          </Button>
         }
       />
     </Modal>
