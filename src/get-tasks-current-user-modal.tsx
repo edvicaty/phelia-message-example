@@ -131,7 +131,7 @@ export function GetTasksCurrentUser({
               {task.status.type}``` ----------
             </Text>
           ))}
-          <MultiSelectMenu action="selection" placeholder="Select an option">
+          {/* <MultiSelectMenu action="selection" placeholder="Select an option">
             <OptionGroup label="an option group">
               <Option value="option-a">option a</Option>
               <Option value="option-b">option b</Option>
@@ -145,7 +145,7 @@ export function GetTasksCurrentUser({
               </Option>
               <Option value="option-f">option f</Option>
             </OptionGroup>
-          </MultiSelectMenu>
+          </MultiSelectMenu> */}
         </Section>
       )}
     </Message>
