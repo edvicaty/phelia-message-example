@@ -176,7 +176,7 @@ export function GetTasksCurrentUser({
   const [tasks, setTasks] = useState<Array<string>>("tasks");
   const [showForm, setShowForm] = useState("showForm", false);
   // const [date, setDate] = useState<string>("setDate", null);
-  const [user, setUser] = useState<any>("user", {});
+  const [clickUpToken, setClickUpToken] = useState("user");
   //TODO: probar record Steve
   let form = null;
   let userToken: string = null;
@@ -189,7 +189,7 @@ export function GetTasksCurrentUser({
     console.log(`from openModal-------`, user);
 
     const currentUser = await User.findOne({ slackID: user.id });
-    setUser(currentUser);
+    setClickUpToken(currentUser.clickUpToken);
 
     openAdminModal();
     // if (user?.services?.clickUp?.isAdmin) {}
@@ -210,12 +210,12 @@ export function GetTasksCurrentUser({
       // await setStateFunction(chooseDate);
 
       // console.log(`date------`, date);
-      // const slackID = user.id;
-      // const currentUser = await User.findOne({ slackID });
-      console.log(`user from useState-----------`, user);
-      userToken = user.clickUpToken;
+      const slackID = event.user.id;
+      const currentUser = await User.findOne({ slackID });
+      console.log(`user from useState-----------`, clickUpToken);
+      // userToken = user.clickUpToken;
 
-      const fetchedTasks = await getFilteredTasks(user.clickUpID);
+      const fetchedTasks = await getFilteredTasks(currentUser.clickUpID);
       setShowForm(true);
       setTasks(fetchedTasks.tasks);
     }
