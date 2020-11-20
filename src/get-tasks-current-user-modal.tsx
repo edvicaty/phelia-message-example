@@ -20,6 +20,7 @@ import {
   ImageBlock,
   Image,
   RadioButtons,
+  OverflowMenu,
 } from "phelia";
 
 let updatedDate: any = null;
@@ -79,7 +80,7 @@ export function GetTasksCurrentUserModal({
               const fetchedTasks = await getFilteredTasks(
                 currentUser.clickUpID
               );
-              console.log(`tasks---`, JSON.stringify(fetchedTasks, null, 2));
+              // console.log(`tasks---`, JSON.stringify(fetchedTasks, null, 2));
               setShowForm(true);
               setTasks(fetchedTasks.tasks);
             }}
@@ -112,19 +113,32 @@ export function GetTasksCurrentUserModal({
                   //   onClick={() => {}}>
                   //   {`See task on ClickUp`}
                   // </Button>
-                  <RadioButtons
-                    action="radio-buttons"
-                    onSelect={(event: any) => {
+                  // <RadioButtons
+                  //   action="radio-buttons"
+                  //   onSelect={(event: any) => {
+                  //     console.log(event);
+                  //     console.log(event.selected);
+                  //     // setSelected(event.selected);
+                  //   }}>
+                  //   <Option value="option-a">option a</Option>
+                  //   <Option value="option-b" selected>
+                  //     option b
+                  //   </Option>
+                  //   <Option value="option-c">option c</Option>
+                  // </RadioButtons>
+                  <OverflowMenu
+                    action="overflow"
+                    onSelect={(event) => {
                       console.log(event);
-                      console.log(event.selected);
-                      // setSelected(event.selected);
                     }}>
-                    <Option value="option-a">option a</Option>
-                    <Option value="option-b" selected>
-                      option b
+                    <Option value="dogs">Dogs</Option>
+                    <Option value="cats">Cats</Option>
+                    <Option
+                      url="https://pixabay.com/images/search/dog/"
+                      value="a-link">
+                      Dog images
                     </Option>
-                    <Option value="option-c">option c</Option>
-                  </RadioButtons>
+                  </OverflowMenu>
                 }>
                 <Text type="mrkdwn">
                   -{`  `} *Task:* {`\n`} {task.name}
