@@ -94,7 +94,7 @@ export function GetTasksCurrentUserModal({
             onClick={async () => {
               // openModal();
             }}>
-            Open itself
+            Misc button
           </Button>
         }
       />
@@ -113,15 +113,17 @@ export function GetTasksCurrentUserModal({
                   </Button>
                 }>
                 <Text type="mrkdwn">
-                  * *Task:* {task.name}
-                  {`\n`} {``}* *Description:* {``}
+                  {`  `} *Task:* {task.name}
+                  {`\n`} {`  `}-{`  `} *Description:* {``}
                   {task.description}
-                  {`\n`} {``}* *Assignee:* {``}
+                  {`\n`} {`  `}-{`  `} *URL:* {``}
+                  {task.url}
+                  {`\n`} {`  `}-{`  `}*Assignee:* {``}
                   {task.assignees.map(
                     (assignee: any) => `${assignee.username}, `
                   )}
                   {`\n`}* *Status:* {``}```
-                  {task.status.type}``` ----------
+                  {task.status.type}```
                 </Text>
               </Section>
             </>
