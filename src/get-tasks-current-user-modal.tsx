@@ -19,6 +19,7 @@ import {
   Context,
   ImageBlock,
   Image,
+  RadioButtons,
 } from "phelia";
 
 let updatedDate: any = null;
@@ -105,15 +106,28 @@ export function GetTasksCurrentUserModal({
               <Divider />
               <Section
                 accessory={
-                  <Button
-                    url={`${task.url}`}
-                    action="openURL"
-                    onClick={() => {}}>
-                    {`See task on ClickUp`}
-                  </Button>
+                  // <Button
+                  //   url={`${task.url}`}
+                  //   action="openURL"
+                  //   onClick={() => {}}>
+                  //   {`See task on ClickUp`}
+                  // </Button>
+                  <RadioButtons
+                    action="radio-buttons"
+                    onSelect={(event: any) => {
+                      console.log(event);
+                      console.log(event.selected);
+                      // setSelected(event.selected);
+                    }}>
+                    <Option value="option-a">option a</Option>
+                    <Option value="option-b" selected>
+                      option b
+                    </Option>
+                    <Option value="option-c">option c</Option>
+                  </RadioButtons>
                 }>
                 <Text type="mrkdwn">
-                  -{`  `} *Task:* {task.name}
+                  -{`  `} *Task:* {`\n`} {task.name}
                   {`\n`} -{`  `} *Description:* {``}
                   {`\n`}
                   {task.description}
@@ -122,7 +136,7 @@ export function GetTasksCurrentUserModal({
                   {task.assignees.map(
                     (assignee: any) => `${assignee.username}, `
                   )}
-                  {`\n`}* *Status:* {``}```
+                  {`\n`}- *Status:* {``}```
                   {task.status.type}```
                   {`\n`} -{`  `} *URL:* {``}
                   {task.url}
