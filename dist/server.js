@@ -18,12 +18,30 @@ const events_api_1 = require("@slack/events-api");
 const body_parser_1 = __importDefault(require("body-parser"));
 const phelia_1 = __importDefault(require("phelia"));
 const axios_1 = __importDefault(require("axios"));
+const mongoose_1 = __importDefault(require("mongoose"));
+const User_1 = __importDefault(require("./models/User"));
 const example_messages_1 = require("./example-messages");
+const registration_modal_1 = require("./registration-modal");
+const create_task_modal_1 = require("./create-task-modal");
+const get_tasks_modal_1 = require("./get-tasks-modal");
+const text_message_1 = require("./text-message");
+const get_tasks_current_user_modal_1 = require("./get-tasks-current-user-modal");
+const admin_panel_modal_1 = require("./admin-panel-modal");
 dotenv_1.default.config();
 const app = express_1.default();
 const port = process.env.PORT || 80;
 const client = new phelia_1.default(process.env.SLACK_TOKEN);
 client.registerComponents([
+    text_message_1.TextMessage,
+    admin_panel_modal_1.AdminPanel,
+    admin_panel_modal_1.AdminPanelModal,
+    get_tasks_current_user_modal_1.GetTasksCurrentUser,
+    get_tasks_current_user_modal_1.GetTasksCurrentUserModal,
+    get_tasks_modal_1.GetTasksByTimeModal,
+    get_tasks_modal_1.GetTasks,
+    create_task_modal_1.CreateTaskModal,
+    create_task_modal_1.CreateTask,
+    registration_modal_1.RegistrationModal,
     example_messages_1.BirthdayPicker,
     example_messages_1.Counter,
     example_messages_1.Greeter,
@@ -53,68 +71,50 @@ client.registerComponents([
     example_messages_1.MultiChannelsSelectMenuModal,
     example_messages_1.MultiConversationsSelectMenuExample,
     example_messages_1.MultiConversationsSelectMenuModal,
+    example_messages_1.HomeApp,
 ]);
 // Register the interaction webhook
 app.post("/interactions", client.messageHandler(process.env.SLACK_SIGNING_SECRET));
 // Register your Home App
 const slackEvents = events_api_1.createEventAdapter(process.env.SLACK_SIGNING_SECRET);
+slackEvents.on("app_home_opened", client.appHomeHandler(example_messages_1.HomeApp));
 app.use("/events", slackEvents.requestListener());
-//post HomeApp component when app is opened
-// slackEvents.on("app_home_opened", client.appHomeHandler(HomeApp));
-//Here are the documentation's base components to be implemented. For some of them to work, user data will be required (pass user data as props)
-// client.postMessage(RandomImage, "U01CMED2XF1"); //main account user ID for edvicaty. User ID or @edvicaty will work. ID recommended
-// client.postMessage(RandomImage, "C01D8BH4L2G"); //using channel's ID get from slack API https://api.slack.com/methods/conversations.list/test token is bot oauth token.
-// client.postMessage(BirthdayPicker, "#general"); //using channel's name with # prefix will work too
-// client.postMessage(RandomImage, "general"); //using channel's name without prefix will work. Not recommended
-// client.postMessage(BirthdayPicker, "U01CMED2XF1");
-// client.postMessage(ChannelsSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(ChannelsSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(ConversationsSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(ConversationsSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(Counter, "U01CMED2XF1");
-// client.postMessage(ExternalSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(ExternalSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(Greeter, "U01CMED2XF1");
-// client.postMessage(ModalExample, "U01CMED2XF1");
-// client.postMessage(MultiChannelsSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(MultiChannelsSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(MultiConversationsSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(MultiConversationsSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(MultiExternalSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(MultiExternalSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(MultiStaticSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(MultiStaticSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(MultiUsersSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(MultiUsersSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(MyModal, "U01CMED2XF1");
-// client.postMessage(OverflowMenuExample, "U01CMED2XF1");
-// client.postMessage(RadioButtonExample, "U01CMED2XF1");
-// client.postMessage(RadioButtonModal, "U01CMED2XF1");
-// client.postMessage(RandomImage, "U01CMED2XF1");
-// client.postMessage(StaticSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(StaticSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(UsersSelectMenuExample, "U01CMED2XF1");
-// client.postMessage(UsersSelectMenuModal, "U01CMED2XF1");
-// client.postMessage(HomeApp, "U01CMED2XF1");
 //loading body parser before phelia components will crash the app
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 //--------------------------------------------------------- config & imports END ----------------------------------------------------------------------------------
-//--------------------------------------------------------- mongoDB START ----------------------------------------------------------------------------------
+//----------------------------------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ----------- mongoDB START ----------------------------------------------------------------------------------
+mongoose_1.default
+    .connect(process.env.DB, { useNewUrlParser: true })
+    .then((x) => {
+    console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`);
+})
+    .catch((err) => {
+    console.error("Error connecting to mongo", err);
+});
 //--------------------------------------------------------- mongoDB END ------------------------------------------------------------------------------------
 //--------------------------------------------------------- routes START ----------------------------------------------------------------------------------
-//On slack app you will define post routes for slash commands, here is te POST route corresponding to /randomImg
-app.post("/test", function (req, res) {
+//get tasks admin
+app.post("/get-tasks-admin", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        //A response with status 200 is needed to prevent slack's incomplete message feedback
         yield res.sendStatus(200);
-        //The body of the request will contain the following data:
         const { token, team_id, team_domain, user_id, user_name, api_app_id, trigger_id, } = yield req.body;
-        // You can post a message to a certain user or channel, te first parameter of the following function is the component to be loaded, the second parameter corresponds to
-        // the user or channel in which the message will be posted. You can use ID's (recommended for users) or #channel for channel (e.g. #general)
-        // client.postMessage(HomeApp, "U01CMED2XF1");
-        //You can also set a modal to be oppened. It's recommended to pass as props the data needed to that modal to load (e.g. here we are passing the user_name as the prop 'name')
-        yield client.openModal(example_messages_1.MyModal, trigger_id, { name: user_name });
+        const user = yield User_1.default.findOne({ slackID: user_id });
+        if (user.isAdmin) {
+            client.postMessage(get_tasks_modal_1.GetTasks, `${user_id}`);
+        }
+        else {
+            const message = `You need to have ADMIN status to be able to check the tasks of all users. Try /setAdmin [token] to set yourself as an ADMIN. \n If you want to check your own tasks try /get-my-tasks command`;
+            client.postMessage(text_message_1.TextMessage, `${user_id}`, { message });
+        }
+    });
+});
+//get tasks current user
+app.post("/get-tasks-user", function (req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield res.sendStatus(200);
+        const { token, team_id, team_domain, user_id, user_name, api_app_id, trigger_id, } = yield req.body;
+        client.postMessage(get_tasks_current_user_modal_1.GetTasksCurrentUser, `${user_id}`);
     });
 });
 //--------------------------------------------------------- routes END ----------------------------------------------------------------------------------
@@ -131,37 +131,84 @@ function auth(clientID, clientSecret, authCode) {
         return accessToken;
     });
 }
+function getUser(token) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const user = yield userService.get(`https://api.clickup.com/api/v2/user`, {
+            headers: { Authorization: `${token}` },
+        });
+        return user;
+    });
+}
 //AUTH functions END --------------------------------------
+let slackUserIDToRegister = null;
 //slash command POST route => set from slack web app /register command
 app.post("/redirect", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         yield res.sendStatus(200);
         const { token, team_id, team_domain, user_id, user_name, api_app_id, trigger_id, } = yield req.body;
-        yield client.openModal(example_messages_1.MyModal, trigger_id, { name: user_name });
-        // const client_id = "RDX22JJQSQWL2RMFXCTLGDOQ39XSN04V"; //from the slack web app
-        // const redirect_uri = "https://phelia-test-slack.herokuapp.com/auth";
-        // res.redirect(
-        //   `https://app.clickup.com/api?client_id=${client_id}&redirect_uri=${redirect_uri}`
-        // );
+        slackUserIDToRegister = user_id;
+        const user = yield User_1.default.findOne({ slackID: user_id });
+        if (!user) {
+            User_1.default.create({
+                username: user_name,
+                slackID: user_id,
+                clickUpToken: "",
+                clickUpID: "",
+                isAdmin: false,
+            });
+        }
+        yield client.openModal(registration_modal_1.RegistrationModal, trigger_id, { name: user_name });
     });
 });
-//auth to bind ClickUp's API token to DB. The DB will relate slack's user ID to clickUP access token for future post request to ClickUp API
+//auth to bind ClickUp's API token to DB.
 app.get("/auth", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        //TODO make DB and bind clickUp's access token to slack's user ID
         const authCode = yield req.query.code;
-        console.log(`auth code`, authCode);
-        //TODO: check heroku logs, did get auth code, auth() function needs checking
         const accessToken = yield auth(process.env.CLICKUP_ID, process.env.CLICKUP_SECRET, authCode);
-        console.log(`access token-----------------`, accessToken.data.access_token);
+        const user = yield getUser(accessToken.data.access_token);
+        yield User_1.default.findOneAndUpdate({ slackID: slackUserIDToRegister }, {
+            clickUpToken: accessToken.data.access_token,
+            clickUpID: user.data.user.id,
+        });
+        slackUserIDToRegister = null;
         res.redirect("/registration");
-        //#eunbwm taskID
-        //8509000 teamID (workspace)
     });
 });
 //feedback route
 app.get("/registration", function (req, res) {
     res.send("Registration completed");
+});
+//set current slack user as admin route (/setAdmin)
+app.post("/setadmin", function (req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield res.sendStatus(200);
+        const { token, team_id, team_domain, user_id, user_name, api_app_id, trigger_id, text, } = yield req.body;
+        let message = null;
+        if (text === process.env.SLACK_ADMIN_TOKEN) {
+            yield User_1.default.findOneAndUpdate({ slackID: user_id }, { isAdmin: true });
+            message = `${user_name} is now admin`;
+            client.postMessage(text_message_1.TextMessage, `${user_id}`, { message });
+        }
+        else {
+            message = "Wrong token";
+            client.postMessage(text_message_1.TextMessage, `${user_id}`, { message });
+        }
+    });
+});
+//admin panel to list and modify slack admins (/admin-panel)
+app.post("/admin-panel", function (req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield res.sendStatus(200);
+        const { token, team_id, team_domain, user_id, user_name, api_app_id, trigger_id, text, } = yield req.body;
+        const user = yield User_1.default.findOne({ slackID: user_id });
+        if (user.isAdmin) {
+            client.postMessage(admin_panel_modal_1.AdminPanel, `${user_id}`);
+        }
+        else {
+            const message = `You need to have ADMIN status to be able to use this command. Try /setAdmin [token] to set yourself as an ADMIN. \n If you want to check your own tasks try /get-my-tasks command`;
+            client.postMessage(text_message_1.TextMessage, `${user_id}`, { message });
+        }
+    });
 });
 //--------------------------------------------------------- AUTH END ----------------------------------------------------------------------------------
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));

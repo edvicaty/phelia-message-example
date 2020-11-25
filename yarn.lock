@@ -33,7 +33,7 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
-"@slack/events-api@^2.3.2":
+"@slack/events-api@^2.3.2", "@slack/events-api@^2.3.4":
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/@slack/events-api/-/events-api-2.3.4.tgz#73aabcba2a5543b0b7f56c15725594fd180ca870"
   integrity sha512-4H+/op+GwIJ5aqpN7K1WcLuyqvpjCw48HYS4Xaw35tN84T0MDfOvQIA6Sacor9OpwCxKaY60Mwo73FT5Q+VvKg==
