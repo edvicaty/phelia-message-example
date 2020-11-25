@@ -109,12 +109,11 @@ export function HomeApp({ useState, useModal }: PheliaHomeProps) {
       onLoad={async (event) => {
         // setUser(JSON.stringify(event, null, 2))
       }}>
-      <>
-        <Message text="Search Time Entries">
-          <Section>
-            <Text type="mrkdwn">{`user`}</Text>
-          </Section>
-          {/* <>
+      <Message text="Search Time Entries">
+        <Section>
+          <Text type="mrkdwn">{`user`}</Text>
+        </Section>
+        {/* <>
             <Section
               text={`Select a day`}
               accessory={
@@ -153,9 +152,9 @@ export function HomeApp({ useState, useModal }: PheliaHomeProps) {
               </Button>
             </Actions>
           )} */}
-        </Message>
+      </Message>
 
-        {/* {timeEntries && (
+      {/* {timeEntries && (
           <Message text='List Time Entries'>
             {timeEntries.map((timeEntry: any) => {
               assignedMarkup = null
@@ -200,9 +199,8 @@ export function HomeApp({ useState, useModal }: PheliaHomeProps) {
                 </>
               )
             })} */}
-        {/* </Message> */}
-        {/* )} */}
-      </>
+      {/* </Message> */}
+      {/* )} */}
     </Home>
   );
 }
