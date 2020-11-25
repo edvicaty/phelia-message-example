@@ -47,6 +47,7 @@
 //     </Home>
 //   );
 // }
+
 import React from "react";
 import {
   Actions,
@@ -71,7 +72,7 @@ import {
 //   return new Date(d.getTime() - 480 * 60 * 1000).toISOString().split("T")[0]
 // }
 
-export function HomeApp({ useState, useModal }: PheliaHomeProps) {
+export function HomeApp({ useState, useModal, user }: PheliaHomeProps) {
   //   let user: any = null
   //   const [user, setUser] = useState("user")
 
@@ -105,13 +106,10 @@ export function HomeApp({ useState, useModal }: PheliaHomeProps) {
   //   let assigned: any = null
   //   let assignedMarkup: any = null
   return (
-    <Home
-      onLoad={async (event) => {
-        // setUser(JSON.stringify(event, null, 2))
-      }}>
+    <Home>
       <Message text="Search Time Entries">
         <Section>
-          <Text type="mrkdwn">{`user`}</Text>
+          <Text type="mrkdwn">Hello</Text>
         </Section>
         {/* <>
             <Section
