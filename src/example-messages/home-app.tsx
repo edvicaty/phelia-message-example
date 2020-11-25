@@ -72,15 +72,18 @@ import {
 //   return new Date(d.getTime() - 480 * 60 * 1000).toISOString().split("T")[0]
 // }
 
-export function HomeApp({ useState, useModal, user }: PheliaHomeProps) {
+export function HomeApp({ useState, useModal }: PheliaHomeProps) {
+  const [user, setUser] = useState("user");
+
   console.log(`useeeeer`, user);
+
   return (
     <Home
-      onLoad={(e) => {
-        console.log(`eveeent`, e);
+      onLoad={async (e) => {
+        await setUser(e.user);
       }}>
       <Section>
-        <Text type="mrkdwn">Hello</Text>
+        <Text type="mrkdwn">Hello {JSON.stringify(user, null, 2)}</Text>
       </Section>
     </Home>
   );
