@@ -107,28 +107,6 @@ export function GetTasksCurrentUserModal({
               <Divider />
               <Section
                 accessory={
-                  // <Button
-                  //   url={`${task.url}`}
-                  //   action="openURL"
-                  //   onClick={() => {}}>
-                  //   {`See task on ClickUp`}
-                  // </Button>
-                  //----------------------------------------
-                  // <RadioButtons
-                  //   action="radio-buttons"
-                  //   onSelect={(event: any) => {
-                  //     console.log(event);
-                  //     console.log(event.selected);
-                  //     // setSelected(event.selected);
-                  //   }}>
-                  //   <Option value="option-a">option a</Option>
-                  //   <Option value="option-b" selected>
-                  //     option b
-                  //   </Option>
-                  //   <Option value="option-c">option c</Option>
-                  // </RadioButtons>
-                  //----------------------------------------
-
                   <OverflowMenu
                     action="overflow"
                     onSelect={(event) => {
@@ -177,7 +155,6 @@ export function GetTasksCurrentUser({
   const [showForm, setShowForm] = useState("showForm", false);
   // const [date, setDate] = useState<string>("setDate", null);
   const [clickUpToken, setClickUpToken] = useState("user");
-  //TODO: probar record Steve
   let form = null;
   let userToken: string = null;
 
