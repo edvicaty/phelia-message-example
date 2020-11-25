@@ -73,8 +73,12 @@ import {
 // }
 
 export function HomeApp({ useState, useModal, user }: PheliaHomeProps) {
+  console.log(`useeeeer`, user);
   return (
-    <Home>
+    <Home
+      onLoad={(e) => {
+        console.log(`eveeent`, e);
+      }}>
       <Section>
         <Text type="mrkdwn">Hello</Text>
       </Section>
