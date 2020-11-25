@@ -108,11 +108,6 @@ app.post(
 );
 
 // Register your Home App
-const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
-
-slackEvents.on("app_home_opened", client.appHomeHandler(HomeApp));
-
-app.use("/events", slackEvents.requestListener());
 
 //loading body parser before phelia components will crash the app
 app.use(bodyParser.json());
@@ -314,6 +309,11 @@ app.post("/admin-panel", async function (req, res) {
 });
 
 //--------------------------------------------------------- AUTH END ----------------------------------------------------------------------------------
+const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
+
+slackEvents.on("app_home_opened", client.appHomeHandler(HomeApp));
+
+app.use("/events", slackEvents.requestListener());
 
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)
