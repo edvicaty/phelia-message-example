@@ -97,6 +97,7 @@ client.registerComponents([
   MultiChannelsSelectMenuModal,
   MultiConversationsSelectMenuExample,
   MultiConversationsSelectMenuModal,
+  HomeApp,
   // testModal,
 ]);
 
