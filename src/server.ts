@@ -100,21 +100,6 @@ client.registerComponents([
   HomeApp,
   // testModal,
 ]);
-
-// Register the interaction webhook
-app.post(
-  "/interactions",
-  client.messageHandler(process.env.SLACK_SIGNING_SECRET)
-);
-
-// Register your Home App
-
-//loading body parser before phelia components will crash the app
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-//--------------------------------------------------------- config & imports END ----------------------------------------------------------------------------------
-
-//----------------------------------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ----------- mongoDB START ----------------------------------------------------------------------------------
 mongoose
   .connect(process.env.DB, { useNewUrlParser: true })
   .then((x) => {
@@ -125,6 +110,27 @@ mongoose
   .catch((err) => {
     console.error("Error connecting to mongo", err);
   });
+
+// Register the interaction webhook
+app.post(
+  "/interactions",
+  client.messageHandler(process.env.SLACK_SIGNING_SECRET)
+);
+
+// Register your Home App
+const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
+
+slackEvents.on("app_home_opened", client.appHomeHandler(HomeApp));
+
+app.use("/events", slackEvents.requestListener());
+
+//loading body parser before phelia components will crash the app
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+//--------------------------------------------------------- config & imports END ----------------------------------------------------------------------------------
+
+//----------------------------------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ----------- mongoDB START ----------------------------------------------------------------------------------
+
 //--------------------------------------------------------- mongoDB END ------------------------------------------------------------------------------------
 
 //--------------------------------------------------------- routes START ----------------------------------------------------------------------------------
@@ -309,11 +315,6 @@ app.post("/admin-panel", async function (req, res) {
 });
 
 //--------------------------------------------------------- AUTH END ----------------------------------------------------------------------------------
-const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
-
-slackEvents.on("app_home_opened", client.appHomeHandler(HomeApp));
-
-app.use("/events", slackEvents.requestListener());
 
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)
